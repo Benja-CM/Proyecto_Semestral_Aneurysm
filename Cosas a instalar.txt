@@ -1,0 +1,12 @@
+Cosas a instalar
+
+Plugin para HttpClient
+
+npm install cordova-plugin-advanced-http 
+npm install @awesome-cordova-plugins/http
+
+Actualizar Ionic
+npm install @ionic/angular@latest
+
+Plugin para Swiper
+npm install swiper@latest

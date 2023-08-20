@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { HttpClientModule } from '@angular/common/http';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @NgModule({
 
@@ -17,5 +18,6 @@ import { HttpClientModule } from '@angular/common/http';
   
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
+  schemas:  [ CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}

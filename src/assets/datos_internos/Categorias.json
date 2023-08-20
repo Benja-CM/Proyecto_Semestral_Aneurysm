@@ -1,0 +1,55 @@
+{
+    "cate": [
+        {
+            "name": "RPG",
+            "image": "Baldur's_Gate_3_cover_art.jpg"
+            
+        },
+        {
+            "name": "FPS",
+            "image": "Berserk.jpg"
+            
+        },
+        {
+            "name": "Arcade",
+            "image": "Elden_Ring.jpg"
+            
+        },
+        {
+            "name": "Retro",
+            "image": "Payday3.jpg"
+
+        },
+        {
+            "name": "Aventura",
+            "image": "Payday3.jpg"
+
+        },
+        {
+            "name": "Peleas",
+            "image": "Payday3.jpg"
+
+        },
+        {
+            "name": "Simulacion",
+            "image": "Payday3.jpg"
+
+        },
+        {
+            "name": "VR",
+            "image": "Payday3.jpg"
+
+        },
+        {
+            "name": "Accion",
+            "image": "Payday3.jpg"
+
+        },
+        {
+            "name": "Carreras",
+            "image": "Payday3.jpg"
+
+        }
+        
+    ]
+}

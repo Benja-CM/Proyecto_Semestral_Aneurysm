@@ -34,6 +34,10 @@
   text-align: center;
   align-items: center;
 }
+.prod-card-2 {
+  margin: 10px;
+  width: auto;
+}
 
 .prod-card {
   margin: 1px;
@@ -52,9 +56,7 @@
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
-.jogos{
-  text-overflow:min(100%,450px );
-}
+
 ion-content {
   --background: #414141; 
 }
