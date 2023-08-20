@@ -25,6 +25,9 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
+
+
+
 .custom-center {
   display: flex;
   justify-content: center;
@@ -34,6 +37,7 @@
 
 .prod-card {
   margin: 1px;
+  width: auto;
 }
 
 .prod-img {
@@ -48,7 +52,9 @@
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
-
+.jogos{
+  text-overflow:min(100%,450px );
+}
 ion-content {
   --background: #414141; 
 }

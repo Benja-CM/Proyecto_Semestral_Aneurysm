@@ -1,0 +1,25 @@
+{
+    "data": [
+        {
+            "name": "Baldur's Gate",
+            "image": "Baldur's_Gate_3_cover_art.jpg",
+            "price": "39.999CLP"
+        },
+        {
+            "name": "Berserk",
+            "image": "Berserk.jpg",
+            "price": "39.999CLP"
+        },
+        {
+            "name": "Elden_Ring",
+            "image": "Elden_Ring.jpg",
+            "price": "24.999CLP"
+        },
+        {
+            "name": "Payday 3",
+            "image": "Payday3.jpg",
+            "price": "29.999CLP"
+        }
+        
+    ]
+}

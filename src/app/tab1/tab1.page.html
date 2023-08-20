@@ -14,59 +14,38 @@
     </ion-card-content>
   </ion-card>
   <!-- Por decidir que mierda hace -->
-
+  <hr>
+  <!-- Pollo -->
   <ion-row>
-
-    <ion-col>
-      <ion-card class="prod-card">
-        <img alt="prod" class="prod-img" src="assets/Cover/Baldur's_Gate_3_cover_art.jpg" />
-        <ion-card-header>
-          <ion-card-title>Baldur's Gate 3</ion-card-title>
-          <br>
-          <ion-card-subtitle>39.999CLP</ion-card-subtitle>
-        </ion-card-header>
-      </ion-card>
-    </ion-col>
-
-    <ion-col>
-      <ion-card class="prod-card">
-        <img alt="prod" class="prod-img" src="assets/Cover/Elden_Ring.jpg" />
-        <ion-card-header>
-          <ion-card-title>Elden Ring</ion-card-title>
-          <br>
-          <ion-card-subtitle>39.999CLP</ion-card-subtitle>
-        </ion-card-header>
-      </ion-card>
-    </ion-col>
-
-  </ion-row>
-
+  <ion-content>
+    <ion-row>
+      <ion-col size="6" *ngFor="let juegos of Productos">
+        <ion-card class="prod-card">
+          <img class="prod-img" src="/assets/Cover/{{juegos.image}}">
+          <ion-card-header>
+            <ion-card-title style="font-size: 2vw;">{{juegos.name}}</ion-card-title>
+            <br>
+            <ion-card-subtitle>{{juegos.price}}</ion-card-subtitle>
+          </ion-card-header>
+           
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-content>
+  <hr>
+</ion-row>
   <ion-row>
-
-    <ion-col>
+    <ion-col size="6" *ngFor="let juegos of Productos">
       <ion-card class="prod-card">
-        <img alt="prod" class="prod-img" src="assets/Cover/Berserk.jpg" />
+        <img alt="prod" class="prod-img" src="/assets/Cover/{{juegos.image}}" />
         <ion-card-header>
-          <ion-card-title>Berserk</ion-card-title>
+          <ion-card-title>{{juegos.name}}</ion-card-title>
           <br>
-          <ion-card-subtitle>24.999CLP</ion-card-subtitle>
+          <ion-card-subtitle>{{juegos.price}}</ion-card-subtitle>
         </ion-card-header>
       </ion-card>
     </ion-col>
-
-    <ion-col>
-      <ion-card class="prod-card">
-        <img alt="prod" class="prod-img" src="assets/Cover/Payday3.jpg" />
-        <ion-card-header>
-          <ion-card-title>Payday 3</ion-card-title>
-          <br>
-          <ion-card-subtitle>29.999CLP</ion-card-subtitle>
-        </ion-card-header>
-      </ion-card>
-    </ion-col>
-
   </ion-row>
-
 </ion-content>
 
 <!--   <ion-card>
