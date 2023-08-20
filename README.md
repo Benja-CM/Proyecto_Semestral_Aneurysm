@@ -1,2 +1,0 @@
-# Proyecto_Semestral_2
-Proyecto_Semestral_2

@@ -24,3 +24,152 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
+
+.custom-center {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+
+.prod-card {
+  margin: 1px;
+}
+
+.prod-img {
+  width: 100%;
+}
+
+.custom-center-xy {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+ion-content {
+  --background: #414141; 
+}
+
+.pad-xs {
+  padding: 4px;
+}
+
+.pad-sm {
+  padding: 8px;
+}
+
+.pad-md {
+  padding: 16px;
+}
+
+.pad-lg {
+  padding: 24px;
+}
+
+.pad-xl {
+  padding: 32px;
+}
+
+.pad-xxl {
+  padding: 48px;
+}
+
+.pad-t-xs {
+  padding-top: 4px;
+}
+
+.pad-t-sm {
+  padding-top: 8px;
+}
+
+.pad-t-md {
+  padding-top: 16px;
+}
+
+.pad-t-lg {
+  padding-top: 24px;
+}
+
+.pad-t-xl {
+  padding-top: 32px;
+}
+
+.pad-t-xxl {
+  padding-top: 48px;
+}
+
+.pad-r-xs {
+  padding-right: 4px;
+}
+
+.pad-r-sm {
+  padding-right: 8px;
+}
+
+.pad-r-md {
+  padding-right: 16px;
+}
+
+.pad-r-lg {
+  padding-right: 24px;
+}
+
+.pad-r-xl {
+  padding-right: 32px;
+}
+
+.pad-r-xxl {
+  padding-right: 48px;
+}
+
+.pad-b-xs {
+  padding-bottom: 4px;
+}
+
+.pad-b-sm {
+  padding-bottom: 8px;
+}
+
+.pad-b-md {
+  padding-bottom: 16px;
+}
+
+.pad-b-lg {
+  padding-bottom: 24px;
+}
+
+.pad-b-xl {
+  padding-bottom: 32px;
+}
+
+.pad-b-xxl {
+  padding-bottom: 48px;
+}
+
+.pad-l-xs {
+  padding-left: 4px;
+}
+
+.pad-l-sm {
+  padding-left: 8px;
+}
+
+.pad-l-md {
+  padding-left: 16px;
+}
+
+.pad-l-lg {
+  padding-left: 24px;
+}
+
+.pad-l-xl {
+  padding-left: 32px;
+}
+
+.pad-l-xxl {
+  padding-left: 48px;
+}
+
