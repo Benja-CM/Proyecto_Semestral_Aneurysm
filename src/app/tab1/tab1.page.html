@@ -3,7 +3,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  
   <ion-searchbar animated="true" placeholder="Buscar"></ion-searchbar>
+
   <!-- En un futuro, clickeable -->
   <ion-card>
     <ion-card-header>
@@ -17,21 +19,18 @@
   <ion-card-header>
     <ion-card-title><strong>Como pan Caliente</strong> </ion-card-title>
   </ion-card-header>
-  <swiper-container (slidechange)="swiperSlideChanged($event)" [loop]="false" [pagination]="true">
+  <swiper-container (slidechange)="swiperSlideChanged($event)" [loop]="false">
     <swiper-slide *ngFor="let juegos of Productos">
-      <ion-card class="prod-card-2">
+      <ion-card class="prod-card-2" (click)="showProducto()">
         <img class="prod-img" src="/assets/Cover/img/{{juegos.image}}">
         <ion-card-header>
-          <ion-card-title style="font-size:5dvh;">{{juegos.name}}</ion-card-title>
+          <ion-card-title style="font-size:3vh!important;">{{juegos.name}}</ion-card-title>
           <br>
           <ion-card-subtitle>{{juegos.price}}</ion-card-subtitle>
         </ion-card-header>
-
       </ion-card>
     </swiper-slide>
   </swiper-container>
-
-
 
   <ion-card-header>
     <ion-card-title><strong> Categorias </strong> </ion-card-title>

@@ -67,4 +67,8 @@ export class Tab1Page implements OnInit {
         })
       )
   }
+
+  showProducto() {
+    this.router.navigate(['/tabs/tab1/tab1view'])
+  }
 }
