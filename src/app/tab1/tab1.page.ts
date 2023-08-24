@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
 import Swiper from 'swiper';
@@ -10,10 +10,12 @@ import Swiper from 'swiper';
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
+
 export class Tab1Page implements OnInit {
-  cate: any=[];
+  cate: any = [];
 
   Productos: any = [];
+  id: number = 0;
 
   @ViewChild(' swiper')
   swiperRef: ElementRef | undefined;
@@ -28,14 +30,14 @@ export class Tab1Page implements OnInit {
     console.log('changed', e);
   }
   swiperReady() {
-    this. swiper= this.swiperRef?.nativeElement.swiper;
+    this.swiper = this.swiperRef?.nativeElement.swiper;
   }
-    goNext( ){
-      this. swiper?. slideNext() ;
-    }
-    goPrev() {
-    this. swiper?. slidePrev();
-    }
+  goNext() {
+    this.swiper?.slideNext();
+  }
+  goPrev() {
+    this.swiper?.slidePrev();
+  }
 
 
   ngOnInit() {
@@ -68,7 +70,23 @@ export class Tab1Page implements OnInit {
       )
   }
 
-  showProducto() {
-    this.router.navigate(['/tabs/tab1/tab1view'])
+  getId(productoId: number) {
+    for (const producto of this.Productos) {
+      if (producto.id === productoId) {
+        return productoId;
+      }
+    }
+    return null; // Manejo para cuando no se encuentra la ID
+  }
+
+  showProducto(productoId: number) {
+    const idEncontrada = this.getId(productoId);
+    let navigationExtras: NavigationExtras = {
+      state: {
+        id: idEncontrada
+      }
+    }
+    console.log(idEncontrada)
+    this.router.navigate(['/tabs/tab1/tab1view'], navigationExtras)
   }
 }

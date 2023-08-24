@@ -21,7 +21,7 @@
   </ion-card-header>
   <swiper-container (slidechange)="swiperSlideChanged($event)" [loop]="false">
     <swiper-slide *ngFor="let juegos of Productos">
-      <ion-card class="prod-card-2" (click)="showProducto()">
+      <ion-card class="prod-card-2" (click)="showProducto(juegos.id)">
         <img class="prod-img" src="/assets/Cover/img/{{juegos.image}}">
         <ion-card-header>
           <ion-card-title style="font-size:3vh!important;">{{juegos.name}}</ion-card-title>

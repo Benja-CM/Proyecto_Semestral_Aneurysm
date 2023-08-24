@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { Tab2viewPageRoutingModule } from './tab2view-routing.module';
+import { ChangepsswdPageRoutingModule } from './changepsswd-routing.module';
 
-import { Tab2viewPage } from './tab2view.page';
+import { ChangepsswdPage } from './changepsswd.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    Tab2viewPageRoutingModule
+    ChangepsswdPageRoutingModule
   ],
-  declarations: [Tab2viewPage]
+  declarations: [ChangepsswdPage]
 })
-export class Tab2viewPageModule {}
+export class ChangepsswdPageModule {}

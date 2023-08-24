@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { map } from "rxjs/operators";
 
 @Component({
@@ -13,8 +13,7 @@ export class Tab2Page implements OnInit {
   juegos: string = "";
   Productos: any = [];
   ProductosFilter: any = [];
-  i: number = 0;
-
+  id: number = 0;
 
   constructor(private router: Router, private http: HttpClient) {
   }
@@ -54,4 +53,23 @@ export class Tab2Page implements OnInit {
       )
   }
 
+  getId(productoId: number) {
+    for (const producto of this.Productos) {
+      if (producto.id === productoId) {
+        return productoId;
+      }
+    }
+    return null; // Manejo para cuando no se encuentra la ID
+  }
+
+  showProducto(productoId: number) {
+    const idEncontrada = this.getId(productoId);
+    let navigationExtras: NavigationExtras = {
+      state: {
+        id: idEncontrada
+      }
+    }
+    console.log(idEncontrada)
+    this.router.navigate(['/tabs/tab2/tab2view'], navigationExtras)
+  }
 }

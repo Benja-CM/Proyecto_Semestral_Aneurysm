@@ -1,109 +1,74 @@
 <ion-header [translucent]="true">
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-back-button icon="close-outline"></ion-back-button>
-      </ion-buttons>
-      <ion-title class="pad-l-xs"> Nombre de Juego </ion-title>
-    </ion-toolbar>
-  </ion-header>
-  
-  <ion-content [fullscreen]="true">
-  
-    <ion-card class="card-bann">
-      <ion-row>
-        <ion-col size="4">
-          <img src="assets/PlaceHolder1.jpeg" alt="Prod Image">
-        </ion-col>
-        <ion-col size="8">
-          <ion-header>
-            <ion-card-title> Baldur's Gate 3 </ion-card-title>
-            <ion-card-subtitle>
-              <ion-chip [outline]="true">Outline</ion-chip>
-              <ion-chip [outline]="true">Outline</ion-chip>
-              <ion-chip [outline]="true">Outline</ion-chip>
-              <ion-chip [outline]="true">Outline</ion-chip>
-              <ion-chip [outline]="true">Outline</ion-chip>
-            </ion-card-subtitle>
-          </ion-header>
-        </ion-col>
-  
-      </ion-row>
-      <ion-row>
-        <ion-col size="12">
-          <ion-title> 99.999CLP </ion-title>
-        </ion-col>
-        <ion-col size="10">
-          <ion-button class="buynow" expand="full">Comprar ahora</ion-button>
-        </ion-col>
-        <ion-col size="2">
-          <ion-button class="addcart" expand="full">
-            <ion-icon name="bag-handle-outline"></ion-icon>
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-card>
-  
-    <ion-card class="card-info">
-      <ion-card-header>
-        <ion-card-title>ACERCA DE ESTE JUEGO</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <p>Reúne a tu grupo y regresa a los Reinos Olvidados en una historia de compañerismo, traición, sacrificio,
-          supervivencia y la atracción de un poder absoluto.</p>
-        <p>Misteriosas aptitudes empiezan a surgir en tu interior por obra de un parásito de los azotamentes que te
-          implantaron en el cerebro. Resístete y vuelve a la oscuridad contra sí misma o abraza la corrupción y
-          conviértete en el mal supremo.</p>
-        <p>De manos de los creadores de Divinity: Original Sin 2, llega un juego de rol para la nueva generación de
-          consolas, ambientado en el mundo de Dungeons & Dragons.</p>
-        <p>Elige entre 12 clases y 11 razas del manual de jugador de D&D para crear tu propia identidad, o bien juega con
-          un héroe con origen, que cuenta con su propio trasfondo. También puedes abrazar tu corrupción interior como el
-          Ansia Oscura, un héroe con un origen completamente personalizable con sus propias mecánicas e historia. Elijas a
-          quien elijas, prepárate para vivir aventuras, saquear, combatir y vivir romances a lo largo y ancho de los
-          Reinos Olvidados y más allá. Reúne al grupo. Disfruta de la aventura online con un grupo de hasta cuatro
-          jugadores.</p>
-      </ion-card-content>
-      <ion-card-header>
-        <ion-card-title>DESCRIPCIÓN DEL CONTENIDO PARA ADULTOS</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        Los desarrolladores describen su contenido así:
-  
-        This Game may contain content not appropriate for all ages. It contains General Mature Content, and may include
-        Nudity or Sexual Content.
-      </ion-card-content>
-      <ion-card-header>
-        <ion-card-title>REQUISITOS DEL SISTEMA</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-col>
-          <ul>
-            <strong>Mínimo:</strong><br>
-            <ul class="bb_ul">
-              <li>Requiere un procesador y un sistema operativo de 64 bits <br></li>
-              <li><strong>SO:</strong> Windows 10 64-bit<br></li>
-              <li><strong>Procesador:</strong> Intel I5 4690 / AMD FX 8350 <br></li>
-              <li><strong>Memoria:</strong> 8 GB de RAM<br></li>
-              <li><strong>Gráficos:</strong> Nvidia GTX 970 / RX 480 (4GB+ of VRAM) <br></li>
-              <li><strong>DirectX:</strong> Versión 11<br></li>
-              <li><strong>Almacenamiento:</strong> 150 GB de espacio disponible <br></li>
-              <li><strong>Notas adicionales:</strong> SSD required </li>
-            </ul>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button icon="close-outline"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="pad-l-xs"> {{producto.name}} </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-card class="card-bann">
+    <ion-row>
+      <ion-col size="4">
+        <img src="/assets/Cover/img/{{producto.image}}" alt="Prod Image">
+      </ion-col>
+      <ion-col size="8">
+        <ion-header>
+          <ion-card-title> {{producto.name}} </ion-card-title>
+          <ion-card-subtitle>
+            <ion-chip [outline]="true">Outline</ion-chip>
+            <ion-chip [outline]="true">Outline</ion-chip>
+            <ion-chip [outline]="true">Outline</ion-chip>
+            <ion-chip [outline]="true">Outline</ion-chip>
+            <ion-chip [outline]="true">Outline</ion-chip>
+          </ion-card-subtitle>
+        </ion-header>
+      </ion-col>
+
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-title> {{ producto.price }} </ion-title>
+      </ion-col>
+      <ion-col size="10">
+        <ion-button class="buynow" expand="full">Comprar ahora</ion-button>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button class="addcart" expand="full">
+          <ion-icon name="bag-handle-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+
+  <ion-card class="card-info">
+    <ion-card-header>
+      <ion-card-title>ACERCA DE ESTE JUEGO</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>{{ producto.descripcion }}</p>
+    </ion-card-content>
+    <ion-card-header>
+      <ion-card-title>REQUISITOS DEL SISTEMA</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-col>
+        <ul>
+          <strong>Mínimo:</strong><br>
+          <ul class="bb_ul">
+            <li>{{producto.req_minimo}}</li>
           </ul>
-          <ul>
-            <strong>Recomendado:</strong><br>
-            <ul class="bb_ul">
-              <li>Requiere un procesador y un sistema operativo de 64 bits <br></li>
-              <li><strong>SO:</strong> Windows 10 64-bit<br></li>
-              <li><strong>Procesador:</strong> Intel i7 8700K / AMD r5 3600 <br></li>
-              <li><strong>Memoria:</strong> 16 GB de RAM<br></li>
-              <li><strong>Gráficos:</strong> Nvidia 2060 Super / RX 5700 XT (8GB+ of VRAM) <br></li>
-              <li><strong>DirectX:</strong> Versión 11<br></li>
-              <li><strong>Almacenamiento:</strong> 150 GB de espacio disponible <br></li>
-              <li><strong>Notas adicionales:</strong> SSD required </li>
-            </ul>
+        </ul>
+        <ul>
+          <strong>Recomendado:</strong><br>
+          <ul class="bb_ul">
+            <li>{{producto.req_recomendado}}</li>
           </ul>
-        </ion-col>
-      </ion-card-content>
-    </ion-card>
-  
-  </ion-content>
+        </ul>
+      </ion-col>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
