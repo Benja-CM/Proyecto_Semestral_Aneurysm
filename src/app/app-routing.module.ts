@@ -8,28 +8,24 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule)
   },
   {
     path: 'user',
-    loadChildren: () => import('./conf/user/user.module').then( m => m.UserPageModule)
+    loadChildren: () => import('./conf/user/user.module').then(m => m.UserPageModule)
   },
   {
-    path: '**',
-    loadChildren: () => import('./not-found/not-found.module').then( m => m.NotFoundPageModule)
-  },
-  {
-    path: 'user',
-    loadChildren: () => import('./conf/user/user.module').then( m => m.UserPageModule)
-  },  {
     path: 'record',
-    loadChildren: () => import('./conf/record/record.module').then( m => m.RecordPageModule)
+    loadChildren: () => import('./conf/record/record.module').then(m => m.RecordPageModule)
   },
   {
     path: 'changepsswd',
-    loadChildren: () => import('./conf/changepsswd/changepsswd.module').then( m => m.ChangepsswdPageModule)
-  }
-
+    loadChildren: () => import('./conf/changepsswd/changepsswd.module').then(m => m.ChangepsswdPageModule)
+  },
+  {
+    path: '**',
+    loadChildren: () => import('./not-found/not-found.module').then(m => m.NotFoundPageModule)
+  },
 
 
 
@@ -40,4 +36,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

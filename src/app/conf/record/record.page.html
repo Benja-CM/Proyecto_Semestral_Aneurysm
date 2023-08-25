@@ -1,13 +1,83 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>record</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button icon="close-outline"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mis Compras</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">record</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-searchbar animated="true" placeholder="Buscar"></ion-searchbar>
+  <ion-card class="custom-card">
+    <ion-card-content class="card-content">
+      <ion-grid>
+        <ion-row class="info-row">
+          <ion-label class="info-label">Fecha</ion-label>
+          <ion-label class="info-value">7/8/2023, 16:11</ion-label>
+        </ion-row>
+
+        <ion-row class="info-row">
+          <ion-label class="info-label">Estado</ion-label>
+          <ion-label class="info-value"><span class="status">Entregado</span></ion-label>
+        </ion-row>
+
+        <ion-row class="info-row">
+          <ion-label class="info-label">Productos</ion-label>
+          <ion-label class="info-value">Monster Hunter: World Steam Key LATAM</ion-label>
+        </ion-row>
+
+        <ion-row class="info-row">
+          <ion-label class="info-label">ID de pedido</ion-label>
+          <ion-label class="info-value">o-ymwc6zo</ion-label>
+        </ion-row>
+
+        <ion-row class="info-row">
+          <ion-label class="info-label">Método de pago</ion-label>
+          <ion-label class="info-value">WebPay</ion-label>
+        </ion-row>
+
+        <ion-row class="info-row">
+          <ion-label class="info-label">Cantidad total</ion-label>
+          <ion-label class="info-value">11.588 CLP</ion-label>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="custom-card">
+    <ion-card-content class="card-content">
+      <ion-grid>
+        <ion-row class="info-row">
+          <ion-label class="info-label">Fecha</ion-label>
+          <ion-label class="info-value">7/8/2023, 16:11</ion-label>
+        </ion-row>
+
+        <ion-row class="info-row">
+          <ion-label class="info-label">Estado</ion-label>
+          <ion-label class="info-value"><span class="status">Entregado</span></ion-label>
+        </ion-row>
+
+        <ion-row class="info-row">
+          <ion-label class="info-label">Productos</ion-label>
+          <ion-label class="info-value">Monster Hunter: World Steam Key LATAM</ion-label>
+        </ion-row>
+
+        <ion-row class="info-row">
+          <ion-label class="info-label">ID de pedido</ion-label>
+          <ion-label class="info-value">o-ymwc6zo</ion-label>
+        </ion-row>
+
+        <ion-row class="info-row">
+          <ion-label class="info-label">Método de pago</ion-label>
+          <ion-label class="info-value">WebPay</ion-label>
+        </ion-row>
+
+        <ion-row class="info-row">
+          <ion-label class="info-label">Cantidad total</ion-label>
+          <ion-label class="info-value">11.588 CLP</ion-label>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

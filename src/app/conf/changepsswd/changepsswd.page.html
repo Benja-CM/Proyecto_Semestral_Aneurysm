@@ -1,13 +1,32 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>changepsswd</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button icon="close-outline"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Cambiar contraseña</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">changepsswd</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-card>
+    <ion-card-content class="custom-card">
+        <ion-item>
+          <ion-input label="Introduce tu nueva contraseña" errorText="Contraseña invalida" label-placement="floating"
+            fill="solid" placeholder="Nueva contraseña" type="password"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input label="Vuelve a introducir tu nueva contraseña" errorText="Contraseña invalida"
+            label-placement="floating" fill="solid" placeholder="Nueva contraseña" type="password"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input label="Introduce tu contraseña actual" errorText="Contraseña invalida" label-placement="floating"
+            fill="solid" placeholder="Contraseña actual" type="password"></ion-input>
+        </ion-item>
+
+      <ion-button expand="full">Cambiar Contraseña</ion-button>
+
+    </ion-card-content>
+  </ion-card>
 </ion-content>

@@ -1,0 +1,66 @@
+.custom-card{
+    margin-bottom: 2.5vh;
+}
+
+.card-content {
+    display: grid;
+    grid-row-gap: 0;
+    padding-top: 1.5vh;
+    padding-bottom: 2.4vh;
+    padding-inline: 3vh;
+
+    ion-card-content {
+        display: grid;
+        font-weight: 600;
+        font-size: 1.2rem;
+        line-height: 1.3;
+        color: #000;
+
+        ion-row {
+            border-bottom: 1px solid #ffffff;
+        }
+    }
+}
+
+.info-item {
+    margin-bottom: 10px;
+}
+
+.status {
+    color: #0c8346;
+    /* Color de estado Entregado */
+}
+
+.amount {
+    color: #e74c3c;
+    /* Color de cantidad */
+}
+
+.details-link a {
+    text-decoration: none;
+    color: #3498db;
+    /* Color del enlace */
+}
+
+.info-row {
+    border-bottom: 1px solid #e9e8f7;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr 3fr;
+    grid-gap: 20px;
+    padding: 0.8vh 0 0.5vh;
+}
+
+.info-label {
+    font-weight: 600;
+    font-size: 0.6rem;
+    line-height: 1.4;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+.status {
+    color: #0c8346;
+}
+
+
