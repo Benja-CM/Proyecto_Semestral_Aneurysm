@@ -1,0 +1,26 @@
+.card-component {
+    display: grid;
+    width: 100%;
+    max-width: none;
+    box-shadow: none;
+    background-color: none;
+
+    img {
+        width: 10vh;
+        align-self: center;
+    }
+
+    ion-card {
+        margin: 0;
+    }
+
+    ion-card-header {
+        padding-inline: 0;
+        padding-inline-start: 1.5vh;
+        padding-block-start: 1.5vh;
+    }
+}
+
+.list-md {
+    padding-block: 0;
+}

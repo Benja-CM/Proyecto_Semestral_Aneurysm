@@ -21,7 +21,7 @@
 
     ion-card-title,
     ion-label {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
 }
 
@@ -40,7 +40,7 @@
 
         ion-card-title {
             text-align: left;
-            font-size: 2rem !important;
+            font-size: 1.3rem !important;
             padding-block-start: 1.5vh;
             padding-inline-start: 0.5vh;
             padding-block-end: 1.5vh;
@@ -48,7 +48,8 @@
     }
 
     ion-title {
-        font-size: 2rem !important;
+        font-size: 1.7rem !important;
+        padding-block-start: 0.6vh;
         padding-inline-start: 0;
         color: #FFFFFF;
         font-weight: bold;
