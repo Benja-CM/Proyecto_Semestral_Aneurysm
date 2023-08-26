@@ -1,13 +1,10 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-back-button icon="close-outline"></ion-back-button>
     </ion-buttons>
     <ion-title>
-      Blank
+      Inicio de Sesion
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -15,7 +12,7 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Practica</ion-title>
+      <ion-title size="large">Inicio de Sesion</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -26,8 +23,8 @@
       </ion-card-header>
       <ion-card-content>
         <ion-row>
-          <ion-input type="email" fill="solid" label="Email" labelPlacement="floating" errorText="Email invalido" ngModel
-            email></ion-input>
+          <ion-input type="email" fill="solid" label="Email" labelPlacement="floating" errorText="Email invalido"
+            ngModel email></ion-input>
         </ion-row>
         <ion-row>
           <ion-input type="password" fill="solid" label="Contraseña" labelPlacement="floating"
@@ -37,7 +34,7 @@
           <ion-row text-align="center">
             <ion-col size="2"></ion-col>
             <ion-col>
-              <!-- <ion-button shape="round" [routerLink]="['/pagina1']">Loguearse</ion-button> -->
+              <ion-button shape="round" [routerLink]="['/tabs']">Loguearse</ion-button>
               <ion-button shape="round">Iniciar Sesion</ion-button>
             </ion-col>
             <ion-col size="2"></ion-col>

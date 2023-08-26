@@ -7,9 +7,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Tab4Page implements OnInit {
 
-  constructor() { }
+  public alertButtons = [
+    {
+      text: 'Cancel',
+      role: 'cancel'
+    },
+    {
+      text: 'OK',
+      role: 'confirm'
+    },
+  ];
+  public alertInputs = [
+    {
+      placeholder: 'Nombre de la categoria',
+    },
+  ];
 
-  ngOnInit() {
-  }
+  roleMessage = '';
+
+constructor() { }
+
+ngOnInit() {
+}
 
 }

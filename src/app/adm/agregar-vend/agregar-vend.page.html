@@ -1,0 +1,31 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button icon="close-outline"></ion-back-button>
+    </ion-buttons>
+    <ion-title>agregar_vend</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-card-content class="custom-card">
+      <ion-item>
+        <ion-input label="Correo" errorText="Correo invalido" label-placement="floating" fill="solid"
+          placeholder="Introduzca su Correo"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input label="Contraseña" errorText="Contraseña invalido" label-placement="floating" fill="solid"
+          placeholder="Introduzca su Contraseña"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input label="Confirmar Contraseña" errorText="No coincide con la contraseña anterior"
+          label-placement="floating" fill="solid" placeholder="Vuelva a introducir su Contraseña"></ion-input>
+      </ion-item>
+
+      <ion-button>Registrar</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

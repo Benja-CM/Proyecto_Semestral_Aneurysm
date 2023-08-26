@@ -1,0 +1,36 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button icon="close-outline"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Listar Productos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-item *ngFor="let producto of Productos">
+      <ion-card class="card-component" (click)="showProducto(producto.id)">
+        <ion-row>
+          <ion-col size="3">
+            <img src="/assets/Cover/img/{{producto.image}}">
+          </ion-col>
+          <ion-col size="9">
+            <ion-card-header>
+              <ion-card-title>{{ producto.name }}</ion-card-title>
+              <ion-card-subtitle>{{ producto.price | currency: "CLP" }}</ion-card-subtitle>
+            </ion-card-header>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-button>Modificar</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button>Eliminar</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </ion-item>
+  </ion-list>
+</ion-content>
