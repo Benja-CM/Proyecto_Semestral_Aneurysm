@@ -13,9 +13,11 @@ import { OverlayEventDetail } from '@ionic/core/components';
 export class ListarPage implements OnInit {
   presentingElement: any = undefined;
 
+  isModalOpen = false;
+
   Productos: any = [];
   id: number = 0;
-  
+
   constructor(private router: Router, private http: HttpClient, private modalCtrl: ModalController, private actionSheetCtrl: ActionSheetController) { }
 
   ngOnInit() {
@@ -26,27 +28,38 @@ export class ListarPage implements OnInit {
     this.presentingElement = document.querySelector('.ion-page');
   }
 
+
   canDismiss = async () => {
-    const actionSheet = await this.actionSheetCtrl.create({
-      header: '¿Estas Seguro?',
-      buttons: [
-        {
-          text: 'Sí',
-          role: 'confirm',
-        },
-        {
-          text: 'No',
-          role: 'cancel',
-        },
-      ],
-    });
+    if (this.isModalOpen === true) {
+      const actionSheet = await this.actionSheetCtrl.create({
+        header: '¿Estas Seguro?',
+        buttons: [
+          {
+            text: 'Sí',
+            role: 'confirm',
 
-    actionSheet.present();
+          },
+          {
+            text: 'No',
+            role: 'cancel',
+          },
+        ],
+      });
 
-    const { role } = await actionSheet.onWillDismiss();
+      actionSheet.present();
 
-    return role === 'confirm';
+      const { role } = await actionSheet.onWillDismiss();
+
+      this.openModal(false);
+      return role === 'confirm';
+    } else {
+      return null;
+    }
   };
+
+  openModal(isOpen: boolean) {
+    this.isModalOpen = isOpen;
+  }
 
   cancel() {
     return this.modalCtrl.dismiss(null, 'cancel');

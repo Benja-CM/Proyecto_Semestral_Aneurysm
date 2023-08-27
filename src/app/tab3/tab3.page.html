@@ -15,7 +15,26 @@
     </ion-toolbar>
   </ion-header> -->
 
-  <ion-row class="pad-t-md custom-center-xy custom-center">
+
+  <ion-list *ngIf="productoRecibido.length !== 0">
+    <ion-item *ngFor="let producto of productoRecibido">
+      <ion-card class="card-component">
+        <ion-row>
+          <ion-col size="3">
+            <img src="/assets/Cover/img/{{producto.image}}">
+          </ion-col>
+          <ion-col size="9">
+            <ion-card-header>
+              <ion-card-title>{{ producto.name }}</ion-card-title>
+              <ion-card-subtitle>{{ producto.price | currency: "CLP" }}</ion-card-subtitle>
+            </ion-card-header>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </ion-item>
+  </ion-list>
+
+  <ion-row *ngIf="productoRecibido.length === 0" class="pad-t-md custom-center-xy custom-center">
     <img alt="Sadface" width="40%" src="assets/sadface.png" />
     <h4>Tu carrito esta vacío.</h4>
     <ion-card-subtitle>¡Busca y compra productos ahora!</ion-card-subtitle>
@@ -25,6 +44,9 @@
 
 <ion-footer>
   <ion-toolbar>
-    <ion-button class="pad-sm pad-b-md" disabled expand="block">Proceder al pago</ion-button>
+    <ion-button class="pad-sm pad-b-md" [disabled]="productoRecibido.length === 0" expand="block"
+      (click)="comprar()">Proceder al pago</ion-button>
   </ion-toolbar>
 </ion-footer>
+<ion-alert [isOpen]="isAlertOpen" header="Compra realizada" subHeader="La compra se ha realizado correctamente"
+  [buttons]="alertButtons" (didDismiss)="setOpen(false)"></ion-alert>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
@@ -13,6 +13,10 @@ export class Tab1viewPage implements OnInit {
 
   idRecibida: number = 0;
   producto: any = {};
+
+  
+  isAlertOpen = false;
+  public alertButtons = ['OK'];
 
   constructor(private router: Router, private activeRouter: ActivatedRoute, private http: HttpClient) {
     this.activeRouter.queryParams.subscribe(param => {
@@ -42,5 +46,24 @@ export class Tab1viewPage implements OnInit {
         })
       );
   }
+
+  setOpen(isOpen: boolean) {
+    this.isAlertOpen = isOpen;
+  }
+
+  comprar() {
+    this.setOpen(true);
+  }
+
+  agregarCar() {
+    let navigationExtras: NavigationExtras = {
+      state: {
+        producto: this.producto
+      }
+    }
+    console.log(this.producto)
+    this.router.navigate(['/tabs/tab3'], navigationExtras)
+  }
+
 }
 

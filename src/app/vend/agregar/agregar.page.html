@@ -47,11 +47,13 @@
       <ion-button class="fkup">
         <ion-icon name="attach"></ion-icon>
         <label class="myFakeUploadButton" for="myFileInput">Agregar Imagen</label>
-        <input type="file" id="myFileInput">
+        <input #fileUpload accept="image/*" type="file" id="myFileInput" (change)="onFileSelected($event)">
       </ion-button>
-      
-      
-      <ion-button expand="full">Guardar</ion-button>
+
+      <p>Nombre de Archivo: {{uploadFileName}}</p>
+
+      <ion-button expand="full" (click)="irTab4()">Guardar</ion-button>
+
     </ion-card-content>
   </ion-card>
 </ion-content>

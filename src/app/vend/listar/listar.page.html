@@ -9,7 +9,7 @@
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    <ion-item *ngFor="let producto of Productos">
+    <ion-item *ngFor="let producto of Productos; let i = index;">
       <ion-card class="card-component">
         <ion-row (click)="showProducto(producto.id)">
           <ion-col size="3">
@@ -23,14 +23,14 @@
           </ion-col>
         </ion-row>
         <ion-row class="buttons">
-          <ion-button id="open-modal" expand="block">Modificar</ion-button>
+          <ion-button id="open-modal-{{i}}" expand="block" (click)="openModal(true)">Modificar</ion-button>
           <ion-button class="delete-button">Eliminar</ion-button>
         </ion-row>
       </ion-card>
     </ion-item>
   </ion-list>
 
-  <ion-modal #modal trigger="open-modal" [canDismiss]="canDismiss" [presentingElement]="presentingElement">
+  <ion-modal #modal [isOpen]="isModalOpen" [canDismiss]="canDismiss" [presentingElement]="presentingElement">
     <ng-template>
       <ion-header>
         <ion-toolbar>
