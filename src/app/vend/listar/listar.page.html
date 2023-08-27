@@ -10,8 +10,8 @@
 <ion-content [fullscreen]="true">
   <ion-list>
     <ion-item *ngFor="let producto of Productos">
-      <ion-card class="card-component" (click)="showProducto(producto.id)">
-        <ion-row>
+      <ion-card class="card-component">
+        <ion-row (click)="showProducto(producto.id)">
           <ion-col size="3">
             <img src="/assets/Cover/img/{{producto.image}}">
           </ion-col>
@@ -22,13 +22,9 @@
             </ion-card-header>
           </ion-col>
         </ion-row>
-        <ion-row>
-          <ion-col>
+        <ion-row class="buttons">
             <ion-button>Modificar</ion-button>
-          </ion-col>
-          <ion-col>
-            <ion-button>Eliminar</ion-button>
-          </ion-col>
+            <ion-button class="delete-button">Eliminar</ion-button>
         </ion-row>
       </ion-card>
     </ion-item>

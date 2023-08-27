@@ -8,9 +8,44 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">listar_us</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-list>
+    <ion-item>
+      <ion-card class="card-component">
+        <ion-row>
+          <ion-col size="3">
+            <img src="/assets/pfp.jpg">
+          </ion-col>
+          <ion-col size="9">
+            <ion-card-header>
+              <ion-card-title>Nombre del usuario</ion-card-title>
+              <ion-card-subtitle>tipo de usuario: cliente</ion-card-subtitle>
+            </ion-card-header>
+          </ion-col>
+        </ion-row>
+        <ion-row class="buttons">
+            <ion-button>Modificar</ion-button>
+            <ion-button class="delete-button">Eliminar</ion-button>
+        </ion-row>
+      </ion-card>
+    </ion-item>
+    <ion-item>
+      <ion-card class="card-component">
+        <ion-row>
+          <ion-col size="3">
+            <img src="/assets/pfp.jpg">
+          </ion-col>
+          <ion-col size="9">
+            <ion-card-header>
+              <ion-card-title>Nombre del usuario</ion-card-title>
+              <ion-card-subtitle>tipo de usuario: cliente</ion-card-subtitle>
+            </ion-card-header>
+          </ion-col>
+        </ion-row>
+        <ion-row class="buttons">
+            <ion-button>Modificar</ion-button>
+            <ion-button class="delete-button">Eliminar</ion-button>
+        </ion-row>
+      </ion-card>
+    </ion-item>
+  </ion-list>
 </ion-content>

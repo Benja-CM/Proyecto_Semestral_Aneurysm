@@ -29,33 +29,29 @@
 
       <ion-item>
         <ion-textarea label="Descripción" errorText="Descripción invalida" label-placement="floating" fill="solid"
-          placeholder="Introduzca el stock del producto" [autoGrow]="true">
+          placeholder="Introduzca la descripción del producto" [autoGrow]="true">
         </ion-textarea>
       </ion-item>
 
       <ion-item>
         <ion-textarea label="Requisitos Minimos" errorText="Requisitos invalidos" label-placement="floating"
-          fill="solid" placeholder="Introduzca los Requisitos Minimos para jugar el producto"
-          [autoGrow]="true"></ion-textarea>
+          fill="solid" placeholder="Introduzca los Requisitos mínimos del prodcuto" [autoGrow]="true"></ion-textarea>
       </ion-item>
 
       <ion-item>
         <ion-textarea label="Requisitos Recomendados" errorText="Requisitos invalidos" label-placement="floating"
-          fill="solid" placeholder="Introduzca los Requisitos que serán recomendados" [autoGrow]="true"></ion-textarea>
+          fill="solid" placeholder="Introduzca los Requisitos recomendados del producto"
+          [autoGrow]="true"></ion-textarea>
       </ion-item>
 
-      <ion-item>
-        <ion-col>
-          <ion-row>
-            <ion-label> Imagen</ion-label>
-          </ion-row>
-          <ion-row>
-            <ion-label> [Input de imagen] </ion-label>
-          </ion-row>
-        </ion-col>
-      </ion-item>
-
-      <ion-button class="pad-sm" shape="round">Agregar Producto</ion-button>
+      <ion-button class="fkup">
+        <ion-icon name="attach"></ion-icon>
+        <label class="myFakeUploadButton" for="myFileInput">Agregar Imagen</label>
+        <input type="file" id="myFileInput">
+      </ion-button>
+      
+      
+      <ion-button expand="full">Guardar Cambios</ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>

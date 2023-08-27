@@ -1,0 +1,11 @@
+.card-component{
+    box-shadow: none;
+}
+
+.buttons{
+    justify-content: end;
+
+    .delete-button{
+        --background: #8f0000!important;
+    }
+}

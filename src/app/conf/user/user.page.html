@@ -10,8 +10,11 @@
 <ion-content [fullscreen]="true">
   <ion-card>
     <ion-card-content class="custom-card">
-      <ion-label>Información Personal</ion-label>
-      
+      <div class="custom-label">
+        <ion-label>Información Personal</ion-label>
+      </div>
+
+
       <ion-item>
         <ion-input label="Nombre" errorText="Nombre invalido" label-placement="floating" fill="solid"
           placeholder="Introduzca su Nombre"></ion-input>
@@ -32,7 +35,9 @@
           placeholder="Introduzca su Número de telefono"></ion-input>
       </ion-item>
 
-      <ion-label>Dirección</ion-label>
+      <div class="custom-label">
+        <ion-label>Dirección</ion-label>
+      </div>
 
       <ion-item>
         <ion-input label="Calle" errorText="Calle invalida" label-placement="floating" fill="solid"
