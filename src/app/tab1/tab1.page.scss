@@ -1,4 +1,6 @@
 ion-content {
+    position: absolute;
+    z-index: 1 !important;
 
     ion-card-title {
         font-size: 1.3rem !important;
@@ -21,6 +23,10 @@ ion-content {
             margin-block-start: 0.8vh;
         }
     }
+}
+
+.card-banner {
+    margin-block-start: 9vh;
 }
 
 .custom-swiper-game {
@@ -59,4 +65,20 @@ ion-content {
     ion-card {
         margin-inline: 0.5vh;
     }
+}
+
+.custom-list-buscador {
+    position: relative;
+    display: list-item;
+    z-index: 2 !important;
+
+    padding-block: 0;
+    
+    ion-card {
+        box-shadow: none;
+    }
+}
+
+.custom-item-buscador {
+    z-index: 2 !important;
 }

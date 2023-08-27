@@ -1,22 +1,40 @@
 <ion-header [translucent]="true">
-
+  <ion-toolbar>
+    <ion-searchbar [(ngModel)]="juegos" (ionInput)="getItem() " animated="true" placeholder="Buscar"></ion-searchbar>
+    <ion-list class="custom-list-buscador">
+      <ion-item *ngFor="let producto of ProductosFilter" class="">
+        <ion-card class="card-component " (click)="showProducto(producto.id)">
+          <ion-row>
+            <ion-col size="3">
+              <img src="/assets/Cover/img/{{producto.image}}">
+            </ion-col>
+            <ion-col size="9">
+              <ion-card-header>
+                <ion-card-title>{{ producto.name }}</ion-card-title>
+                <ion-card-subtitle>{{ producto.price | currency: "CLP" }}</ion-card-subtitle>
+              </ion-card-header>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-item>
+    </ion-list>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
-  <app-banner></app-banner>
+  <div class="card-banner"><app-banner ></app-banner></div>
 
   <ion-card-header>
     <ion-card-title><strong>Los más vendidos</strong> </ion-card-title>
   </ion-card-header>
   <swiper-container class="custom-swiper-game" (slidechange)="swiperSlideChanged($event)" [loop]="false"
     [slidesPerView]="2">
-    <swiper-slide *ngFor="let juegos of Productos">
-      <ion-card class="prod-card-2" (click)="showProducto(juegos.id)">
-        <img class="prod-img" src="/assets/Cover/img/{{juegos.image}}">
+    <swiper-slide *ngFor="let juego of Productos">
+      <ion-card class="prod-card-2" (click)="showProducto(juego.id)">
+        <img class="prod-img" src="/assets/Cover/img/{{juego.image}}">
         <ion-card-header>
-          <ion-card-title>{{juegos.name}}</ion-card-title>
-          <ion-card-subtitle>{{juegos.price | currency:'CLP'}}</ion-card-subtitle>
+          <ion-card-title>{{juego.name}}</ion-card-title>
+          <ion-card-subtitle>{{juego.price | currency:'CLP'}}</ion-card-subtitle>
         </ion-card-header>
       </ion-card>
     </swiper-slide>
@@ -43,12 +61,12 @@
     <ion-card-title><strong> Lista De juegos </strong> </ion-card-title>
   </ion-card-header>
   <ion-row class="multiple-card">
-    <ion-col size="6" *ngFor="let juegos of Productos">
+    <ion-col size="6" *ngFor="let juego of Productos">
       <ion-card class="prod-card">
-        <img alt="prod" class="prod-img" src="/assets/Cover/img/{{juegos.image}}" />
+        <img alt="prod" class="prod-img" src="/assets/Cover/img/{{juego.image}}" />
         <ion-card-header>
-          <ion-card-title>{{juegos.name}}</ion-card-title>
-          <ion-card-subtitle>{{juegos.price | currency:'CLP'}}</ion-card-subtitle>
+          <ion-card-title>{{juego.name}}</ion-card-title>
+          <ion-card-subtitle>{{juego.price | currency:'CLP'}}</ion-card-subtitle>
         </ion-card-header>
       </ion-card>
     </ion-col>

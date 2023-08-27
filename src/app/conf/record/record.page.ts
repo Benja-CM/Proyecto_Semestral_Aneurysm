@@ -7,6 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RecordPage implements OnInit {
 
+  isModalOpen = false;
+
+  setOpen(isOpen: boolean) {
+    this.isModalOpen = isOpen;
+  }
+  
   constructor() { }
 
   ngOnInit() {

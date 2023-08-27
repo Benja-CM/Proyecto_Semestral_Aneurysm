@@ -14,7 +14,9 @@ import Swiper from 'swiper';
 export class Tab1Page implements OnInit {
   cate: any = [];
 
+  juegos: string = "";
   Productos: any = [];
+  ProductosFilter: any = [];
   id: number = 0;
 
   @ViewChild(' swiper')
@@ -77,6 +79,23 @@ export class Tab1Page implements OnInit {
       }
     }
     return null; // Manejo para cuando no se encuentra la ID
+  }
+
+  getItem() {
+    const objectKey = 'name';
+
+    this.ProductosFilter = [];
+
+    for (const producto of this.Productos) {
+
+      if (producto[objectKey].toLowerCase().includes(this.juegos.toLowerCase())) {
+        this.ProductosFilter.push(producto);
+      }
+
+      if (this.juegos === ""){
+        this.ProductosFilter = [];
+      }
+    }
   }
 
   showProducto(productoId: number) {

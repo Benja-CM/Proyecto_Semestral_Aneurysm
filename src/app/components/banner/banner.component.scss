@@ -1,5 +1,10 @@
 ion-content {
 
+    .card-banner {
+        margin-block-start: 20vh;
+        padding-top: 20vh;
+    }
+
     ion-card-title {
         font-size: 1.3rem !important;
     }
@@ -20,43 +25,5 @@ ion-content {
             font-size: 1rem !important;
             margin-block-start: 0.8vh;
         }
-    }
-}
-
-.custom-swiper-game {
-
-    swiper-slide {
-        display: grid;
-        align-items: stretch;
-
-        ion-card-header {
-            padding: 1.5vh;
-        }
-
-        ion-card-title {
-            font-size: 0.9rem !important;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            line-height: 1.5;
-            max-height: 1.4em;
-        }
-
-        ion-card {
-            margin-inline: 0.5vh;
-        }
-    }
-
-
-}
-
-.custom-swiper-categories {
-
-    ion-card-title {
-        font-size: 1rem !important;
-    }
-
-    ion-card {
-        margin-inline: 0.5vh;
     }
 }
