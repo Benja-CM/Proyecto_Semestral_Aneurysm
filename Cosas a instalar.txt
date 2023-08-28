@@ -11,5 +11,7 @@ npm install @ionic/angular@latest
 Plugin para Swiper
 npm install swiper@latest
 
+para las validaciones
+npm install @ionic-native/core --legacy-peer-deps
 
 ionic generate page pages/nombrePagina

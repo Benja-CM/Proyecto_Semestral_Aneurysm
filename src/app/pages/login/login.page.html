@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+  <form [formGroup]="ionicForm" (ngSubmit)="submitForm()" novalidate><ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Inicio de Sesion</ion-title>
     </ion-toolbar>
@@ -22,10 +22,25 @@
         <ion-card-title>Inicio de Sesion</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <ion-row>
-          <ion-input type="email" fill="solid" label="Email" labelPlacement="floating" errorText="Email invalido"
+        
+        <ion-item lines="full">
+          <ion-row>
+            <ion-input 
+            type="email" fill="solid" label="Email" labelPlacement="floating" errorText="Email invalido" 
             ngModel email></ion-input>
-        </ion-row>z
+          </ion-row>
+        </ion-item>
+        <div *ngIf="this.ionicForm.controls?.email.touched && this.ionicForm.controls?.email.invalid">
+          <div
+        class="error ion-padding"
+        *ngIf="errorControl.email.errors?.required"
+      >
+        <ion-text color="danger">Email es requerido.</ion-text>
+      </div>
+      <div class="ion-padding" *ngIf="errorControl.email.errors?.pattern">
+        <ion-text color="danger">por favor introducir Email.</ion-text>
+      </div>
+        </div>
         <ion-row>
           <ion-input type="password" fill="solid" label="Contraseña" labelPlacement="floating"
             errorText="Contraseña invalida" ngModel password></ion-input>
@@ -43,5 +58,7 @@
       </ion-card-content>
     </ion-card>
   </div>
+</form>
+  
 
 </ion-content>
