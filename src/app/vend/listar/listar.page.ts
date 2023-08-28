@@ -17,6 +17,7 @@ export class ListarPage implements OnInit {
 
   Productos: any = [];
   id: number = 0;
+  producto: any = {};
 
   constructor(private router: Router, private http: HttpClient, private modalCtrl: ModalController, private actionSheetCtrl: ActionSheetController) { }
 
@@ -50,15 +51,23 @@ export class ListarPage implements OnInit {
 
       const { role } = await actionSheet.onWillDismiss();
 
-      this.openModal(false);
+      this.openModal(false, 1);
       return role === 'confirm';
     } else {
       return null;
     }
   };
 
-  openModal(isOpen: boolean) {
+  openModal(isOpen: boolean, id: number) {
     this.isModalOpen = isOpen;
+    this.getProducto(id).subscribe(producto => {
+      if (producto) {
+        this.producto = producto;
+      } else {
+        console.error('Producto no encontrado.');
+      }
+    });
+    console.log(this.producto);
   }
 
   cancel() {
@@ -79,6 +88,16 @@ export class ListarPage implements OnInit {
       )
   }
 
+  getProducto(id: number) {
+    return this.http.get("assets/datos_internos/productos.json")
+      .pipe(
+        map((res: any) => {
+          const productos = res.data;
+          const productoEncontrado = productos.find((producto: any) => producto.id === id);
+          return productoEncontrado;
+        })
+      );
+  }
 
   getId(productoId: number) {
     for (const producto of this.Productos) {

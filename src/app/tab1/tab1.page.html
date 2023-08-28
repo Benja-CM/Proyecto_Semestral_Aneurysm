@@ -17,12 +17,17 @@
           </ion-row>
         </ion-card>
       </ion-item>
+      <ion-item *ngIf="juegos !== ''">
+        <ion-row *ngIf="ProductosFilter.length === 0">
+          <p>No se ha encontrado nada :c</p>
+        </ion-row>
+      </ion-item>
     </ion-list>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="card-banner"><app-banner ></app-banner></div>
+  <div class="card-banner"><app-banner></app-banner></div>
 
   <ion-card-header>
     <ion-card-title><strong>Los más vendidos</strong> </ion-card-title>

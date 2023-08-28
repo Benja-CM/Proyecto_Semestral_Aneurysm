@@ -19,5 +19,10 @@
         </ion-row>
       </ion-card>
     </ion-item>
+    <ion-item *ngIf="juegos !== ''">
+      <ion-row *ngIf="ProductosFilter.length === 0">
+        <p>No se ha encontrado nada :c</p>
+      </ion-row>
+    </ion-item>
   </ion-list>
 </ion-content>

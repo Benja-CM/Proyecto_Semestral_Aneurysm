@@ -23,7 +23,7 @@
           </ion-col>
         </ion-row>
         <ion-row class="buttons">
-          <ion-button id="open-modal-{{i}}" expand="block" (click)="openModal(true)">Modificar</ion-button>
+          <ion-button id="open-modal-{{i}}" expand="block" (click)="openModal(true,producto.id)">Modificar</ion-button>
           <ion-button class="delete-button">Eliminar</ion-button>
         </ion-row>
       </ion-card>
@@ -48,42 +48,45 @@
 
             <ion-item>
               <ion-input label="Nombre del Producto" errorText="Nombre invalido" label-placement="floating" fill="solid"
-                placeholder="Introduzca el nombre del producto"></ion-input>
+                value="{{ producto.name }}" placeholder="Introduzca el nombre del producto"></ion-input>
             </ion-item>
 
             <ion-item>
               <ion-input label="Precio" errorText="Correo invalido" label-placement="floating" fill="solid"
-                placeholder="Introduzca el precio del producto"></ion-input>
+                value="{{ producto.price }}" placeholder="Introduzca el precio del producto"></ion-input>
             </ion-item>
 
             <ion-item>
               <ion-input label="Stock" errorText="Correo invalido" label-placement="floating" fill="solid"
-                placeholder="Introduzca el stock del producto"></ion-input>
+                value="{{ producto.stock }}" placeholder="Introduzca el stock del producto"></ion-input>
             </ion-item>
 
             <ion-item>
               <ion-textarea label="Descripción" errorText="Descripción invalida" label-placement="floating" fill="solid"
-                placeholder="Introduzca la descripción del producto" [autoGrow]="true">
+                value="{{ producto.descripcion }}" placeholder="Introduzca la descripción del producto"
+                [autoGrow]="true">
               </ion-textarea>
             </ion-item>
 
             <ion-item>
               <ion-textarea label="Requisitos Minimos" errorText="Requisitos invalidos" label-placement="floating"
-                fill="solid" placeholder="Introduzca los Requisitos mínimos del prodcuto"
+                value="{{ producto.req_minimo}}" fill="solid" placeholder="Introduzca los Requisitos mínimos del prodcuto"
                 [autoGrow]="true"></ion-textarea>
             </ion-item>
 
             <ion-item>
               <ion-textarea label="Requisitos Recomendados" errorText="Requisitos invalidos" label-placement="floating"
-                fill="solid" placeholder="Introduzca los Requisitos recomendados del producto"
+              value="{{ producto.req_recomendado }}" fill="solid" placeholder="Introduzca los Requisitos recomendados del producto"
                 [autoGrow]="true"></ion-textarea>
             </ion-item>
 
             <ion-button class="fkup">
               <ion-icon name="attach"></ion-icon>
               <label class="myFakeUploadButton" for="myFileInput">Agregar Imagen</label>
-              <input type="file" id="myFileInput">
+              <input accept="image/*" type="file" id="myFileInput">
             </ion-button>
+
+            <p>Nombre de Archivo: {{ producto.image}}</p>
 
           </ion-card-content>
         </ion-card>
