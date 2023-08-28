@@ -32,9 +32,9 @@
   <ion-card-header>
     <ion-card-title><strong>Los más vendidos</strong> </ion-card-title>
   </ion-card-header>
-  <swiper-container class="custom-swiper-game" (slidechange)="swiperSlideChanged($event)" [loop]="false"
+  <swiper-container class="custom-swiper-game" (slidechange)="swiperSlideChanged($event)" [loop]="true"
     [slidesPerView]="2">
-    <swiper-slide *ngFor="let juego of Productos">
+    <swiper-slide *ngFor="let juego of Productos.slice(0,5)">
       <ion-card class="prod-card-2" (click)="showProducto(juego.id)">
         <img class="prod-img" src="/assets/Cover/img/{{juego.image}}">
         <ion-card-header>
@@ -50,10 +50,10 @@
   </ion-card-header>
   <swiper-container class="custom-swiper-categories" (slidechange)="swiperSlideChanged($event)" [loop]="false"
     [slidesPerView]="3">
-    <!-- #si se cambia cate por cate.slice(0, 5) se limitan la catnidad de slice que muetra del listado,
-       aun puede mostrar todo de la lista pero hasta 5 #como para hcer un mostrar mas-->
+    <!-- #si se cambia cate por cate.slice(0, 5) se limitan la cantidad de slice que muestra del listado,
+       aun puede mostrar todo de la lista pero hasta 5 #como para hacer un mostrar mas-->
     <swiper-slide *ngFor="let categoria of cate">
-      <ion-card class="prod-card-2">
+      <ion-card class="prod-card-2" >
         <img class="prod-img" src="/assets/Cover/img/{{categoria.image}}">
         <ion-card-header>
           <ion-card-title>{{categoria.name}}</ion-card-title>
@@ -67,7 +67,7 @@
   </ion-card-header>
   <ion-row class="multiple-card">
     <ion-col size="6" *ngFor="let juego of Productos">
-      <ion-card class="prod-card">
+      <ion-card class="prod-card" (click)="showProducto(juego.id)">
         <img alt="prod" class="prod-img" src="/assets/Cover/img/{{juego.image}}" />
         <ion-card-header>
           <ion-card-title>{{juego.name}}</ion-card-title>

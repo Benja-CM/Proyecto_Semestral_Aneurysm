@@ -10,3 +10,6 @@ npm install @ionic/angular@latest
 
 Plugin para Swiper
 npm install swiper@latest
+
+
+ionic generate page pages/nombrePagina
