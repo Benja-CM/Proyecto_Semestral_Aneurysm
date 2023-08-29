@@ -19,3 +19,10 @@
 .input-fill-solid.sc-ion-input-md-h {
     --padding-end: 0px;
 }
+
+.center-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }

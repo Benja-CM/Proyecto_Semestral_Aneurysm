@@ -9,7 +9,7 @@ export class Tab4Page implements OnInit {
 
   public alertButtons = [
     {
-      text: 'Cancel',
+      text: 'Cancelar',
       role: 'cancel'
     },
     {

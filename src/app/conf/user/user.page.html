@@ -13,17 +13,26 @@
       <div class="custom-label">
         <ion-label>Información Personal</ion-label>
       </div>
-      
+
       <ion-item>
         <ion-col size="4"></ion-col>
-        <ion-col size="4">
+        <ion-col size="4" class="center-content">
           <ion-avatar>
-            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+            <img (click)="fileUpload.click()" class="myFakeUploadButton" for="myFileInput"
+              alt="Silhouette of a person's head" src="../assets/edit_profile.png" />
           </ion-avatar>
+          <input #fileUpload accept="image/*" type="file" id="myFileInput" (change)="onFileSelected($event)"
+            style="display: none;">
         </ion-col>
-        <ion-col size="4"></ion-col>
+        <ion-col size=""></ion-col>
       </ion-item>
-
+      <ion-item>
+        <ion-col size="2"></ion-col>
+        <ion-col size="8" style="text-align: center;">
+          <p>Cambiar foto de perfil</p>
+        </ion-col>
+        <ion-col size="2"></ion-col>
+      </ion-item>
 
       <ion-item>
         <ion-input label="Nombre" errorText="Nombre invalido" label-placement="floating" fill="solid"

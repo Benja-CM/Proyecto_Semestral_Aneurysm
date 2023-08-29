@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,16 +17,10 @@ export class AgregarPage implements OnInit {
   ngOnInit() {
   }
 
-
-
   public async onFileSelected(event: any) {
-
     const file: File = event.target.files[0];
     this.uploadFileName = file.name;
     this.uploadFileContent = await file.text();
-
-    //get object from json file
-    //let obj = JSON.parse(this.uploadFileContent);
   }
 
   irTab4(){

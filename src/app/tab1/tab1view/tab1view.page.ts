@@ -30,6 +30,7 @@ export class Tab1viewPage implements OnInit {
     this.getProducto(this.idRecibida).subscribe(producto => {
       if (producto) {
         this.producto = producto;
+        console.log(this.producto);
       } else {
         console.error('Producto no encontrado.');
       }

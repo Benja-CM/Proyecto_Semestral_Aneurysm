@@ -21,26 +21,38 @@
       <ion-card-header>
         <ion-card-title>Inicio de Sesión</ion-card-title>
       </ion-card-header>
-      <ion-card-content>
-        <ion-row>
-          <ion-input type="email" fill="solid" label="Email" labelPlacement="floating" errorText="Email invalido"
-            ngModel email></ion-input>
-        </ion-row>
-        <ion-row>
-          <ion-input type="password" fill="solid" label="Contraseña" labelPlacement="floating"
-            errorText="Contraseña invalida" ngModel password></ion-input>
-        </ion-row>
-        <div id="btn_login">
-          <ion-row text-align="center">
-            <ion-col size="12">
-              <ion-button expand="full" shape="round" [routerLink]="['/tabs']">Iniciar Sesión</ion-button>
-            </ion-col>
-            <ion-col size="12">
-              <ion-button fill="outline" expand="full" shape="round">Registrarse</ion-button>
-            </ion-col>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <ion-card-content>
+          <ion-row>
+            <ion-input id="email" type="email" fill="solid" label="Email" labelPlacement="floating" required
+              name="email" formControlName="email"></ion-input>
+            <small *ngFor="let validation of validation_messages.email">
+              <div class="error" *ngIf="isSubmitted && loginForm.get('email')?.hasError(validation.type)">
+                {{validation.message }}
+              </div>
+            </small>
           </ion-row>
-        </div>
-      </ion-card-content>
+          <ion-row>
+            <ion-input id="password" type="password" fill="solid" label="Contraseña" labelPlacement="floating" required
+              formControlName="password" name="password" clearOnEdit="false"></ion-input>
+            <small *ngFor="let validation of validation_messages.password">
+              <div class="error" *ngIf="isSubmitted && loginForm.get('password')?.hasError(validation.type)">
+                {{validation.message }}
+              </div>
+            </small>
+          </ion-row>
+          <div id="btn_login">
+            <ion-row text-align="center">
+              <ion-col size="12">
+                <ion-button type="submit" expand="full" shape="round">Iniciar Sesión</ion-button>
+              </ion-col>
+              <ion-col size="12">
+                <ion-button fill="outline" expand="full" shape="round">Registrarse</ion-button>
+              </ion-col>
+            </ion-row>
+          </div>
+        </ion-card-content>
+      </form>
     </ion-card>
   </div>
 

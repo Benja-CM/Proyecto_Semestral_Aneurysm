@@ -21,10 +21,7 @@
         </ion-card-header>
       </ion-col>
       <ion-card-subtitle>
-        <ion-chip [outline]="true">Outline</ion-chip>
-        <ion-chip [outline]="true">Outline</ion-chip>
-        <ion-chip [outline]="true">Outline</ion-chip>
-        <ion-chip [outline]="true">Outline</ion-chip>
+        <ion-chip *ngFor="let cat of producto.categorias; let i = index" [outline]="true">{{ cat }}</ion-chip>
       </ion-card-subtitle>
     </ion-row>
     <ion-row>

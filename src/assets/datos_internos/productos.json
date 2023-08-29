@@ -6,6 +6,7 @@
             "image": "Baldur's_Gate_3_cover_art.jpg",
             "price": "39990",
             "stock": 26,
+            "categorias": ["RPG","Aventura","Simulacion","Accion"],
             "descripcion": "Reúne a tu grupo y regresa a los Reinos Olvidados en una historia de compañerismo, traición, sacrificio, supervivencia y la atracción de un poder absoluto.\nUnas misteriosas aptitudes empiezan a surgir en tu interior por obra de un parásito de los azotamentes que te han implantado en el cerebro. Resístete y vuelve a la oscuridad contra sí misma o abraza la corrupción y conviértete en el mal supremo.\nDe manos de los creadores de Divinity: Original Sin 2, llega un juego de rol para la nueva generación de consolas, ambientado en el mundo de Dungeons & Dragons.",
             "req_minimo": "Requiere un procesador y un sistema operativo de 64 bits\nSO: Windows 10 64-bit\nProcesador: Intel I5 4690 / AMD FX 8350\nMemoria: 8 GB de RAM\nGráficos: Nvidia GTX 970 / RX 480 (4GB+ of VRAM)\nDirectX: Versión 11\nAlmacenamiento: 150 GB de espacio disponible\nNotas adicionales: SSD required",
             "req_recomendado": "Requiere un procesador y un sistema operativo de 64 bits\nSO: Windows 10 64-bit\nProcesador: Intel i7 8700K / AMD r5 3600\nMemoria: 16 GB de RAM\nGráficos: Nvidia 2060 Super / RX 5700 XT (8GB+ of VRAM)\nDirectX: Versión 11\nAlmacenamiento: 150 GB de espacio disponible\nNotas adicionales: SSD required"
@@ -16,6 +17,7 @@
             "image": "Berserk.jpg",
             "price": "3999",
             "stock": 23,
+            "categorias": ["Peleas","Aventura","Arcade","Accion"],
             "descripcion": "En esta obra, la acción de abrirte paso a tajos a través de cientos de enemigos, la esencia de la serie 'Warriors', encaja a la perfección con la oscura y brutal atmósfera del mundo de 'Berserk', haciendo posibles hazañas nunca vistas, como usar una espada gigante del tamaño de un hombre para cortar enemigos por la mitad, así como aplastarlos o mandarlos volando por los aires con las acciones 'Cortar' y 'Aplastar'.",
             "req_minimo": "Requiere un procesador y un sistema operativo de 64 bits\nSO: Windows® 10 (64bit required\nProcesador: Core i7 870 over\nMemoria: 4 GB de RAM\nGráficos: NVIDIA Geforce GTS 450\nDirectX: Versión 11\nRed: Conexión de banda ancha a Internet\nAlmacenamiento: 20 GB de espacio disponible\nTarjeta de sonido: DirectX 9.0c over\nNotas adicionales: 640×480 pixel over, High Color, VRAM 1GB over",
             "req_recomendado": "Requiere un procesador y un sistema operativo de 64 bits\nSO: Windows® 10 (64bit required)\nProcesador: Core i7 2600 over\nMemoria: 8 GB de RAM\nGráficos: NVIDIA GeForce GTX980 (3840x2160) / GTX760 (1920x1080)\nDirectX: Versión 11\nRed: Conexión de banda ancha a Internet\nAlmacenamiento: 20 GB de espacio disponible\nTarjeta de sonido: DirectX 9.0c over\nNotas adicionales: 1920x1080 pixel over, True Color, 4K compatible"
@@ -26,6 +28,7 @@
             "image": "Elden_Ring.jpg",
             "price": "24990",
             "stock": 29,
+            "categorias": ["RPG","Aventura","Arcade","Accion"],
             "descripcion": "EL NUEVO JUEGO DE ROL Y ACCIÓN DE AMBIENTACIÓN FANTÁSTICA.\nÁlzate, Sinluz, y que la gracia te guíe para abrazar el poder del Círculo de Elden y encumbrarte como señor del Círculo en las Tierras Intermedias.\n• Un extenso mundo lleno de emociones\nUn vasto mundo perfectamente conectado en el que los territorios abiertos estarán repletos de situaciones y mazmorras enormes con diseños complejos y tridimensionales. Mientras exploras, experimentarás el deleite de descubrir amenazas desconocidas y sobrecogedoras, y eso te haré sentir la emoción de la superación.",
             "req_minimo": "Requiere un procesador y un sistema operativo de 64 bits\nSO: Windows 10\nProcesador: INTEL CORE I5-8400 or AMD RYZEN 3 3300X\nMemoria: 12 GB de RAM\nGráficos: NVIDIA GEFORCE GTX 1060 3 GB or AMD RADEON RX 580 4 GB\nDirectX: Versión 12\nAlmacenamiento: 60 GB de espacio disponible\nTarjeta de sonido: Windows Compatible Audio Device",
             "req_recomendado": "Requiere un procesador y un sistema operativo de 64 bits\nSO: Windows 10/11\nProcesador: INTEL CORE I7-8700K or AMD RYZEN 5 3600X\nMemoria: 16 GB de RAM\nGráficos: NVIDIA GEFORCE GTX 1070 8 GB or AMD RADEON RX VEGA 56 8 GB\nDirectX: Versión 12\nAlmacenamiento: 60 GB de espacio disponible\nTarjeta de sonido: Windows Compatible Audio Device"
@@ -36,6 +39,7 @@
             "image": "Payday3.jpg",
             "price": "29990",
             "stock": 36,
+            "categorias": ["FPS","Arcade","Simulacion","Accion"],
             "descripcion": "PAYDAY 2 es un juego de acción cooperativo para cuatro jugadores que, una vez más, permite a los jugadores ponerse en la piel del equipo original de PAYDAY - Dallas, Hoxton, Wolf y Chains - mientras descienden por Washington DC en una épica ola de crímenes.\nLa red CRIMENET ofrece una amplia gama de contratos dinámicos, y los jugadores son libres de elegir cualquier cosa, desde pequeños atracos a tiendas de conveniencia o secuestros, hasta grandes ciberdelitos o vaciar importantes cámaras acorazadas para ese épico PAYDAY. Y mientras estás en DC, ¿por qué no participas en la comunidad local y haces algunos encargos políticos?",
             "req_minimo": "SO: Windows 10\nProcesador: Intel Core i5-9400F\nMemoria: 16 GB de RAM\nGráficos: Nvidia GTX 1650 (4 GB)\nRed: Conexión de banda ancha a Internet",
             "req_recomendado": "SO: Windows 10\nProcesador: Intel Core i7-9700K\nMemoria: 16 GB de RAM\nGráficos: Nvidia GTX 1080 (8GB)\nRed: Conexión de banda ancha a Internet"
@@ -46,6 +50,7 @@
             "image": "mh_world.jpg",
             "price": "69990",
             "stock": 36,
+            "categorias": ["RPG","Arcade","Simulacion","Peleas"],
             "descripcion": "PAYDAY 2 es un juego de acción cooperativo para cuatro jugadores que, una vez más, permite a los jugadores ponerse en la piel del equipo original de PAYDAY - Dallas, Hoxton, Wolf y Chains - mientras descienden por Washington DC en una épica ola de crímenes.\nLa red CRIMENET ofrece una amplia gama de contratos dinámicos, y los jugadores son libres de elegir cualquier cosa, desde pequeños atracos a tiendas de conveniencia o secuestros, hasta grandes ciberdelitos o vaciar importantes cámaras acorazadas para ese épico PAYDAY. Y mientras estás en DC, ¿por qué no participas en la comunidad local y haces algunos encargos políticos?",
             "req_minimo": "SO: Windows 10\nProcesador: Intel Core i5-9400F\nMemoria: 16 GB de RAM\nGráficos: Nvidia GTX 1650 (4 GB)\nRed: Conexión de banda ancha a Internet",
             "req_recomendado": "SO: Windows 10\nProcesador: Intel Core i7-9700K\nMemoria: 16 GB de RAM\nGráficos: Nvidia GTX 1080 (8GB)\nRed: Conexión de banda ancha a Internet"
@@ -56,6 +61,7 @@
             "image": "DDDA.jpg",
             "price": "15990",
             "stock": 9,
+            "categorias": ["RPG","Arcade","Aventura","Peleas"],
             "descripcion": "PAYDAY 2 es un juego de acción cooperativo para cuatro jugadores que, una vez más, permite a los jugadores ponerse en la piel del equipo original de PAYDAY - Dallas, Hoxton, Wolf y Chains - mientras descienden por Washington DC en una épica ola de crímenes.\nLa red CRIMENET ofrece una amplia gama de contratos dinámicos, y los jugadores son libres de elegir cualquier cosa, desde pequeños atracos a tiendas de conveniencia o secuestros, hasta grandes ciberdelitos o vaciar importantes cámaras acorazadas para ese épico PAYDAY. Y mientras estás en DC, ¿por qué no participas en la comunidad local y haces algunos encargos políticos?",
             "req_minimo": "SO: Windows 10\nProcesador: Intel Core i5-9400F\nMemoria: 16 GB de RAM\nGráficos: Nvidia GTX 1650 (4 GB)\nRed: Conexión de banda ancha a Internet",
             "req_recomendado": "SO: Windows 10\nProcesador: Intel Core i7-9700K\nMemoria: 16 GB de RAM\nGráficos: Nvidia GTX 1080 (8GB)\nRed: Conexión de banda ancha a Internet"
@@ -66,6 +72,7 @@
             "image": "NieR_Automata.jpg",
             "price": "24990",
             "stock": 29,
+            "categorias": ["RPG","Accion","Aventura","Peleas"],
             "descripcion": "EL NUEVO JUEGO DE ROL Y ACCIÓN DE AMBIENTACIÓN FANTÁSTICA.\nÁlzate, Sinluz, y que la gracia te guíe para abrazar el poder del Círculo de Elden y encumbrarte como señor del Círculo en las Tierras Intermedias.\n• Un extenso mundo lleno de emociones\nUn vasto mundo perfectamente conectado en el que los territorios abiertos estarán repletos de situaciones y mazmorras enormes con diseños complejos y tridimensionales. Mientras exploras, experimentarás el deleite de descubrir amenazas desconocidas y sobrecogedoras, y eso te haré sentir la emoción de la superación.",
             "req_minimo": "Requiere un procesador y un sistema operativo de 64 bits\nSO: Windows 10\nProcesador: INTEL CORE I5-8400 or AMD RYZEN 3 3300X\nMemoria: 12 GB de RAM\nGráficos: NVIDIA GEFORCE GTX 1060 3 GB or AMD RADEON RX 580 4 GB\nDirectX: Versión 12\nAlmacenamiento: 60 GB de espacio disponible\nTarjeta de sonido: Windows Compatible Audio Device",
             "req_recomendado": "Requiere un procesador y un sistema operativo de 64 bits\nSO: Windows 10/11\nProcesador: INTEL CORE I7-8700K or AMD RYZEN 5 3600X\nMemoria: 16 GB de RAM\nGráficos: NVIDIA GEFORCE GTX 1070 8 GB or AMD RADEON RX VEGA 56 8 GB\nDirectX: Versión 12\nAlmacenamiento: 60 GB de espacio disponible\nTarjeta de sonido: Windows Compatible Audio Device"
@@ -76,6 +83,7 @@
             "image": "Persona3_Reloaded.jpg",
             "price": "59990",
             "stock": 29,
+            "categorias": ["RPG","Arcade","Aventura","Peleas"],
             "descripcion": "EL NUEVO JUEGO DE ROL Y ACCIÓN DE AMBIENTACIÓN FANTÁSTICA.\nÁlzate, Sinluz, y que la gracia te guíe para abrazar el poder del Círculo de Elden y encumbrarte como señor del Círculo en las Tierras Intermedias.\n• Un extenso mundo lleno de emociones\nUn vasto mundo perfectamente conectado en el que los territorios abiertos estarán repletos de situaciones y mazmorras enormes con diseños complejos y tridimensionales. Mientras exploras, experimentarás el deleite de descubrir amenazas desconocidas y sobrecogedoras, y eso te haré sentir la emoción de la superación.",
             "req_minimo": "Requiere un procesador y un sistema operativo de 64 bits\nSO: Windows 10\nProcesador: INTEL CORE I5-8400 or AMD RYZEN 3 3300X\nMemoria: 12 GB de RAM\nGráficos: NVIDIA GEFORCE GTX 1060 3 GB or AMD RADEON RX 580 4 GB\nDirectX: Versión 12\nAlmacenamiento: 60 GB de espacio disponible\nTarjeta de sonido: Windows Compatible Audio Device",
             "req_recomendado": "Requiere un procesador y un sistema operativo de 64 bits\nSO: Windows 10/11\nProcesador: INTEL CORE I7-8700K or AMD RYZEN 5 3600X\nMemoria: 16 GB de RAM\nGráficos: NVIDIA GEFORCE GTX 1070 8 GB or AMD RADEON RX VEGA 56 8 GB\nDirectX: Versión 12\nAlmacenamiento: 60 GB de espacio disponible\nTarjeta de sonido: Windows Compatible Audio Device"

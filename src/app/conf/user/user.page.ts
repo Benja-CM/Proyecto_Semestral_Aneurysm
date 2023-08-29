@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -6,10 +7,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user.page.scss'],
 })
 export class UserPage implements OnInit {
+  @Output() data = new EventEmitter<FormData>();
+
+  public uploadFileName: string = "";
+  public uploadFileContent: string = "";
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  public async onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    this.uploadFileName = file.name;
+    this.uploadFileContent = await file.text();
   }
 
 }
