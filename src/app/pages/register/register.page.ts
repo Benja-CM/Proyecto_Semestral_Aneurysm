@@ -1,22 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NavigationExtras, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  selector: 'app-register',
+  templateUrl: './register.page.html',
+  styleUrls: ['./register.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class RegisterPage implements OnInit {
   email: string = "";
   password: string = "";
 
-  public loginForm: FormGroup = new FormGroup({});
+  public registerForm: FormGroup = new FormGroup({});
   isSubmitted = false;
   submitError = "";
 
-  constructor(
-    private router: Router,
+  constructor(private router: Router,
     private formBuilder: FormBuilder) {
     this.createForm()
   }
@@ -25,11 +24,11 @@ export class LoginPage implements OnInit {
   }
 
   createForm() {
-    this.loginForm = this.formBuilder.group({
-      name: new FormControl('', {
+    this.registerForm = this.formBuilder.group({
+      email: new FormControl('', {
         validators: [
           Validators.required,
-          Validators.pattern("^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\\s]+$")
+          Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
         ]
       }),
       password: new FormControl('', {
@@ -43,9 +42,9 @@ export class LoginPage implements OnInit {
 
   async onSubmit() {
     this.isSubmitted = true;
-    console.log(this.loginForm.value)
+    console.log(this.registerForm.value)
 
-    if (!this.loginForm.valid) {
+    if (!this.registerForm.valid) {
       console.log("not valid");
       return;
     }

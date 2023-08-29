@@ -10,9 +10,10 @@ ion-item {
 .fkup {
     margin-block-end: 1.5vh;
     --background: none!important;
-    --border-color: #ffffff;
+    --color: #ffffff!important;
+    --border-color: #ffffff!important;
     border-style: solid;
-    border-width: 2px;
+    border-width: 0.2vh;
 
     label{
         margin-inline-end: 1vh;

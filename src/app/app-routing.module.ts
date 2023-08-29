@@ -39,6 +39,10 @@ const routes: Routes = [
     loadChildren: () => import('./adm/listar-us/listar-us.module').then( m => m.ListarUsPageModule)
   },
   {
+    path: 'register',
+    loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./not-found/not-found.module').then(m => m.NotFoundPageModule)
   },

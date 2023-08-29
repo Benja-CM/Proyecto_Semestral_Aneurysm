@@ -34,57 +34,60 @@
         <ion-col size="2"></ion-col>
       </ion-item>
 
-      <ion-item>
-        <ion-input label="Nombre" errorText="Nombre invalido" label-placement="floating" fill="solid"
-          placeholder="Introduzca su Nombre"></ion-input>
-      </ion-item>
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
 
-      <ion-item>
-        <ion-input label="Apellido" errorText="Apellido invalido" label-placement="floating" fill="solid"
-          placeholder="Introduzca su Apellido"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-input id="name" label="Nombre" errorText="Nombre invalido" label-placement="floating" fill="solid"
+            placeholder="Introduzca su Nombre"></ion-input>
+        </ion-item>
 
-      <ion-item>
-        <ion-input label="Correo Electrónico" errorText="Correo invalido" label-placement="floating" fill="solid"
-          placeholder="Introduzca su Correo"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-input label="surname" errorText="Apellido invalido" label-placement="floating" fill="solid"
+            placeholder="Introduzca su Apellido"></ion-input>
+        </ion-item>
 
-      <ion-item>
-        <ion-input label="Número de telefono" errorText="Número invalido" label-placement="floating" fill="solid"
-          placeholder="Introduzca su Número de telefono"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-input id="email" label="Correo Electrónico" errorText="Correo invalido" label-placement="floating" fill="solid"
+            placeholder="Introduzca su Correo"></ion-input>
+        </ion-item>
 
-      <div class="custom-label">
-        <ion-label>Dirección</ion-label>
-      </div>
+        <ion-item>
+          <ion-input id="tfn" label="Número de telefono" errorText="Número invalido" label-placement="floating" fill="solid"
+            placeholder="Introduzca su Número de telefono"></ion-input>
+        </ion-item>
 
-      <ion-item>
-        <ion-input label="Calle" errorText="Calle invalida" label-placement="floating" fill="solid"
-          placeholder="Introduzca su Calle"></ion-input>
-      </ion-item>
+        <div class="custom-label">
+          <ion-label>Dirección</ion-label>
+        </div>
 
-      <ion-item>
-        <ion-input label="Número" errorText="Número invalido" label-placement="floating" fill="solid"
-          placeholder="Introduzca su Número de casa"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-input id="str" label="Calle" errorText="Calle invalida" label-placement="floating" fill="solid"
+            placeholder="Introduzca su Calle"></ion-input>
+        </ion-item>
 
-      <ion-item>
-        <ion-input label="Región" errorText="Región invalida" label-placement="floating" fill="solid"
-          placeholder="Introduzca la Región donde reside"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-input id="number" label="Número" errorText="Número invalido" label-placement="floating" fill="solid"
+            placeholder="Introduzca su Número de casa"></ion-input>
+        </ion-item>
 
-      <ion-item>
-        <ion-input label="Comuna" errorText="Comuna invalida" label-placement="floating" fill="solid"
-          placeholder="Introduzca la Comuna donde reside"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-input id="region" label="Región" errorText="Región invalida" label-placement="floating" fill="solid"
+            placeholder="Introduzca la Región donde reside"></ion-input>
+        </ion-item>
 
-      <ion-item>
-        <ion-input label="Codigo Postal" errorText="Codigo Postal invalido" label-placement="floating" fill="solid"
-          placeholder="Introduzca su Codigo Postal"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-input id="comun" label="Comuna" errorText="Comuna invalida" label-placement="floating" fill="solid"
+            placeholder="Introduzca la Comuna donde reside"></ion-input>
+        </ion-item>
 
-      <ion-button expand="full">Guardar Cambios</ion-button>
+        <ion-item>
+          <ion-input id="cod" label="Codigo Postal" errorText="Codigo Postal invalido" label-placement="floating" fill="solid"
+            placeholder="Introduzca su Codigo Postal"></ion-input>
+        </ion-item>
 
+        <ion-button type="submit" expand="full">Guardar Cambios</ion-button>
+
+      </form>
     </ion-card-content>
   </ion-card>
 </ion-content>

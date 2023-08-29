@@ -25,8 +25,37 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
+.sc-ion-searchbar-md-h {
+  --background: --var(--ion-card-background);
+  --box-shadow: none;
+}
 
+ion-toolbar {
+  ion-title {
+    padding-inline-start: 1vh;
+  }
+}
 
+.input-label-placement-floating.sc-ion-input-md-h input.sc-ion-input-md {
+  margin-left: 0.3vh;
+  margin-right: 0;
+  margin-top: 1px;
+  margin-bottom: 0;
+}
+
+ion-item.sc-ion-textarea-md-h:not(.item-label),
+ion-item:not(.item-label) .sc-ion-textarea-md-h {
+  --padding-start: 0.5vh;
+}
+
+ion-item.sc-ion-input-md-h:not(.item-label):not(.item-has-modern-input),
+ion-item:not(.item-label):not(.item-has-modern-input) .sc-ion-input-md-h {
+  --padding-start: 0.5vh;
+}
+
+.item.sc-ion-label-md-h, .item .sc-ion-label-md-h {
+  --color: #ffffff;
+}
 
 .custom-center {
   display: flex;
@@ -34,6 +63,7 @@
   text-align: center;
   align-items: center;
 }
+
 .prod-card-2 {
   margin: 10px;
   width: auto;
@@ -176,4 +206,3 @@
 .pad-l-xxl {
   padding-left: 48px;
 }
-
