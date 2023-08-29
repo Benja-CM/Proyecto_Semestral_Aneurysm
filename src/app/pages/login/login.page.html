@@ -4,61 +4,44 @@
       <ion-back-button icon="close-outline"></ion-back-button>
     </ion-buttons>
     <ion-title>
-      Inicio de Sesion
+      Inicio de Sesión
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <form [formGroup]="ionicForm" (ngSubmit)="submitForm()" novalidate><ion-header collapse="condense">
+  <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Inicio de Sesion</ion-title>
+      <ion-title size="large">Iniciar Sesión</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <div id="container">
     <ion-card>
       <ion-card-header>
-        <ion-card-title>Inicio de Sesion</ion-card-title>
+        <ion-card-title>Inicio de Sesión</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        
-        <ion-item lines="full">
-          <ion-row>
-            <ion-input 
-            type="email" fill="solid" label="Email" labelPlacement="floating" errorText="Email invalido" 
+        <ion-row>
+          <ion-input type="email" fill="solid" label="Email" labelPlacement="floating" errorText="Email invalido"
             ngModel email></ion-input>
-          </ion-row>
-        </ion-item>
-        <div *ngIf="this.ionicForm.controls?.email.touched && this.ionicForm.controls?.email.invalid">
-          <div
-        class="error ion-padding"
-        *ngIf="errorControl.email.errors?.required"
-      >
-        <ion-text color="danger">Email es requerido.</ion-text>
-      </div>
-      <div class="ion-padding" *ngIf="errorControl.email.errors?.pattern">
-        <ion-text color="danger">por favor introducir Email.</ion-text>
-      </div>
-        </div>
+        </ion-row>
         <ion-row>
           <ion-input type="password" fill="solid" label="Contraseña" labelPlacement="floating"
             errorText="Contraseña invalida" ngModel password></ion-input>
         </ion-row>
         <div id="btn_login">
           <ion-row text-align="center">
-            <ion-col size="2"></ion-col>
-            <ion-col>
-              <ion-button shape="round" [routerLink]="['/tabs']">Loguearse</ion-button>
-              <ion-button shape="round">Iniciar Sesion</ion-button>
+            <ion-col size="12">
+              <ion-button expand="full" shape="round" [routerLink]="['/tabs']">Iniciar Sesión</ion-button>
             </ion-col>
-            <ion-col size="2"></ion-col>
+            <ion-col size="12">
+              <ion-button fill="outline" expand="full" shape="round">Registrarse</ion-button>
+            </ion-col>
           </ion-row>
         </div>
       </ion-card-content>
     </ion-card>
   </div>
-</form>
-  
 
 </ion-content>

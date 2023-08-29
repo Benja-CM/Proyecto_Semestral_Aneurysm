@@ -1,4 +1,4 @@
-.custom-card{
+.custom-card {
     margin-bottom: 2.5vh;
 }
 
@@ -63,4 +63,34 @@
     color: #0c8346;
 }
 
+.detail-card {
+    margin-bottom: 2.5vh;
+    margin-inline: 0;
 
+    ion-card-content {
+        padding-inline: 1.8vh;
+    }
+
+    .custom-titles {
+        margin-inline-start: 1vh;
+    }
+
+    .infor-row2 {
+
+        ion-label {
+            margin-inline-start: 1vh;
+        }
+
+    }
+}
+
+.info-row3 {
+    border-bottom: 1px solid #e9e8f7;
+    align-items: center;
+    padding: 0.8vh 0 0.5vh;
+}
+
+.subtotal {
+    margin-block: 1.6vh;
+    text-align: end;
+}

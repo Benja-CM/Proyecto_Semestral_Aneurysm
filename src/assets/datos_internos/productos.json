@@ -69,6 +69,16 @@
             "descripcion": "EL NUEVO JUEGO DE ROL Y ACCIÓN DE AMBIENTACIÓN FANTÁSTICA.\nÁlzate, Sinluz, y que la gracia te guíe para abrazar el poder del Círculo de Elden y encumbrarte como señor del Círculo en las Tierras Intermedias.\n• Un extenso mundo lleno de emociones\nUn vasto mundo perfectamente conectado en el que los territorios abiertos estarán repletos de situaciones y mazmorras enormes con diseños complejos y tridimensionales. Mientras exploras, experimentarás el deleite de descubrir amenazas desconocidas y sobrecogedoras, y eso te haré sentir la emoción de la superación.",
             "req_minimo": "Requiere un procesador y un sistema operativo de 64 bits\nSO: Windows 10\nProcesador: INTEL CORE I5-8400 or AMD RYZEN 3 3300X\nMemoria: 12 GB de RAM\nGráficos: NVIDIA GEFORCE GTX 1060 3 GB or AMD RADEON RX 580 4 GB\nDirectX: Versión 12\nAlmacenamiento: 60 GB de espacio disponible\nTarjeta de sonido: Windows Compatible Audio Device",
             "req_recomendado": "Requiere un procesador y un sistema operativo de 64 bits\nSO: Windows 10/11\nProcesador: INTEL CORE I7-8700K or AMD RYZEN 5 3600X\nMemoria: 16 GB de RAM\nGráficos: NVIDIA GEFORCE GTX 1070 8 GB or AMD RADEON RX VEGA 56 8 GB\nDirectX: Versión 12\nAlmacenamiento: 60 GB de espacio disponible\nTarjeta de sonido: Windows Compatible Audio Device"
+        },        
+        {
+            "id": 8,
+            "name": "Persona 3: Reload",
+            "image": "Persona3_Reloaded.jpg",
+            "price": "59990",
+            "stock": 29,
+            "descripcion": "EL NUEVO JUEGO DE ROL Y ACCIÓN DE AMBIENTACIÓN FANTÁSTICA.\nÁlzate, Sinluz, y que la gracia te guíe para abrazar el poder del Círculo de Elden y encumbrarte como señor del Círculo en las Tierras Intermedias.\n• Un extenso mundo lleno de emociones\nUn vasto mundo perfectamente conectado en el que los territorios abiertos estarán repletos de situaciones y mazmorras enormes con diseños complejos y tridimensionales. Mientras exploras, experimentarás el deleite de descubrir amenazas desconocidas y sobrecogedoras, y eso te haré sentir la emoción de la superación.",
+            "req_minimo": "Requiere un procesador y un sistema operativo de 64 bits\nSO: Windows 10\nProcesador: INTEL CORE I5-8400 or AMD RYZEN 3 3300X\nMemoria: 12 GB de RAM\nGráficos: NVIDIA GEFORCE GTX 1060 3 GB or AMD RADEON RX 580 4 GB\nDirectX: Versión 12\nAlmacenamiento: 60 GB de espacio disponible\nTarjeta de sonido: Windows Compatible Audio Device",
+            "req_recomendado": "Requiere un procesador y un sistema operativo de 64 bits\nSO: Windows 10/11\nProcesador: INTEL CORE I7-8700K or AMD RYZEN 5 3600X\nMemoria: 16 GB de RAM\nGráficos: NVIDIA GEFORCE GTX 1070 8 GB or AMD RADEON RX VEGA 56 8 GB\nDirectX: Versión 12\nAlmacenamiento: 60 GB de espacio disponible\nTarjeta de sonido: Windows Compatible Audio Device"
         }
       
     ]

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -13,7 +14,8 @@ import { NotFoundPage } from './not-found.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    NotFoundPageRoutingModule
+    NotFoundPageRoutingModule,
+    MatProgressBarModule
   ],
   declarations: [NotFoundPage]
 })

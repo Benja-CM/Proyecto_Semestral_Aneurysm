@@ -42,7 +42,8 @@
           <ion-label class="info-value">11.588 CLP</ion-label>
         </ion-row>
       </ion-grid>
-      <ion-button fill="clear" style="color: rgb(239, 150, 17);" expand="block" (click)="setOpen(true)" >Detalles</ion-button>
+      <ion-button fill="clear" style="color: rgb(239, 150, 17);" expand="block"
+        (click)="setOpen(true)">Detalles</ion-button>
     </ion-card-content>
   </ion-card>
 
@@ -79,7 +80,8 @@
           <ion-label class="info-value">11.588 CLP</ion-label>
         </ion-row>
       </ion-grid>
-      <ion-button fill="clear" style="color: rgb(239, 150, 17);" expand="block" (click)="setOpen(true)" >Detalles</ion-button>
+      <ion-button fill="clear" style="color: rgb(239, 150, 17);" expand="block"
+        (click)="setOpen(true)">Detalles</ion-button>
     </ion-card-content>
   </ion-card>
 
@@ -87,18 +89,68 @@
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Modal</ion-title>
+          <ion-title>Detalles</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="setOpen(false)">Close</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos
-          reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque,
-          dicta.
-        </p>
+        <ion-card class="detail-card">
+          <ion-card-content class="card-content">
+            <ion-grid>
+              <ion-row class="info-row">
+                <ion-label class=" info-label">Productos</ion-label>
+              </ion-row>
+              <ion-row class="info-row">
+                <!-- Debo crear un nuevo grid, para ajustar la separacion vertical (es mucha) -->
+                <ion-col size="auto">
+                  <img src="/assets/Cover/img/mh_world.jpg">
+                </ion-col>
+                <ion-col size="auto">
+                  <ion-row class="ion-align-items-center">
+                    <div class="custom-titles">
+                      <ion-card-subtitle>Monster Hunter: World</ion-card-subtitle>
+                      <ion-card-subtitle>11.588 CLP</ion-card-subtitle>
+                    </div>
+                  </ion-row>
+                </ion-col>
+                <ion-col size="auto">
+                  <img src="/assets/Cover/img/mh_world.jpg">
+                </ion-col>
+                <ion-col size="auto">
+                  <ion-row class="ion-align-items-center">
+                    <div class="custom-titles">
+                      <ion-card-subtitle>Monster Hunter: World</ion-card-subtitle>
+                      <ion-card-subtitle>11.588 CLP</ion-card-subtitle>
+                    </div>
+                  </ion-row>
+                </ion-col>
+              </ion-row>
+
+              <ion-row class="info-row infor-row2">
+                <ion-label class="info-label">Fecha</ion-label>
+                <ion-label class="info-value">7/8/2023, 16:11</ion-label>
+              </ion-row>
+
+              <ion-row class="info-row infor-row2">
+                <ion-label class="info-label">Estado</ion-label>
+                <ion-label class="info-value"><span class="status">Entregado</span></ion-label>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="detail-card">
+          <ion-card-content>
+            <ion-row class="info-row3">
+              <ion-label class=" info-label">Resumen del Pedido</ion-label>
+            </ion-row>
+            <div class="subtotal">
+              <ion-card-title>23.176 CLP</ion-card-title>
+            </div>
+          </ion-card-content>
+        </ion-card>
       </ion-content>
     </ng-template>
   </ion-modal>

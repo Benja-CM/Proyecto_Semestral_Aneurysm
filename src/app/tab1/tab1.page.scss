@@ -16,12 +16,50 @@ ion-content {
             max-height: 1.4em;
         }
 
-
+        ion-card {
+            height: 100%;
+        }
 
         ion-card-subtitle {
             font-size: 1rem !important;
             margin-block-start: 0.8vh;
         }
+
+        .multiple-card {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .prod-card {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .image-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .prod-img {
+            width: 100%;
+            height: 100%;
+            transform: scale(1.1);
+            /* Ajusta el valor para el nivel de zoom */
+            transition: transform 0.1s ease;
+            /* Agrega una transición suave */
+        }
+
+        .prod-card:hover .prod-img {
+            transform: scale(1.5);
+            /* Zoom normal al pasar el mouse. es una app de telefono, no sirve,
+            osea, solo al hacer click */
+        }
+
+
     }
 }
 
@@ -51,6 +89,40 @@ ion-content {
         ion-card {
             margin-inline: 0.5vh;
         }
+
+        .multiple-card {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .prod-card {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .image-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .prod-img {
+            width: 100%;
+            height: 100%;
+            transform: scale(1.1);
+            /* Ajusta el valor para el nivel de zoom */
+            transition: transform 0.1s ease;
+            /* Agrega una transición suave */
+        }
+
+        .prod-card:hover .prod-img {
+            transform: scale(1.5);
+            /* Zoom normal al pasar el mouse. es una app de telefono, no sirve,
+            osea, solo al hacer click */
+        }
     }
 
 
@@ -73,7 +145,7 @@ ion-content {
     z-index: 2 !important;
 
     padding-block: 0;
-    
+
     ion-card {
         box-shadow: none;
     }
