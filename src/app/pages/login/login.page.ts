@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -18,8 +17,7 @@ export class LoginPage implements OnInit {
 
   constructor(
     private router: Router,
-    private formBuilder: FormBuilder,
-    private alertController: AlertController) 
+    private formBuilder: FormBuilder) 
     {
       this.createForm()
     }
@@ -36,7 +34,7 @@ export class LoginPage implements OnInit {
       ]}),
       password: new FormControl('',{validators:[
         Validators.required,
-        Validators.pattern("^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$")
+        Validators.pattern("^[a-zA-Z]{8}$")
       ]})
     })
   }
@@ -51,6 +49,7 @@ export class LoginPage implements OnInit {
     }
 
     console.log("valid")
+    this.router.navigate(['/tabs/tab4'] /* navigationExtras */)
   }
 
   public validation_messages = {

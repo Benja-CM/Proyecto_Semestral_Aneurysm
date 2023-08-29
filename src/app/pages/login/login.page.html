@@ -28,16 +28,16 @@
               name="email" formControlName="email"></ion-input>
             <small *ngFor="let validation of validation_messages.email">
               <div class="error" *ngIf="isSubmitted && loginForm.get('email')?.hasError(validation.type)">
-                {{validation.message }}
+                {{ validation.message }}
               </div>
             </small>
           </ion-row>
           <ion-row>
             <ion-input id="password" type="password" fill="solid" label="Contraseña" labelPlacement="floating" required
-              formControlName="password" name="password" clearOnEdit="false"></ion-input>
+              [clearInput]="true" formControlName="password" name="password" clearOnEdit="false"></ion-input>
             <small *ngFor="let validation of validation_messages.password">
               <div class="error" *ngIf="isSubmitted && loginForm.get('password')?.hasError(validation.type)">
-                {{validation.message }}
+                {{ validation.message }}
               </div>
             </small>
           </ion-row>
