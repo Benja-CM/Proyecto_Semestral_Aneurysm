@@ -10,22 +10,43 @@
 <ion-content [fullscreen]="true">
   <ion-card>
     <ion-card-content class="custom-card">
-      <ion-item>
-        <ion-input id="clave" name="clave" label="Introduce tu contraseña actual" errorText="Contraseña invalida" label-placement="floating"
-          fill="solid" placeholder="Contraseña actual" type="password"></ion-input>
-      </ion-item>
+      <form [formGroup]="changePassForm" (ngSubmit)="onSubmit()">
+        <ion-item>
+          <ion-input id="clave" name="clave" label="Introduce tu contraseña actual" formControlName="clave"
+            label-placement="floating" fill="solid" placeholder="Contraseña actual" type="string"></ion-input>
+          <small *ngFor="let validation of validation_messages.clave">
+            <div class="error" *ngIf="isSubmitted && changePassForm.get('clave')?.hasError(validation.type)">
+              {{ validation.message }}
+            </div>
+          </small>
+        </ion-item>
 
-      <ion-item>
-        <ion-input id="claveRep" name="claveRep"  label="Introduce tu nueva contraseña" errorText="Contraseña invalida" label-placement="floating"
-          fill="solid" placeholder="Nueva contraseña" type="password"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-input id="claveRep1" name="claveRep1" label="Introduce tu nueva contraseña" formControlName="claveRep1"
+            label-placement="floating" fill="solid" placeholder="Nueva contraseña" type="password"></ion-input>
+          <small *ngFor="let validation of validation_messages.claveRep1">
+            <div class="error" *ngIf="isSubmitted && changePassForm.get('claveRep1')?.hasError(validation.type)">
+              {{ validation.message }}
+            </div>
+          </small>
+        </ion-item>
 
-      <ion-item>
-        <ion-input id="claveRep" name="claveRep"  label="Vuelve a introducir tu nueva contraseña" errorText="Contraseña invalida"
-          label-placement="floating" fill="solid" placeholder="Nueva contraseña" type="password"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-input id="claveRep2" name="claveRep2" label="Vuelve a introducir tu nueva contraseña"
+            formControlName="claveRep2" label-placement="floating" fill="solid" placeholder="Nueva contraseña"
+            type="password"></ion-input>
+          <small *ngFor="let validation of validation_messages.claveRep2">
+            <div class="error" *ngIf="isSubmitted && changePassForm.get('claveRep2')?.hasError(validation.type)">
+              {{ validation.message }}
+            </div>
+          </small>
+        </ion-item>
 
-      <ion-button (click)="envioValido()" expand="full">Cambiar Contraseña</ion-button>
+        <ion-button type="submit" expand="full">Cambiar Contraseña</ion-button>
+      </form>
+
+      <ion-alert [isOpen]="isAlertOpen" header="Contraseña Cambiada" subHeader="La Contraseña se ha Cambiado correctamente"
+        [buttons]="alertButtons" (didDismiss)="isOpen(false)"></ion-alert>
 
     </ion-card-content>
   </ion-card>

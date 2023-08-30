@@ -15,19 +15,31 @@
 
   <ion-row class="pad-t-sm">
     <ion-col></ion-col>
-    <ion-col size="auto" class="custom-center">
+    <ion-col *ngIf="nombreR === '' " size="auto" class="custom-center">
       <h4>Bienvenido a Aneurysm</h4>
+    </ion-col>
+    <ion-col *ngIf="nombreR !== '' " size="auto" class="custom-center">
+      <h4>Bienvenido, {{ nombreR }}, a Aneurysm</h4>
     </ion-col>
     <ion-col></ion-col>
   </ion-row>
 
-  <ion-row class="custom-center custom-row">
+  <ion-row *ngIf="nombreR === '' " class="custom-center custom-row">
     <ion-col size="auto">
       <ion-card-subtitle class="pad-xs">Los usuarios registrados pueden hacer más.</ion-card-subtitle>
       <ion-button fill="solid" [routerLink]="['/login']">Iniciar Sesion</ion-button>
-      <ion-button fill="clear" [routerLink]="['/registro']">Registrarse</ion-button>
+      <ion-button fill="clear" [routerLink]="['/register']">Registrarse</ion-button>
     </ion-col>
   </ion-row>
+
+  <ion-row *ngIf="nombreR !== '' " class="custom-center custom-row">
+    <ion-col size="auto">
+      <ion-button fill="clear" (click)="logout()">Cerrar Sesión</ion-button>
+    </ion-col>
+  </ion-row>
+  
+  <ion-alert [isOpen]="isAlertOpenLogin" header="Sesion Cerrada" subHeader="La Sesion se ha finalizado correctamente"
+  [buttons]="alertButtons1" (didDismiss)="setOpen(false)"></ion-alert>
 
   <ion-list lines="none">
     <ion-item-group>
@@ -120,7 +132,7 @@
 
               <ion-item>
                 <ion-input id="categoria" label="Nombre de la categoria" label-placement="floating" required
-                  formControlName="categoria" name="categoria" fill="solid" (ionInput)="onInput($event)" [value]="inputModel"
+                  formControlName="categoria" name="categoria" fill="solid" [value]="inputModel"
                   placeholder="Introduzca el nombre de la categoria"></ion-input>
               </ion-item>
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 
@@ -9,89 +10,111 @@ import { AlertController } from '@ionic/angular';
 })
 export class ChangepsswdPage implements OnInit {
   clave: string = "";
-  claveRep: string = "";
-  flag: boolean = true;
-  msj: string = "";
+  claveRep1: string = "";
+  claveRep2: string = "";
 
-  constructor(private router: Router, private alerta: AlertController) { }
+  claveVieja: string = "Aneurysm45*"
+
+  changePassForm = this.formBuilder.group({
+    clave: new FormControl('', {
+      validators: [
+        Validators.required
+      ]
+    }),
+    claveRep1: new FormControl('', {
+      validators: [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(30),
+        Validators.pattern("^(?=.*[a-z]).*$")
+      ]
+    }),
+    claveRep2: new FormControl('', {
+      validators: [
+        Validators.required
+      ]
+    })
+  })
+
+  isAlertOpen = false;
+  public alertButtons = ['OK'];
+
+  isSubmitted = false;
+  submitError = "";
+
+  constructor(
+    private router: Router,
+    private alerta: AlertController,
+    private formBuilder: FormBuilder) { }
 
   ngOnInit() {
   }
 
-  irMiperfil(){
-    this.router.navigate(['/tabs/tab4']);
+  async onSubmit() {
+    this.isSubmitted = true;
+    console.log(this.changePassForm.value);
+
+    this.confClaveVieja(this.changePassForm.value.clave, this.claveVieja);
+    this.claveValida(this.changePassForm.value.claveRep1);
+    this.confClave(this.changePassForm.value.claveRep1, this.changePassForm.value.claveRep2);
+
+    if (!this.changePassForm.valid) {
+      console.log("not valid");
+      return;
+    }
+
+    console.log("valid");
+    this.isAlertOpen = true;
   }
 
-  //Validaciones
-  envioValido() {
-    this.claveValida();
-    this.claveRepValid();
-    if (this.flag === true) {
-      this.msj = "Contraseña cambiada correctamente";
-      this.irMiperfil();
+  isOpen(state: boolean){
+    if (state === false) {
+      this.router.navigate(['/tabs/tab4'])
     }
   }
 
-  claveValida() {
-    if (!this.contieneMayuscula(this.clave)) {
-      this.flag = false;
-      this.msj = "La contraseña debe poseer una mayúscula";
-      this.presentAlert(this.msj);
-    } else if (!this.contieneMinuscula(this.clave)) {
-      this.flag = false;
-      this.msj = "La contraseña debe poseer una minúscula";
-      this.presentAlert(this.msj);
-    } else if (!this.contieneNumero(this.clave)) {
-      this.flag = false;
-      this.msj = "La contraseña debe poseer un número";
-      this.presentAlert(this.msj);
-    } else if (!this.contieneCaracterEspecial(this.clave)) {
-      this.flag = false;
-      this.msj = "La contraseña debe poseer un carácter especial";
-      this.presentAlert(this.msj);
-    } else if (this.clave.length <= 8) {
-      this.flag = false;
-      this.msj = "La contraseña debe tener al menos 8 caracteres de longitud";
-      this.presentAlert(this.msj);
+  claveValida(claveRep1: any) {
+    if (/^(?=.*[A-Z]).*$/.test(claveRep1) == false) {
+      this.changePassForm.controls['claveRep1'].setErrors({ 'errorMayus': true })
+    }
+    if (/^(?=.*[!@#$&*_+.?~]).*$/.test(claveRep1) == false) {
+      this.changePassForm.controls['claveRep1'].setErrors({ 'errorCarEspecial': true })
+    }
+    if (/^(?=.*[\d*]).*$/.test(claveRep1) == false) {
+      this.changePassForm.controls['claveRep1'].setErrors({ 'errorNumerico': true })
     }
   }
 
-  claveRepValid() {
-    if (this.claveRep != this.clave) {
-      this.flag = false;
-      this.msj = "La contraseña no se ha repetido correctamente";
-      this.presentAlert(this.msj);
+  confClaveVieja(clave: any, claveVieja: any) {
+    if (clave !== claveVieja) {
+      this.changePassForm.controls['clave'].setErrors({ 'notMatch': true })
     }
   }
 
-  async presentAlert(mensaje: string) {
-    const alert = await this.alerta.create({
-      header: 'Atención',
-      subHeader: 'Mensaje importante',
-      message: mensaje,
-      buttons: ['Vale'],
-    });
-
-    await alert.present();
+  confClave(claveRep1: any, claveRep2: any) {
+    if (claveRep1 !== claveRep2) {
+      this.changePassForm.controls['claveRep2'].setErrors({ 'notMatch': true })
+    }
   }
 
-  //Funciones de validación
-  contieneMayuscula(texto: string): boolean {
-    return /[A-Z]/.test(texto);
+  public validation_messages = {
+    'clave': [
+      { type: 'required', message: 'La nueva contraseña es obligatoria' },
+      { type: 'notMatch', message: 'La contraseña debe coincidir con la contraseña vieja' }
+    ],
+    'claveRep1': [
+      { type: 'required', message: 'La primera contraseña es obligatoria' },
+      { type: 'minlength', message: 'La nueva contraseña debe tener 8 o más caracteres' },
+      { type: 'maxlength', message: 'La nueva contraseña debe tener 30 o menos caracteres' },
+      { type: 'pattern', message: 'La nueva contraseña debe llevar una una minuscula' },
+      { type: 'errorMayus', message: 'La nueva contraseña debe llevar una mayuscula' },
+      { type: 'errorCarEspecial', message: 'La nueva contraseña debe llevar un caracter especial' },
+      { type: 'errorNumerico', message: 'La nueva contraseña debe llevar un número' },
+    ],
+    'claveRep2': [
+      { type: 'required', message: 'La confirmación de contraseña es obligatoria' },
+      { type: 'notMatch', message: 'La contraseña debe coincidir con la contraseña elegida' }
+    ]
   }
 
-  // Función para verificar si una cadena contiene al menos una minúscula
-  contieneMinuscula(texto: string): boolean {
-    return /[a-z]/.test(texto);
-  }
-
-  // Función para verificar si una cadena contiene al menos un carácter especial
-  contieneCaracterEspecial(texto: string): boolean {
-    return /[!@#$%^&*()_+{}[]:;<>,.?~\/-]/.test(texto);
-  }
-
-  // Función para verificar si una cadena contiene al menos un número
-  contieneNumero(texto: string): boolean {
-    return /\d/.test(texto);
-  }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import type { IonInput } from '@ionic/angular';
 
 @Component({
@@ -12,6 +12,11 @@ export class Tab4Page implements OnInit {
   isModalOpen: boolean = false;
   inputModel = '';
 
+  nombreR: string = "";
+  
+  isAlertOpenLogin = false;
+  public alertButtons1 = ['OK'];
+
   @ViewChild('ionInputEl', { static: true }) ionInputEl!: IonInput;
 
   categoria: string = "";
@@ -19,31 +24,31 @@ export class Tab4Page implements OnInit {
   isAlertOpen = false;
   public alertButtons = ['OK'];
 
-  public categoriaForm: FormGroup;
+  categoriaForm = this.formBuilder.group({
+    categoria: new FormControl('', {
+      validators: [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.pattern("^[A-Za-z]+$")
+      ]
+    })
+  })
+
   isSubmitted = false;
   submitError = "";
 
   constructor(
     private router: Router,
-    private formBuilder: FormBuilder) {
-    this.categoriaForm = this.formBuilder.group({
-      categoria: new FormControl('', {
-        validators: [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.pattern("^[A-Za-z]+$")
-        ]
-      })
+    private formBuilder: FormBuilder,
+    private activeRouter: ActivatedRoute) {
+    this.activeRouter.queryParams.subscribe(param => {
+      if (this.router.getCurrentNavigation()?.extras.state) {
+        this.nombreR = this.router.getCurrentNavigation()?.extras?.state?.['nombre'];
+      }
     })
   }
 
   ngOnInit() {
-  }
-
-  onInput(ev: { target: any; }) {
-    const value = ev.target!.value;
-    const filteredValue = value.replace(/[^A-Za-z]+/g, '');
-    this.ionInputEl.value = this.inputModel = filteredValue;
   }
 
   setOpen(isOpen: boolean) {
@@ -54,7 +59,10 @@ export class Tab4Page implements OnInit {
     }
   }
 
-
+  logout() {
+    this.isAlertOpenLogin = true;
+    this.nombreR = "";
+  }
 
   async onSubmit() {
     this.isSubmitted = true;

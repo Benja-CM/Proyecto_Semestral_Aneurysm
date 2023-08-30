@@ -18,7 +18,10 @@ export class Tab1viewPage implements OnInit {
   isAlertOpen = false;
   public alertButtons = ['OK'];
 
-  constructor(private router: Router, private activeRouter: ActivatedRoute, private http: HttpClient) {
+  constructor(
+    private router: Router,
+    private activeRouter: ActivatedRoute,
+    private http: HttpClient) {
     this.activeRouter.queryParams.subscribe(param => {
       if (this.router.getCurrentNavigation()?.extras.state) {
         this.idRecibida = this.router.getCurrentNavigation()?.extras?.state?.['id'];
