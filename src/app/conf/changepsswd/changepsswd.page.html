@@ -11,42 +11,49 @@
   <ion-card>
     <ion-card-content class="custom-card">
       <form [formGroup]="changePassForm" (ngSubmit)="onSubmit()">
-        <ion-item>
+        <ion-row>
           <ion-input id="clave" name="clave" label="Introduce tu contraseña actual" formControlName="clave"
             label-placement="floating" fill="solid" placeholder="Contraseña actual" type="string"></ion-input>
+        </ion-row>
+        <ion-row class="error-mesage">
           <small *ngFor="let validation of validation_messages.clave">
             <div class="error" *ngIf="isSubmitted && changePassForm.get('clave')?.hasError(validation.type)">
               {{ validation.message }}
             </div>
           </small>
-        </ion-item>
+        </ion-row>
 
-        <ion-item>
+        <ion-row>
           <ion-input id="claveRep1" name="claveRep1" label="Introduce tu nueva contraseña" formControlName="claveRep1"
             label-placement="floating" fill="solid" placeholder="Nueva contraseña" type="password"></ion-input>
+        </ion-row>
+        <ion-row class="error-mesage">
           <small *ngFor="let validation of validation_messages.claveRep1">
             <div class="error" *ngIf="isSubmitted && changePassForm.get('claveRep1')?.hasError(validation.type)">
               {{ validation.message }}
             </div>
           </small>
-        </ion-item>
+        </ion-row>
 
-        <ion-item>
+        <ion-row>
           <ion-input id="claveRep2" name="claveRep2" label="Vuelve a introducir tu nueva contraseña"
             formControlName="claveRep2" label-placement="floating" fill="solid" placeholder="Nueva contraseña"
             type="password"></ion-input>
+        </ion-row>
+        <ion-row class="error-mesage">
           <small *ngFor="let validation of validation_messages.claveRep2">
             <div class="error" *ngIf="isSubmitted && changePassForm.get('claveRep2')?.hasError(validation.type)">
               {{ validation.message }}
             </div>
           </small>
-        </ion-item>
+        </ion-row>
 
         <ion-button type="submit" expand="full">Cambiar Contraseña</ion-button>
       </form>
 
-      <ion-alert [isOpen]="isAlertOpen" header="Contraseña Cambiada" subHeader="La Contraseña se ha Cambiado correctamente"
-        [buttons]="alertButtons" (didDismiss)="isOpen(false)"></ion-alert>
+      <ion-alert [isOpen]="isAlertOpen" header="Contraseña Cambiada"
+        subHeader="La Contraseña se ha Cambiado correctamente" [buttons]="alertButtons"
+        (didDismiss)="isOpen(false)"></ion-alert>
 
     </ion-card-content>
   </ion-card>

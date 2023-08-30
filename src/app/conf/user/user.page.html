@@ -35,121 +35,117 @@
       </ion-item>
 
       <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <ion-row>
+          <ion-input id="name" name="name" label="Nombre" label-placement="floating" fill="solid" formControlName="name"
+            placeholder="Introduzca su Nombre"></ion-input>
+        </ion-row>
+        <ion-row class="error-mesage">
+          <small *ngFor="let validation of validation_messages.name">
+            <div class="error" *ngIf="isSubmitted && userForm.get('name')?.hasError(validation.type)">
+              {{ validation.message }}
+            </div>
+          </small>
+        </ion-row>
 
-        <ion-item>
-          <ion-row>
-            <ion-input id="name" name="name" label="Nombre" label-placement="floating" fill="solid"
-              formControlName="name" placeholder="Introduzca su Nombre"></ion-input>
-
-            <small *ngFor="let validation of validation_messages.name">
-              <div class="error" *ngIf="isSubmitted && userForm.get('name')?.hasError(validation.type)">
-                {{ validation.message }}
-              </div>
-            </small>
-
-          </ion-row>
-        </ion-item>
-
-
-        <ion-item>
-          <ion-input label="surname" label-placement="floating" fill="solid" formControlName="surname"
+        <ion-row>
+          <ion-input label="Apellido" label-placement="floating" fill="solid" formControlName="surname"
             placeholder="Introduzca su Apellido"></ion-input>
-
+        </ion-row>
+        <ion-row class="error-mesage">
           <small *ngFor="let validation of validation_messages.surname">
             <div class="error" *ngIf="isSubmitted && userForm.get('surname')?.hasError(validation.type)">
               {{ validation.message }}
             </div>
           </small>
+        </ion-row>
 
-        </ion-item>
-
-        <ion-item>
+        <ion-row>
           <ion-input id="email" label="Correo Electrónico" label-placement="floating" fill="solid"
             formControlName="email" placeholder="Introduzca su Correo"></ion-input>
-
+        </ion-row>
+        <ion-row class="error-mesage">
           <small *ngFor="let validation of validation_messages.email">
             <div class="error" *ngIf="isSubmitted && userForm.get('email')?.hasError(validation.type)">
               {{ validation.message }}
             </div>
           </small>
+        </ion-row>
 
-        </ion-item>
-
-        <ion-item>
+        <ion-row>
           <ion-input id="tfn" label="Número de telefono" label-placement="floating" fill="solid" formControlName="tfn"
             placeholder="Introduzca su Número de telefono"></ion-input>
-
+        </ion-row>
+        <ion-row class="error-mesage">
           <small *ngFor="let validation of validation_messages.tfn">
             <div class="error" *ngIf="isSubmitted && userForm.get('tfn')?.hasError(validation.type)">
               {{ validation.message }}
             </div>
           </small>
-
-        </ion-item>
+        </ion-row>
 
         <div class="custom-label">
           <ion-label>Dirección</ion-label>
         </div>
 
-        <ion-item>
+        <ion-row>
           <ion-input id="str" label="Calle" label-placement="floating" fill="solid" formControlName="str"
             placeholder="Introduzca su Calle"></ion-input>
-
+        </ion-row>
+        <ion-row class="error-mesage">
           <small *ngFor="let validation of validation_messages.str">
             <div class="error" *ngIf="isSubmitted && userForm.get('str')?.hasError(validation.type)">
               {{ validation.message }}
             </div>
           </small>
+        </ion-row>
 
-        </ion-item>
-
-        <ion-item>
+        <ion-row>
           <ion-input id="number" label="Número" type="number" label-placement="floating" fill="solid"
             formControlName="number" placeholder="Introduzca su Número de casa"></ion-input>
-
+        </ion-row>
+        <ion-row class="error-mesage">
           <small *ngFor="let validation of validation_messages.number">
             <div class="error" *ngIf="isSubmitted && userForm.get('number')?.hasError(validation.type)">
               {{ validation.message }}
             </div>
           </small>
+        </ion-row>
 
-        </ion-item>
-
-        <ion-item>
+        <ion-row>
           <ion-input id="region" label="Región" label-placement="floating" fill="solid" formControlName="region"
             placeholder="Introduzca la Región donde reside"></ion-input>
-
+        </ion-row>
+        <ion-row class="error-mesage">
           <small *ngFor="let validation of validation_messages.region">
             <div class="error" *ngIf="isSubmitted && userForm.get('region')?.hasError(validation.type)">
               {{ validation.message }}
             </div>
           </small>
+        </ion-row>
 
-        </ion-item>
-
-        <ion-item>
+        <ion-row>
           <ion-input id="comun" label="Comuna" label-placement="floating" fill="solid" formControlName="comun"
             placeholder="Introduzca la Comuna donde reside"></ion-input>
-
+        </ion-row>
+        <ion-row class="error-mesage">
           <small *ngFor="let validation of validation_messages.comun">
             <div class="error" *ngIf="isSubmitted && userForm.get('comun')?.hasError(validation.type)">
               {{ validation.message }}
             </div>
           </small>
+        </ion-row>
 
-        </ion-item>
-
-        <ion-item>
+        <ion-row>
           <ion-input id="cod" label="Codigo Postal" label-placement="floating" fill="solid" type="number"
             formControlName="cod" placeholder="Introduzca su Codigo Postal"></ion-input>
-
+        </ion-row>
+        <ion-row class="error-mesage">
           <small *ngFor="let validation of validation_messages.cod">
             <div class="error" *ngIf="isSubmitted && userForm.get('cod')?.hasError(validation.type)">
               {{ validation.message }}
             </div>
           </small>
-
-        </ion-item>
+        </ion-row>
 
         <ion-button type="submit" expand="full">Guardar Cambios</ion-button>
 

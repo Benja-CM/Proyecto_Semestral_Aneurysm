@@ -14,3 +14,22 @@ ion-list{
         padding-bottom: 1vh;
     }
 }
+
+.custom-card {
+    padding-top: 1.5vh;
+    padding-bottom: 2.5vh;
+    justify-content: start;
+
+    ion-input {
+        margin-bottom: 1vh;
+        font-size: 0.8rem;
+    }
+    ion-label{
+        padding-right: 55px;
+    }
+}
+
+.input-fill-solid.sc-ion-input-md-h {
+    --padding-end: 0px;
+}
+

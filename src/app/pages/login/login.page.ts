@@ -39,6 +39,10 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
+  irfgpssw(){
+    this.router.navigate(['/fgpssw']);
+  }
+
   async onSubmit() {
     this.isSubmitted = true;
     console.log(this.loginForm.value)
@@ -60,8 +64,6 @@ export class LoginPage implements OnInit {
       this.loginForm.controls['password'].setErrors({ 'notMatch': true })
     }
   }
-
-
 
   public validation_messages = {
     'email': [

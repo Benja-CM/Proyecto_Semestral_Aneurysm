@@ -43,9 +43,17 @@ ion-toolbar {
   margin-bottom: 0;
 }
 
+.error-mesage{
+  margin-block-end: 1vh;
+}
+
 ion-item.sc-ion-textarea-md-h:not(.item-label),
 ion-item:not(.item-label) .sc-ion-textarea-md-h {
   --padding-start: 0.5vh;
+}
+
+.item-inner {
+  --margin-block-end: 1.5vh;
 }
 
 ion-item.sc-ion-input-md-h:not(.item-label):not(.item-has-modern-input),

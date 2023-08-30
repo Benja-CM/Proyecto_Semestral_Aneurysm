@@ -24,6 +24,7 @@ ion-item {
     margin-block-end: 1.5vh;
     --background: none!important;
     --border-color: #ffffff;
+    --color: #FFFFFF;
     border-style: solid;
     border-width: 2px;
 
@@ -31,3 +32,21 @@ ion-item {
         margin-inline-end: 1vh;
     }
 }
+
+.custom-card {
+    padding-top: 1.5vh;
+    padding-bottom: 2.5vh;
+    justify-content: start;
+  
+    ion-input, ion-textarea{
+        margin-bottom: 1vh;
+        font-size: 0.8rem;
+    }
+    ion-label{
+        padding-right: 55px;
+    }
+  }
+  
+  .input-fill-solid.sc-ion-input-md-h {
+    --padding-end: 0px;
+  }

@@ -17,7 +17,7 @@
   </ion-header>
 
   <div id="container">
-    <ion-card>
+    <ion-card class="custom-card">
       <ion-card-header>
         <ion-card-title>Inicio de Sesión</ion-card-title>
       </ion-card-header>
@@ -26,28 +26,37 @@
           <ion-row>
             <ion-input id="email" type="email" fill="solid" label="Email" labelPlacement="floating" required
               name="email" formControlName="email"></ion-input>
+          </ion-row>
+          <ion-row class="error-mesage">
             <small *ngFor="let validation of validation_messages.email">
               <div class="error" *ngIf="isSubmitted && loginForm.get('email')?.hasError(validation.type)">
                 {{ validation.message }}
               </div>
             </small>
           </ion-row>
+
           <ion-row>
             <ion-input id="password" type="password" fill="solid" label="Contraseña" labelPlacement="floating" required
               [clearInput]="true" formControlName="password" name="password" clearOnEdit="false"></ion-input>
+          </ion-row>
+          <ion-row class="error-mesage">
             <small *ngFor="let validation of validation_messages.password">
               <div class="error" *ngIf="isSubmitted && loginForm.get('password')?.hasError(validation.type)">
                 {{ validation.message }}
               </div>
             </small>
           </ion-row>
+
+          <ion-label fill="clear" (click)="irfgpssw()">¿Olvidaste tu contraseña?</ion-label>
+
           <div id="btn_login">
             <ion-row text-align="center">
               <ion-col size="12">
                 <ion-button type="submit" expand="full" shape="round">Iniciar Sesión</ion-button>
               </ion-col>
               <ion-col size="12">
-                <ion-button fill="outline" expand="full" shape="round" [routerLink]="['/register']">Registrarse</ion-button>
+                <ion-button fill="outline" expand="full" shape="round"
+                  [routerLink]="['/register']">Registrarse</ion-button>
               </ion-col>
             </ion-row>
           </div>
@@ -55,5 +64,4 @@
       </form>
     </ion-card>
   </div>
-
 </ion-content>

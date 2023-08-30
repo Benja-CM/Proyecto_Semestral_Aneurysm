@@ -43,6 +43,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
   },
   {
+    path: 'fgpssw',
+    loadChildren: () => import('./pages/fgpssw/fgpssw.module').then( m => m.FgpsswPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./not-found/not-found.module').then(m => m.NotFoundPageModule)
   },

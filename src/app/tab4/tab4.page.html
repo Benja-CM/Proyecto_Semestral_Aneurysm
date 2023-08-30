@@ -27,7 +27,7 @@
   <ion-row *ngIf="nombreR === '' " class="custom-center custom-row">
     <ion-col size="auto">
       <ion-card-subtitle class="pad-xs">Los usuarios registrados pueden hacer más.</ion-card-subtitle>
-      <ion-button fill="solid" [routerLink]="['/login']">Iniciar Sesion</ion-button>
+      <ion-button fill="solid" [routerLink]="['/login']">Iniciar Sesión</ion-button>
       <ion-button fill="clear" [routerLink]="['/register']">Registrarse</ion-button>
     </ion-col>
   </ion-row>
@@ -37,9 +37,9 @@
       <ion-button fill="clear" (click)="logout()">Cerrar Sesión</ion-button>
     </ion-col>
   </ion-row>
-  
-  <ion-alert [isOpen]="isAlertOpenLogin" header="Sesion Cerrada" subHeader="La Sesion se ha finalizado correctamente"
-  [buttons]="alertButtons1" (didDismiss)="setOpen(false)"></ion-alert>
+
+  <ion-alert [isOpen]="isAlertOpenLogin" header="Sesión Cerrada" subHeader="La Sesión se ha finalizado correctamente"
+    [buttons]="alertButtons1" (didDismiss)="setOpen(false)"></ion-alert>
 
   <ion-list lines="none">
     <ion-item-group>
@@ -119,8 +119,9 @@
     <ng-template>
       <ion-header>
         <ion-toolbar>
+          <ion-title>Crear Categoría</ion-title>
           <ion-buttons slot="end">
-            <ion-button color="medium" (click)="setOpen(false)">Cancelar</ion-button>
+            <ion-button (click)="setOpen(false)">Cancelar</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
@@ -129,27 +130,24 @@
           <ion-card-content class="custom-card">
 
             <form [formGroup]="categoriaForm" (ngSubmit)="onSubmit()">
-
-              <ion-item>
+              <ion-row>
                 <ion-input id="categoria" label="Nombre de la categoria" label-placement="floating" required
                   formControlName="categoria" name="categoria" fill="solid" [value]="inputModel"
                   placeholder="Introduzca el nombre de la categoria"></ion-input>
-              </ion-item>
-
-              <ion-item>
+              </ion-row>
+              <ion-row>
                 <small *ngFor="let validation of validation_messages.categoria">
                   <div class="error" *ngIf="isSubmitted && categoriaForm.get('categoria')?.hasError(validation.type)">
                     {{ validation.message }}
                   </div>
                 </small>
-              </ion-item>
+              </ion-row>
 
               <ion-row text-align="center">
                 <ion-col size="12">
                   <ion-button type="submit" expand="full" shape="round">Crear Categoria</ion-button>
                 </ion-col>
               </ion-row>
-
             </form>
 
             <ion-alert [isOpen]="isAlertOpen" header="Operación realizada"

@@ -11,11 +11,11 @@
   <ion-card>
     <ion-card-content class="custom-card">
       <form [formGroup]="agregarForm" (ngSubmit)="onSubmit()">
-        <ion-item>
+        <ion-row>
           <ion-input id="email" name="email" label="Correo" label-placement="floating" fill="solid"
             formControlName="email" placeholder="Introduzca su Correo"></ion-input>
-        </ion-item>
-        <ion-row>
+        </ion-row>
+        <ion-row class="error-mesage">
           <small *ngFor="let validation of validation_messages.email">
             <div class="error" *ngIf="isSubmitted && agregarForm.get('email')?.hasError(validation.type)">
               {{ validation.message }}
@@ -23,12 +23,12 @@
           </small>
         </ion-row>
 
-        <ion-item>
+        <ion-row>
           <ion-input id="password" name="password" label="Contraseña" label-placement="floating" fill="solid"
             formControlName="password" placeholder="Introduzca su Contraseña" type="password"
             clearOnEdit="false"></ion-input>
-        </ion-item>
-        <ion-row>
+        </ion-row>
+        <ion-row class="error-mesage">
           <small *ngFor="let validation of validation_messages.password">
             <div class="error" *ngIf="isSubmitted && agregarForm.get('password')?.hasError(validation.type)">
               {{ validation.message }}
@@ -36,12 +36,12 @@
           </small>
         </ion-row>
 
-        <ion-item>
+        <ion-row>
           <ion-input id="password_conf" name="password_conf" label="Confirmar Contraseña"
             formControlName="password_conf" label-placement="floating" fill="solid"
             placeholder="Vuelva a introducir su Contraseña" type="password" clearOnEdit="false"></ion-input>
-        </ion-item>
-        <ion-row>
+        </ion-row>
+        <ion-row class="error-mesage">
           <small *ngFor="let validation of validation_messages.password_conf">
             <div class="error" *ngIf="isSubmitted && agregarForm.get('password_conf')?.hasError(validation.type)">
               {{ validation.message }}

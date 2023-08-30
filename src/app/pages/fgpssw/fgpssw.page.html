@@ -3,14 +3,14 @@
     <ion-buttons slot="start">
       <ion-back-button icon="close-outline"></ion-back-button>
     </ion-buttons>
-    <ion-title>Registrarse</ion-title>
+    <ion-title>Recuperar Contrasela</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-card class="custom-card">
     <ion-card-header>
-      <ion-card-title>Registro</ion-card-title>
+      <ion-card-title>Ingresa tus datos de recuperación</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
@@ -23,33 +23,6 @@
         <ion-row class="error-mesage">
           <small *ngFor="let validation of validation_messages.email">
             <div class="error" *ngIf="isSubmitted && registerForm.get('email')?.hasError(validation.type)">
-              {{ validation.message }}
-            </div>
-          </small>
-        </ion-row>
-
-        <ion-row>
-          <ion-input id="password" type="password" fill="solid" label="Contraseña" labelPlacement="floating" required
-            [clearInput]="true" formControlName="password" name="password" clearOnEdit="false"></ion-input>
-        </ion-row>
-
-        <ion-row class="error-mesage">
-          <small *ngFor="let validation of validation_messages.password">
-          <div class="error" *ngIf="isSubmitted && registerForm.get('password')?.hasError(validation.type)">
-            {{ validation.message }}
-          </div>
-        </small>
-        </ion-row>
-
-        <ion-row>
-          <ion-input id="password_conf" type="password" fill="solid" label="Confirmar contraseña"
-            labelPlacement="floating" required [clearInput]="true" formControlName="password_conf" name="password_conf"
-            clearOnEdit="false"></ion-input>
-        </ion-row>
-
-        <ion-row class="error-mesage">
-          <small *ngFor="let validation of validation_messages.password_conf">
-            <div class="error" *ngIf="isSubmitted && registerForm.get('password_conf')?.hasError(validation.type)">
               {{ validation.message }}
             </div>
           </small>
