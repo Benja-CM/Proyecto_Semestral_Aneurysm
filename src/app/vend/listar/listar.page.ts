@@ -28,6 +28,7 @@ export class ListarPage implements OnInit {
   req_minimo: string = "";
   req_recomendado: string = "";
   categoria: any = [];
+  img: any = [];
 
   isSubmitted = false;
 
@@ -161,7 +162,7 @@ export class ListarPage implements OnInit {
           req_minimo: this.producto.req_minimo,
           req_recomendado: this.producto.req_recomendado,
           categoria: this.producto.categorias,
-          img: null
+          img: this.producto.image,
         });
       } else {
         console.error('Producto no encontrado.');

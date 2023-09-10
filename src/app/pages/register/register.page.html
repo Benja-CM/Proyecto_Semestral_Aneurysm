@@ -21,11 +21,11 @@
         </ion-row>
 
         <ion-row class="error-mesage">
-          <small *ngFor="let validation of validation_messages.email">
+          <div class="error" *ngFor="let validation of validation_messages.email">
             <div class="error" *ngIf="isSubmitted && registerForm.get('email')?.hasError(validation.type)">
               {{ validation.message }}
             </div>
-          </small>
+          </div>
         </ion-row>
 
         <ion-row>
@@ -34,11 +34,11 @@
         </ion-row>
 
         <ion-row class="error-mesage">
-          <small *ngFor="let validation of validation_messages.password">
+          <div class="error" *ngFor="let validation of validation_messages.password">
           <div class="error" *ngIf="isSubmitted && registerForm.get('password')?.hasError(validation.type)">
             {{ validation.message }}
           </div>
-        </small>
+        </div>
         </ion-row>
 
         <ion-row>
@@ -48,11 +48,11 @@
         </ion-row>
 
         <ion-row class="error-mesage">
-          <small *ngFor="let validation of validation_messages.password_conf">
+          <div class="error" *ngFor="let validation of validation_messages.password_conf">
             <div class="error" *ngIf="isSubmitted && registerForm.get('password_conf')?.hasError(validation.type)">
               {{ validation.message }}
             </div>
-          </small>
+          </div>
         </ion-row>
 
         <ion-row>
@@ -68,11 +68,11 @@
             [clearInput]="true" formControlName="resp_secreta" name="resp_secreta"></ion-input>
         </ion-row>
 
-        <small *ngFor="let validation of validation_messages.resp_secreta">
+        <div class="error" *ngFor="let validation of validation_messages.resp_secreta">
           <div class="error" *ngIf="isSubmitted && registerForm.get('resp_secreta')?.hasError(validation.type)">
             {{ validation.message }}
           </div>
-        </small>
+        </div>
 
         <div id="btn_login">
           <ion-row text-align="center">

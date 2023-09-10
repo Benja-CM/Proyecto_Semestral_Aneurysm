@@ -36,6 +36,8 @@ export class RegisterPage implements OnInit {
     resp_secreta: new FormControl('', {
       validators: [
         Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(30),
         Validators.pattern("^[a-zA-Z0-9 ]*$")
       ]
     })

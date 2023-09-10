@@ -48,37 +48,33 @@
                 <ion-input id="name" name="name" formControlName="name" label="Nombre del Producto"
                   label-placement="floating" fill="solid" value="{{ producto.name }}"
                   placeholder="Introduzca el nombre del producto"></ion-input>
-              </ion-row>
-              <ion-row>
-                <small *ngFor="let validation of validation_messages.name">
+                <div class="error" *ngFor="let validation of validation_messages.name">
                   <div class="error" *ngIf="isSubmitted && modificarProdForm.get('name')?.hasError(validation.type)">
                     {{ validation.message }}
                   </div>
-                </small>
+                </div>
               </ion-row>
 
               <ion-row>
                 <ion-input id="price" name="price" formControlName="price" label="Precio" label-placement="floating"
-                  fill="solid" value="{{ producto.price }}" placeholder="Introduzca el precio del producto"></ion-input>
-              </ion-row>
-              <ion-row>
-                <small *ngFor="let validation of validation_messages.price">
+                  fill="solid" value="{{ producto.price }}" placeholder="Introduzca el precio del producto"
+                  type="number"></ion-input>
+                <div class="error" *ngFor="let validation of validation_messages.price">
                   <div class="error" *ngIf="isSubmitted && modificarProdForm.get('price')?.hasError(validation.type)">
                     {{ validation.message }}
                   </div>
-                </small>
+                </div>
               </ion-row>
 
               <ion-row>
                 <ion-input id="stock" name="stock" formControlName="stock" label="Stock" label-placement="floating"
-                  fill="solid" value="{{ producto.stock }}" placeholder="Introduzca el stock del producto"></ion-input>
-              </ion-row>
-              <ion-row>
-                <small *ngFor="let validation of validation_messages.stock">
+                  fill="solid" value="{{ producto.stock }}" placeholder="Introduzca el stock del producto"
+                  type="number"></ion-input>
+                <div class="error" *ngFor="let validation of validation_messages.stock">
                   <div class="error" *ngIf="isSubmitted && modificarProdForm.get('stock')?.hasError(validation.type)">
                     {{ validation.message }}
                   </div>
-                </small>
+                </div>
               </ion-row>
 
               <ion-row>
@@ -86,28 +82,24 @@
                   label-placement="floating" fill="solid" value="{{ producto.descripcion }}"
                   placeholder="Introduzca la descripción del producto" [autoGrow]="true">
                 </ion-textarea>
-              </ion-row>
-              <ion-row>
-                <small *ngFor="let validation of validation_messages.descripcion">
+                <div class="error" *ngFor="let validation of validation_messages.descripcion">
                   <div class="error"
                     *ngIf="isSubmitted && modificarProdForm.get('descripcion')?.hasError(validation.type)">
                     {{ validation.message }}
                   </div>
-                </small>
+                </div>
               </ion-row>
 
               <ion-row>
                 <ion-textarea id="req_minimo" name="req_minimo" formControlName="req_minimo" label="Requisitos Minimos"
                   label-placement="floating" value="{{ producto.req_minimo}}" fill="solid"
                   placeholder="Introduzca los Requisitos mínimos del prodcuto" [autoGrow]="true"></ion-textarea>
-              </ion-row>
-              <ion-row>
-                <small *ngFor="let validation of validation_messages.req_minimo">
+                <div class="error" *ngFor="let validation of validation_messages.req_minimo">
                   <div class="error"
                     *ngIf="isSubmitted && modificarProdForm.get('req_minimo')?.hasError(validation.type)">
                     {{ validation.message }}
                   </div>
-                </small>
+                </div>
               </ion-row>
 
               <ion-row>
@@ -115,14 +107,12 @@
                   label="Requisitos Recomendados" label-placement="floating" value="{{ producto.req_recomendado }}"
                   fill="solid" placeholder="Introduzca los Requisitos recomendados del producto"
                   [autoGrow]="true"></ion-textarea>
-              </ion-row>
-              <ion-row>
-                <small *ngFor="let validation of validation_messages.req_recomendado">
+                <div class="error" *ngFor="let validation of validation_messages.req_recomendado">
                   <div class="error"
                     *ngIf="isSubmitted && modificarProdForm.get('descrireq_recomendadopcion')?.hasError(validation.type)">
                     {{ validation.message }}
                   </div>
-                </small>
+                </div>
               </ion-row>
 
               <ion-row>
@@ -132,27 +122,24 @@
                     {{ categoria.name}}
                   </ion-select-option>
                 </ion-select>
-              </ion-row>
-              <ion-row>
-                <small *ngFor="let validation of validation_messages.categoria">
+                <div class="error" *ngFor="let validation of validation_messages.categoria">
                   <div class="error"
                     *ngIf="isSubmitted && modificarProdForm.get('categoria')?.hasError(validation.type)">
                     {{ validation.message }}
                   </div>
-                </small>
+                </div>
               </ion-row>
-
               <ion-button class="fkup">
                 <ion-icon name="attach"></ion-icon>
                 <label class="myFakeUploadButton" for="myFileInput">Agregar Imagen</label>
-                <input formControlName="img" accept="image/*" type="file" id="myFileInput">
+                <input formControlName="img" accept="image/*" type="file" id="myFileInput" value="{{ producto.image }}">
               </ion-button>
 
-              <small *ngFor="let validation of validation_messages.img">
+              <div class="error" *ngFor="let validation of validation_messages.img">
                 <div class="error" *ngIf="isSubmitted && modificarProdForm.get('img')?.hasError(validation.type)">
                   {{ validation.message }}
                 </div>
-              </small>
+              </div>
 
               <p>Nombre de Archivo: {{ producto.image}}</p>
 

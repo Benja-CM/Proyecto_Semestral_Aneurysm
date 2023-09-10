@@ -28,11 +28,11 @@
               name="email" formControlName="email"></ion-input>
           </ion-row>
           <ion-row class="error-mesage">
-            <small *ngFor="let validation of validation_messages.email">
+            <div class="error" *ngFor="let validation of validation_messages.email">
               <div class="error" *ngIf="isSubmitted && loginForm.get('email')?.hasError(validation.type)">
                 {{ validation.message }}
               </div>
-            </small>
+            </div>
           </ion-row>
 
           <ion-row>
@@ -40,11 +40,11 @@
               [clearInput]="true" formControlName="password" name="password" clearOnEdit="false"></ion-input>
           </ion-row>
           <ion-row class="error-mesage">
-            <small *ngFor="let validation of validation_messages.password">
+            <div class="error" *ngFor="let validation of validation_messages.password">
               <div class="error" *ngIf="isSubmitted && loginForm.get('password')?.hasError(validation.type)">
                 {{ validation.message }}
               </div>
-            </small>
+            </div>
           </ion-row>
 
           <ion-label fill="clear" (click)="irfgpssw()">¿Olvidaste tu contraseña?</ion-label>
