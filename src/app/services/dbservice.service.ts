@@ -1,24 +1,91 @@
 import { Injectable } from '@angular/core';
+import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
+import { AlertController, Platform } from '@ionic/angular';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DbserviceService {
-  Rol: string = "CREATE TABLE IF NOT EXISTS Rol (id_rol INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL CHECK(length(nombre) <= 120))";
-  Pregunta: string = "CREATE TABLE IF NOT EXISTS pregunta (id_preg INTEGER PRIMARY KEY AUTOINCREMENT, pregunta TEXT NOT NULL CHECK(length(pregunta) <= 120))";
-  Usuario: string = "CREATE TABLE IF NOT EXISTS usuario (id_usuario INTEGER PRIMARY KEY AUTOINCREMENT, rut TEXT NOT NULL CHECK(length(rut) <= 9)), dvrut TEXT NOT NULL CHECK(length(rut) <= 1)), nombre TEXT NOT NULL CHECK(length(nombre) <= 60), apellido_pa  TEXT NOT NULL CHECK(length(apellido_pa) <= 60), apellido_ma  TEXT NOT NULL CHECK(length(apellido_pa) <= 60), telefono INTEGER NOT NULL CHECK(length(telefono) <= 9), correo TEXT NOT NULL CHECK(length(correo) <= 40), clave TEXT NOT NULL CHECK(length(clave) <= 30), respuesta TEXT NOT NULL CHECK(length(respuesta) <= 30), rol INTEGER, pregunta INTEGER, FOREIGN KEY (rol) REFERENCES Rol(id_rol), FOREIGN KEY (pregunta) REFERENCES Pregunta(id_preg))";
+  // variable para guardar la conexión a la DB
+  public database!: SQLiteObject;
 
-  Region: string = "CREATE TABLE IF NOT EXISTS region (id_region INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL CHECK(length(nombre) <= 60))";
-  Comuna: string = "CREATE TABLE IF NOT EXISTS comuna (id_comuna INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL CHECK(length(nombre) <= 60), cost_envio INTEGER NOT NULL, region INTEGER, FOREIGN KEY (region) REFERENCES Region(id_region))";
-  Direccion: string = "CREATE TABLE IF NOT EXISTS direccion (id_rol INTEGER PRIMARY KEY AUTOINCREMENT, calle TEXT NOT NULL CHECK(length(calle) <= 40), numero INTEGER NOT NULL, cod_postal INTEGER NOT NULL CHECK(length(cod_postal) <= 7), comuna INTEGER, FOREIGN KEY (comuna) REFERENCES Comuna(id_comuna))";
-  
-  Categoria: string = "CREATE TABLE IF NOT EXISTS categoria (id_cat INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL CHECK(length(nombre) <= 60))";
-  Producto: string = "CREATE TABLE IF NOT EXISTS producto (id_prod INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL CHECK(length(nombre) <= 120), descripcion TEXT NOT NULL CHECK(length(descripcion) <= 600), precio INTEGER NOT NULL, stock INTEGER NOT NULL, foto TEXT NOT NULL, categoria INTEGER, FOREIGN KEY (categoria) REFERENCES Categoria(id_cat))";
+  tablaRol: string = "CREATE TABLE IF NOT EXISTS rol (id_rol INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(120) NOT NULL;)";
+  tablaPregunta: string = "CREATE TABLE IF NOT EXISTS pregunta (id_preg INTEGER PRIMARY KEY AUTOINCREMENT, pregunta VARCHAR(120) NOT NULL;)";
+  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario (id_usuario INTEGER PRIMARY KEY AUTOINCREMENT, rut VARCHAR(9) NOT NULL, dvrut VARCHAR(1) NOT NULL, nombre VARCHAR(60) NOT NULL, apellido_pa  VARCHAR(60) NOT NULL, apellido_ma  VARCHAR(60) NOT NULL, telefono VARCHAR(9) NOT NULL, correo VARCHAR(40) NOT NULL, clave VARCHAR(30) NOT NULL, respuesta VARCHAR(30) NOT NULL, rol INTEGER, pregunta INTEGER, FOREIGN KEY (rol) REFERENCES Rol(id_rol), FOREIGN KEY (pregunta) REFERENCES Pregunta(id_preg);)";
 
-  Detalle: string = "CREATE TABLE IF NOT EXISTS detalle (id_detalle INTEGER PRIMARY KEY AUTOINCREMENT, cantidad INTEGER NOT NULL, subtotal INTEGER NOT NULL)";
-  Estado: string = "CREATE TABLE IF NOT EXISTS estado (id_estado INTEGER PRIMARY KEY AUTOINCREMENT, estado TEXT NOT NULL CHECK(length(estado) <= 20))";
-  Compra: string = "CREATE TABLE IF NOT EXISTS compra (id_compra INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL CHECK(length(nombre) <= 60), fech_compra DATE NOT NULL, fech_despacho DATE NOT NULL, fech_entrega DATE NOT NULL, costo_desp INTEGER NOT NULL, total INTEGER NOT NULL, carrito BOOLEAN NOT NULL, detalle INTEGER, estado INTEGER, FOREIGN KEY (detalle) REFERENCES Detalle(id_detalle), FOREIGN KEY (estado) REFERENCES Rol(id_estado))";
-  Historial: string = "CREATE TABLE IF NOT EXISTS historial (id_historial INTEGER PRIMARY KEY AUTOINCREMENT, nombre_prod TEXT NOT NULL CHECK(length(nombre) <= 120), precio INTEGER NOT NULL, foto TEXT NOT NULL, cantidad INTEGER NOT NULL, subtotal INTEGER NOT NULL, compra INTEGER, FOREIGN KEY (compra) REFERENCES Compra(id_compra))";
+  tablaRegion: string = "CREATE TABLE IF NOT EXISTS region (id_region INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL;)";
+  tablaComuna: string = "CREATE TABLE IF NOT EXISTS comuna (id_comuna INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL, cost_envio INTEGER NOT NULL, region INTEGER, FOREIGN KEY (region) REFERENCES Region(id_region);)";
+  tablaDireccion: string = "CREATE TABLE IF NOT EXISTS direccion (id_rol INTEGER PRIMARY KEY AUTOINCREMENT, calle VARCHAR(40) NOT NULL, numero INTEGER NOT NULL, cod_postal INTEGER NOT NULL, comuna INTEGER, FOREIGN KEY (comuna) REFERENCES Comuna(id_comuna);)";
 
-  constructor() { }
+  tablaCategoria: string = "CREATE TABLE IF NOT EXISTS categoria (id_cat INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL;)";
+  tablaProducto: string = "CREATE TABLE IF NOT EXISTS producto (id_prod INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(120) NOT NULL, descripcion VARCHAR(600) NOT NULL, precio INTEGER NOT NULL, stock INTEGER NOT NULL, foto TEXT NOT NULL, categoria INTEGER, FOREIGN KEY (categoria) REFERENCES Categoria(id_cat);)";
+
+  tablaDetalle: string = "CREATE TABLE IF NOT EXISTS detalle (id_detalle INTEGER PRIMARY KEY AUTOINCREMENT, cantidad INTEGER NOT NULL, subtotal INTEGER NOT NULL;)";
+  tablaCompra: string = "CREATE TABLE IF NOT EXISTS compra (id_compra INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL, fech_compra DATE NOT NULL, fech_despacho DATE NOT NULL, fech_entrega DATE NOT NULL, costo_desp INTEGER NOT NULL, total INTEGER NOT NULL, carrito BOOLEAN NOT NULL, estado VARCHAR(30) NOT NULL, detalle INTEGER, FOREIGN KEY (detalle) REFERENCES Detalle(id_detalle);)";
+
+  //observable para manipular el estado de la DB
+  private isdDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
+  constructor(
+    private sqlite: SQLite,
+    private platform: Platform,
+    private alertController: AlertController) {
+      this.crearDB();
+  }
+
+  crearDB() {
+    //verificar plataforma
+    this.platform.ready().then(() => {
+      //creamos la DB
+      this.sqlite.create({
+        name: 'DBApplication.db',
+        location: 'default'
+      }).then((db: SQLiteObject) => {
+        //guardar conexion a DB
+        this.database = db;
+        //llamar a la función para que cree las tablas
+        this.crearTabla();
+      }).catch(e => {
+        this.presentAlert("Error al crear Base de datos: " + e);
+      })
+
+    })
+  }
+
+  async crearTabla() {
+    try {
+      //ejecutar los create table
+      await this.database.executeSql(this.tablaRol, []);
+      await this.database.executeSql(this.tablaPregunta, []);
+      await this.database.executeSql(this.tablaUsuario, []);
+      
+      await this.database.executeSql(this.tablaRegion, []);
+      await this.database.executeSql(this.tablaComuna, []);
+      await this.database.executeSql(this.tablaDireccion, []);
+
+      await this.database.executeSql(this.tablaCategoria, []);
+      await this.database.executeSql(this.tablaProducto, []);
+
+      await this.database.executeSql(this.tablaDetalle, []);
+      await this.database.executeSql(this.tablaCompra, []);
+
+      //actualizamos el observable de la DB
+      this.isdDBReady.next(true);
+    } catch (e) {
+      this.presentAlert("Error al crear Base de datos: " + e);
+    }
+  }
+
+
+  async presentAlert(msj: string) {
+    const alert = await this.alertController.create({
+      header: 'Alert',
+      subHeader: 'Important message',
+      message: 'This is an alert!',
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
 }
