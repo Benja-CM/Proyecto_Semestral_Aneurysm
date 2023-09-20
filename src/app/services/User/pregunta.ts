@@ -1,4 +1,4 @@
 export class Pregunta {
-    id = "";
-    pregunta = "";
+    id!: number;
+    pregunta!: string;
 }

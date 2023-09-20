@@ -1,8 +1,10 @@
+import { Region } from "./region";
+
 export class Comuna {
-    id = "";
-    nombre = "";
-    cost_envio = "";
+    id!: number;
+    nombre!: string;
+    cost_envio!: number;
 
     //Foranea
-    region = "";
+    region!: Region;
 }

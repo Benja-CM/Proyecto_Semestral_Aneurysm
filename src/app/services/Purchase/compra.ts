@@ -1,14 +1,17 @@
-export class Compra {
-    id = "";
-    nombre = "";
-    fech_compra = "";
-    fech_despacho = "";
-    fech_entrega = "";
-    costo_desp = "";
-    total = "";
-    carrito = "";
-    estado = "";
+import { Usuario } from "../User/usuario";
+import { Detalle } from "./detalle";
 
-    //Detalle
-    detalle = "";
+export class Compra {
+    id!: number;
+    fech_compra!: string;
+    fech_despacho!: string;
+    fech_entrega!: string;
+    costo_desp!: number;
+    total!: number;
+    carrito!: boolean;
+    estado!: string;
+
+    //Foraneo
+    detalle!: Detalle;
+    usuario!: Usuario;
 }

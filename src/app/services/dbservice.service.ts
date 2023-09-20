@@ -12,6 +12,7 @@ import { Categoria } from './Product/categoria';
 import { Producto } from './Product/producto';
 import { Detalle } from './Purchase/detalle';
 import { Compra } from './Purchase/compra';
+import { CPUnion } from './Product/cp-union';
 
 @Injectable({
   providedIn: 'root'
@@ -20,19 +21,20 @@ export class DbserviceService {
   // variable para guardar la conexión a la DB
   public database!: SQLiteObject;
 
-  tablaRol: string = "CREATE TABLE IF NOT EXISTS rol (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(120) NOT NULL;)";
-  tablaPregunta: string = "CREATE TABLE IF NOT EXISTS pregunta (id INTEGER PRIMARY KEY AUTOINCREMENT, pregunta VARCHAR(120) NOT NULL;)";
-  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario (id INTEGER PRIMARY KEY AUTOINCREMENT, rut VARCHAR(9) NOT NULL, dvrut VARCHAR(1) NOT NULL, nombre VARCHAR(60) NOT NULL, apellido_pa  VARCHAR(60) NOT NULL, apellido_ma  VARCHAR(60) NOT NULL, telefono VARCHAR(9) NOT NULL, correo VARCHAR(40) NOT NULL, clave VARCHAR(30) NOT NULL, respuesta VARCHAR(30) NOT NULL, rol INTEGER, pregunta INTEGER, FOREIGN KEY (rol) REFERENCES Rol(id), FOREIGN KEY (pregunta) REFERENCES Pregunta(id);)";
+  tablaRol: string = "CREATE TABLE IF NOT EXISTS Rol (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(120) NOT NULL;)";
+  tablaPregunta: string = "CREATE TABLE IF NOT EXISTS Pregunta (id INTEGER PRIMARY KEY AUTOINCREMENT, pregunta VARCHAR(120) NOT NULL;)";
+  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS Usuario (id INTEGER PRIMARY KEY AUTOINCREMENT, rut VARCHAR(9), dvrut VARCHAR(1), nombre VARCHAR(60), apellido_pa  VARCHAR(60), apellido_ma  VARCHAR(60), telefono VARCHAR(9), correo VARCHAR(40) NOT NULL, clave VARCHAR(30) NOT NULL, respuesta VARCHAR(30) NOT NULL, rol INTEGER, pregunta INTEGER, FOREIGN KEY (rol) REFERENCES Rol(id), FOREIGN KEY (pregunta) REFERENCES Pregunta(id);)";
 
-  tablaRegion: string = "CREATE TABLE IF NOT EXISTS region (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL;)";
-  tablaComuna: string = "CREATE TABLE IF NOT EXISTS comuna (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL, cost_envio INTEGER NOT NULL, region INTEGER, FOREIGN KEY (region) REFERENCES Region(id);)";
-  tablaDireccion: string = "CREATE TABLE IF NOT EXISTS direccion (id INTEGER PRIMARY KEY AUTOINCREMENT, calle VARCHAR(40) NOT NULL, numero INTEGER NOT NULL, cod_postal INTEGER NOT NULL, comuna INTEGER, usuario INTEGER, FOREIGN KEY (comuna) REFERENCES Comuna(id), FOREIGN KEY (usuario) REFERENCES Usuario(id);)";
+  tablaRegion: string = "CREATE TABLE IF NOT EXISTS Region (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL;)";
+  tablaComuna: string = "CREATE TABLE IF NOT EXISTS Comuna (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL, cost_envio INTEGER NOT NULL, region INTEGER, FOREIGN KEY (region) REFERENCES Region(id);)";
+  tablaDireccion: string = "CREATE TABLE IF NOT EXISTS Direccion (id INTEGER PRIMARY KEY AUTOINCREMENT, calle VARCHAR(40) NOT NULL, numero INTEGER NOT NULL, cod_postal INTEGER NOT NULL, comuna INTEGER, usuario INTEGER, FOREIGN KEY (comuna) REFERENCES Comuna(id), FOREIGN KEY (usuario) REFERENCES Usuario(id);)";
 
-  tablaCategoria: string = "CREATE TABLE IF NOT EXISTS categoria (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL;)";
-  tablaProducto: string = "CREATE TABLE IF NOT EXISTS producto (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(120) NOT NULL, descripcion VARCHAR(600) NOT NULL, precio INTEGER NOT NULL, stock INTEGER NOT NULL, foto TEXT NOT NULL, categoria INTEGER, FOREIGN KEY (categoria) REFERENCES Categoria(id);)";
+  tablaCategoria: string = "CREATE TABLE IF NOT EXISTS Categoria (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL;)";
+  tablaProducto: string = "CREATE TABLE IF NOT EXISTS Producto (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(120) NOT NULL, descripcion VARCHAR(600) NOT NULL, precio INTEGER NOT NULL, stock INTEGER NOT NULL, foto TEXT NOT NULL;)";
+  tablaCP_union: string = "CREATE TABLE IF NOT EXISTS CP_union (id INTEGER PRIMARY KEY AUTOINCREMENT, producto INTEGER, categoria INTEGER, FOREIGN KEY (producto) REFERENCES Producto(id), FOREIGN KEY (categoria) REFERENCES Categoria(id);)";
 
-  tablaDetalle: string = "CREATE TABLE IF NOT EXISTS detalle (id INTEGER PRIMARY KEY AUTOINCREMENT, cantidad INTEGER NOT NULL, subtotal INTEGER NOT NULL, producto INTEGER,FOREIGN KEY (producto) REFERENCES Detalle(id);)";
-  tablaCompra: string = "CREATE TABLE IF NOT EXISTS compra (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL, fech_compra DATE NOT NULL, fech_despacho DATE NOT NULL, fech_entrega DATE NOT NULL, costo_desp INTEGER NOT NULL, total INTEGER NOT NULL, carrito BOOLEAN NOT NULL, estado VARCHAR(30) NOT NULL, detalle INTEGER, FOREIGN KEY (detalle) REFERENCES Detalle(id);)";
+  tablaDetalle: string = "CREATE TABLE IF NOT EXISTS Detalle (id INTEGER PRIMARY KEY AUTOINCREMENT, cantidad INTEGER NOT NULL, subtotal INTEGER NOT NULL, producto INTEGER,FOREIGN KEY (producto) REFERENCES Detalle(id);)";
+  tablaCompra: string = "CREATE TABLE IF NOT EXISTS Compra (id INTEGER PRIMARY KEY AUTOINCREMENT, fech_compra DATE NOT NULL, fech_despacho DATE NOT NULL, fech_entrega DATE NOT NULL, costo_desp INTEGER NOT NULL, total INTEGER NOT NULL, carrito BOOLEAN NOT NULL, estado VARCHAR(30) NOT NULL, usuario INTEGER, detalle INTEGER, FOREIGN KEY (usuario) REFERENCES Usuario(id), FOREIGN KEY (detalle) REFERENCES Detalle(id);)";
 
   //variables para guardar los observables
   actualizarDB = new BehaviorSubject([]);
@@ -53,7 +55,7 @@ export class DbserviceService {
   //-----------------------------------------//
 
   buscarRol() {
-    return this.database.executeSql('SELECT * FROM rol', []).then(res => {
+    return this.database.executeSql('SELECT * FROM Rol', []).then(res => {
       //variable para almacenar los registros
       let items: Rol[] = [];
 
@@ -80,7 +82,7 @@ export class DbserviceService {
   //----------------------------------------------//
 
   buscarPregunta() {
-    return this.database.executeSql('SELECT * FROM pregunta', []).then(res => {
+    return this.database.executeSql('SELECT * FROM Pregunta', []).then(res => {
       //variable para almacenar los registros
       let items: Pregunta[] = [];
 
@@ -107,7 +109,7 @@ export class DbserviceService {
   //------------------------------------------//
 
   buscarUsuario() {
-    return this.database.executeSql('SELECT * FROM usuario', []).then(res => {
+    return this.database.executeSql('SELECT * FROM Usuario', []).then(res => {
       //variable para almacenar los registros
       let items: Usuario[] = [];
 
@@ -142,7 +144,7 @@ export class DbserviceService {
   }
 
   agregarUsuario(rut: any, dvrut: any, nombre: any, apellido_pa: any, apellido_ma: any, telefono: any, correo: any, clave: any, respuesta: any, rol: any, pregunta: any) {
-    return this.database.executeSql('INSERT INTO usuario (titulo,texto) VALUES (?,?,?,?,?,?,?,?,?,?,?);', [rut, dvrut, nombre, apellido_pa, apellido_ma, telefono, correo, clave, respuesta, rol, pregunta]).then(res => {
+    return this.database.executeSql('INSERT INTO Usuario (titulo,texto) VALUES (?,?,?,?,?,?,?,?,?,?,?);', [rut, dvrut, nombre, apellido_pa, apellido_ma, telefono, correo, clave, respuesta, rol, pregunta]).then(res => {
       this.buscarUsuario();
     }).catch(e => {
       this.presentAlert("Error de agregar nuevos datos Base de datos (Tabla Usuario): " + e);
@@ -150,7 +152,7 @@ export class DbserviceService {
   }
 
   actualizarUsuario(id: any, rut: any, dvrut: any, nombre: any, apellido_pa: any, apellido_ma: any, telefono: any, correo: any, clave: any, respuesta: any, rol: any, pregunta: any) {
-    return this.database.executeSql('UPDATE usuario SET rut=?, dvrut=?, nombre=?, apellido_pa=?, apellido_ma=?, telefono=?, correo=?, clave=?, respuesta=?, rol=?, pregunta=?  WHERE id=?;', [rut, dvrut, nombre, apellido_pa, apellido_ma, telefono, correo, clave, respuesta, rol, pregunta, id]).then(res => {
+    return this.database.executeSql('UPDATE Usuario SET rut=?, dvrut=?, nombre=?, apellido_pa=?, apellido_ma=?, telefono=?, correo=?, clave=?, respuesta=?, rol=?, pregunta=?  WHERE id=?;', [rut, dvrut, nombre, apellido_pa, apellido_ma, telefono, correo, clave, respuesta, rol, pregunta, id]).then(res => {
       this.buscarUsuario();
     }).catch(e => {
       this.presentAlert("Error al actualizar datos en la base de datos (Tabla Usuario): " + e);
@@ -158,7 +160,7 @@ export class DbserviceService {
   }
 
   borrarUsuario(id: any) {
-    return this.database.executeSql('DELETE FROM usuario WHERE id=?;', [id]).then(res => {
+    return this.database.executeSql('DELETE FROM Usuario WHERE id=?;', [id]).then(res => {
       this.buscarUsuario();
     }).catch(e => {
       this.presentAlert("Error al borrar datos en la base de datos (Tabla Usuario): " + e);
@@ -170,7 +172,7 @@ export class DbserviceService {
   //--------------------------------------------//
 
   buscarRegion() {
-    return this.database.executeSql('SELECT * FROM region', []).then(res => {
+    return this.database.executeSql('SELECT * FROM Region', []).then(res => {
       //variable para almacenar los registros
       let items: Region[] = [];
 
@@ -197,7 +199,7 @@ export class DbserviceService {
   //--------------------------------------------//
 
   buscarComuna() {
-    return this.database.executeSql('SELECT * FROM comuna', []).then(res => {
+    return this.database.executeSql('SELECT * FROM Comuna', []).then(res => {
       //variable para almacenar los registros
       let items: Comuna[] = [];
 
@@ -229,7 +231,7 @@ export class DbserviceService {
   //-----------------------------------------------//
 
   buscarDireccion() {
-    return this.database.executeSql('SELECT * FROM direccion', []).then(res => {
+    return this.database.executeSql('SELECT * FROM Direccion', []).then(res => {
       //variable para almacenar los registros
       let items: Direccion[] = [];
 
@@ -258,7 +260,7 @@ export class DbserviceService {
   }
 
   agregarDireccion(calle: any, numero: any, cod_postal: any, comuna: any, usuario: any) {
-    return this.database.executeSql('INSERT INTO direccion (calle,numero,cod_postal,comuna,usuario) VALUES (?,?,?,?,?);', [calle, numero, cod_postal, comuna, usuario]).then(res => {
+    return this.database.executeSql('INSERT INTO Direccion (calle,numero,cod_postal,comuna,usuario) VALUES (?,?,?,?,?);', [calle, numero, cod_postal, comuna, usuario]).then(res => {
       this.buscarDireccion();
     }).catch(e => {
       this.presentAlert("Error de agregar nuevos datos Base de datos (Tabla Direccion): " + e);
@@ -266,10 +268,283 @@ export class DbserviceService {
   }
 
   actualizarDireccion(id: any, calle: any, numero: any, cod_postal: any, comuna: any, usuario: any) {
-    return this.database.executeSql('UPDATE usuario SET calle=?, numero=?, cod_postal=?, comuna=?, usuario=? WHERE id=?;', [calle, numero, cod_postal, comuna, usuario, id]).then(res => {
+    return this.database.executeSql('UPDATE Direccion SET calle=?, numero=?, cod_postal=?, comuna=?, usuario=? WHERE id=?;', [calle, numero, cod_postal, comuna, usuario, id]).then(res => {
       this.buscarDireccion();
     }).catch(e => {
       this.presentAlert("Error al actualizar datos en la base de datos (Tabla Direccion): " + e);
+    })
+  }
+
+  //-----------------------------------------------//
+  /* FUNCIONES PARA TRABAJAR CON LA TABLA CATEGORIA*/
+  //-----------------------------------------------//
+
+  buscarCategoria() {
+    return this.database.executeSql('SELECT * FROM Categoria', []).then(res => {
+      //variable para almacenar los registros
+      let items: Categoria[] = [];
+
+      //validamos la cantidad de registros
+      if (res.rows.length > 0) {
+        //recorrer el arreglo items
+        for (var i = 0; i < res.rows.length; i++) {
+          //Guardar dentro de la variable
+          items.push({
+            id: res.rows.item(i).id,
+            nombre: res.rows.item(i).nombre
+          })
+        }
+      }
+      //Actualizamos el observable
+      this.actualizarDB.next(items as any);
+    }).catch(e => {
+      this.presentAlert("Error de buscar en Base de datos (Tabla Categoria): " + e);
+    })
+  }
+
+  agregarCategoria(nombre: any) {
+    return this.database.executeSql('INSERT INTO Categoria (nombre) VALUES (?);', [nombre]).then(res => {
+      this.buscarDireccion();
+    }).catch(e => {
+      this.presentAlert("Error de agregar nuevos datos Base de datos (Tabla Categoria): " + e);
+    })
+  }
+
+  borrarCategoria(id: any) {
+    return this.database.executeSql('DELETE FROM Categoria WHERE id=?;', [id]).then(res => {
+      this.buscarCategoria();
+    }).catch(e => {
+      this.presentAlert("Error al borrar datos en la base de datos (Tabla Categoria): " + e);
+    })
+  }
+
+  //-----------------------------------------------//
+  /* FUNCIONES PARA TRABAJAR CON LA TABLA PRODUCTO*/
+  //-----------------------------------------------//
+
+  buscarProducto() {
+    return this.database.executeSql('SELECT * FROM Producto', []).then(res => {
+      //variable para almacenar los registros
+      let items: Producto[] = [];
+
+      //validamos la cantidad de registros
+      if (res.rows.length > 0) {
+        //recorrer el arreglo items
+        for (var i = 0; i < res.rows.length; i++) {
+          //Guardar dentro de la variable
+          items.push({
+            id: res.rows.item(i).id,
+            nombre: res.rows.item(i).nombre,
+            descripcion: res.rows.item(i).descripcion,
+            precio: res.rows.item(i).precio,
+            stock: res.rows.item(i).stock,
+            foto: res.rows.item(i).foto
+          })
+        }
+      }
+
+      //Actualizamos el observable
+      this.actualizarDB.next(items as any);
+    }).catch(e => {
+      this.presentAlert("Error de buscar en Base de datos (Tabla Producto): " + e);
+    })
+  }
+
+  agregarProducto(nombre: any, descripcion: any, precio: any, stock: any, foto: any) {
+    return this.database.executeSql('INSERT INTO Producto (nombre, descripcion, precio, stock, foto) VALUES (?,?,?,?,?);', [nombre, descripcion, precio, stock, foto]).then(res => {
+      this.buscarProducto();
+    }).catch(e => {
+      this.presentAlert("Error de agregar nuevos datos Base de datos (Tabla Producto): " + e);
+    })
+  }
+
+  actualizarProducto(id: any, nombre: any, descripcion: any, precio: any, stock: any, foto: any) {
+    return this.database.executeSql('UPDATE producto SET nombre=?, descripcion=?, precio=?, stock=?, foto=? WHERE id=?;', [nombre, descripcion, precio, stock, foto, id]).then(res => {
+      this.buscarProducto();
+    }).catch(e => {
+      this.presentAlert("Error al actualizar datos en la base de datos (Tabla Direccion): " + e);
+    })
+  }
+
+  borrarProducto(id: any) {
+    return this.database.executeSql('DELETE FROM Producto WHERE id=?;', [id]).then(res => {
+      this.buscarProducto();
+    }).catch(e => {
+      this.presentAlert("Error al borrar datos en la base de datos (Tabla Producto): " + e);
+    })
+  }
+
+  //---------------------------------------------//
+  /* FUNCIONES PARA TRABAJAR CON LA TABLA CP_union*/
+  //---------------------------------------------//
+
+  buscarUnionCP() {
+    return this.database.executeSql('SELECT * FROM CP_union', []).then(res => {
+      //variable para almacenar los registros
+      let items: CPUnion[] = [];
+
+      //validamos la cantidad de registros
+      if (res.rows.length > 0) {
+        //recorrer el arreglo items
+        for (var i = 0; i < res.rows.length; i++) {
+          //Guardar dentro de la variable
+          items.push({
+            id: res.rows.item(i).id,
+            producto: res.rows.item(i).producto,
+            categoria: res.rows.item(i).categoria
+          })
+        }
+      }
+
+      //Actualizamos el observable
+      this.actualizarDB.next(items as any);
+    }).catch(e => {
+      this.presentAlert("Error de buscar en Base de datos (Tabla CP_union): " + e);
+    })
+  }
+
+  agregarUnionCP(producto: any, categoria: any) {
+    return this.database.executeSql('INSERT INTO CP_union (producto, categoria) VALUES (?,?);', [producto, categoria]).then(res => {
+      this.buscarUnionCP();
+    }).catch(e => {
+      this.presentAlert("Error de agregar nuevos datos Base de datos (Tabla CP_union): " + e);
+    })
+  }
+
+  borrarUnionCP(id: any) {
+    return this.database.executeSql('DELETE FROM CP_union WHERE id=?;', [id]).then(res => {
+      this.buscarUnionCP();
+    }).catch(e => {
+      this.presentAlert("Error al borrar datos en la base de datos (Tabla CP_union): " + e);
+    })
+  }
+
+  buscarUnionPorProducto(id: any) {
+    return this.database.executeSql('SELECT * FROM CP_union where id=?', [id]).then(res => {
+      //variable para almacenar los registros
+      let items: CPUnion[] = [];
+
+      //validamos la cantidad de registros
+      if (res.rows.length > 0) {
+        //recorrer el arreglo items
+        for (var i = 0; i < res.rows.length; i++) {
+          //Guardar dentro de la variable
+          items.push({
+            id: res.rows.item(i).id,
+            producto: res.rows.item(i).producto,
+            categoria: res.rows.item(i).categoria
+          })
+        }
+      }
+
+      //Actualizamos el observable
+      this.actualizarDB.next(items as any);
+    }).catch(e => {
+      this.presentAlert("Error de buscar por ID en Base de datos (Tabla CP_union): " + e);
+    })
+  }
+
+  //---------------------------------------------//
+  /* FUNCIONES PARA TRABAJAR CON LA TABLA DETALLE*/
+  //---------------------------------------------//
+
+  buscarDetalle() {
+    return this.database.executeSql('SELECT * FROM Detalle', []).then(res => {
+      //variable para almacenar los registros
+      let items: Detalle[] = [];
+
+      //validamos la cantidad de registros
+      if (res.rows.length > 0) {
+        //recorrer el arreglo items
+        for (var i = 0; i < res.rows.length; i++) {
+          //Guardar dentro de la variable
+          items.push({
+            id: res.rows.item(i).id,
+            cantidad: res.rows.item(i).cantidad,
+            subtotal: res.rows.item(i).subtotal,
+            producto: res.rows.item(i).producto
+          })
+        }
+      }
+      //Actualizamos el observable
+      this.actualizarDB.next(items as any);
+    }).catch(e => {
+      this.presentAlert("Error de buscar en Base de datos (Tabla Detalle): " + e);
+    })
+  }
+
+  agregarDetalle(cantidad: any, subtotal: any, producto: any) {
+    return this.database.executeSql('INSERT INTO Detalle (cantidad,subtotal,producto) VALUES (?,?,?);', [cantidad, subtotal, producto]).then(res => {
+      this.buscarDetalle();
+    }).catch(e => {
+      this.presentAlert("Error de agregar nuevos datos Base de datos (Tabla Detalle): " + e);
+    })
+  }
+
+  actualizarDetalle(id: any, cantidad: any, subtotal: any, producto: any) {
+    return this.database.executeSql('UPDATE Detalle SET cantidad=?, subtotal=?, producto=? WHERE id=?;', [cantidad, subtotal, producto, id]).then(res => {
+      this.buscarDetalle();
+    }).catch(e => {
+      this.presentAlert("Error al actualizar datos en la base de datos (Tabla Detalle): " + e);
+    })
+  }
+
+  borrarDetalle(id: any) {
+    return this.database.executeSql('DELETE FROM Detalle WHERE id=?;', [id]).then(res => {
+      this.buscarDetalle();
+    }).catch(e => {
+      this.presentAlert("Error al borrar datos en la base de datos (Tabla Detalle): " + e);
+    })
+  }
+
+  //--------------------------------------------//
+  /* FUNCIONES PARA TRABAJAR CON LA TABLA COMPRA*/
+  //--------------------------------------------//
+
+  buscarCompra() {
+    return this.database.executeSql('SELECT * FROM Compra', []).then(res => {
+      //variable para almacenar los registros
+      let items: Compra[] = [];
+
+      //validamos la cantidad de registros
+      if (res.rows.length > 0) {
+        //recorrer el arreglo items
+        for (var i = 0; i < res.rows.length; i++) {
+          //Guardar dentro de la variable
+          items.push({
+            id: res.rows.item(i).id,
+            fech_compra: res.rows.item(i).fech_compra,
+            fech_despacho: res.rows.item(i).fech_despacho,
+            fech_entrega: res.rows.item(i).fech_entrega,
+            costo_desp: res.rows.item(i).costo_desp,
+            total: res.rows.item(i).total,
+            carrito: res.rows.item(i).carrito,
+            estado: res.rows.item(i).estado,
+            detalle: res.rows.item(i).detalle,
+            usuario: res.rows.item(i).usuario,
+          })
+        }
+      }
+      //Actualizamos el observable
+      this.actualizarDB.next(items as any);
+    }).catch(e => {
+      this.presentAlert("Error de buscar en Base de datos (Tabla Compra): " + e);
+    })
+  }
+
+  agregarCompra(fech_compra: any, fech_despacho: any, fech_entrega: any, costo_desp: any, total: any, carrito: any, estado: any, detalle: any, usuario: any) {
+    return this.database.executeSql('INSERT INTO Compra (fech_compra, fech_despacho, fech_entrega, costo_desp, total, carrito, estado, detalle, usuario) VALUES (?,?,?,?,?,?,?,?,?);', [fech_compra, fech_despacho, fech_entrega, costo_desp, total, carrito, estado, detalle, usuario]).then(res => {
+      this.buscarCompra();
+    }).catch(e => {
+      this.presentAlert("Error de agregar nuevos datos Base de datos (Tabla Compra): " + e);
+    })
+  }
+
+  actualizarCompra(id: any, fech_compra: any, fech_despacho: any, fech_entrega: any, costo_desp: any, total: any, carrito: any, estado: any, detalle: any, usuario: any) {
+    return this.database.executeSql('UPDATE Compra SET fech_compra=?, fech_despacho=?, fech_entrega=?, costo_desp=?, total=?, carrito=?, estado=?, detalle=?, usuario=? WHERE id=?;', [fech_compra, fech_despacho, fech_entrega, costo_desp, total, carrito, estado, detalle, usuario, id]).then(res => {
+      this.buscarCompra();
+    }).catch(e => {
+      this.presentAlert("Error al actualizar datos en la base de datos (Tabla Compra): " + e);
     })
   }
 

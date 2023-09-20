@@ -1,11 +1,11 @@
-export class Producto {
-    id = "";
-    nombre = "";
-    descripcion = "";
-    precio = "";
-    stock = "";
-    foto = "";
+import { Categoria } from "./categoria";
 
-    //Foranea
-    categoria = "";
+export class Producto {
+    id!: number;
+    nombre!: string;
+    descripcion!: string;
+    precio!: number;
+    stock!: number;
+    foto!: string;
+    
 }
