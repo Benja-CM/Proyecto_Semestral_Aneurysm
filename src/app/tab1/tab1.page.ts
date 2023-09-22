@@ -3,6 +3,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
 import Swiper from 'swiper';
+import { DbserviceService } from '../services/dbservice.service';
 
 
 @Component({
@@ -19,38 +20,57 @@ export class Tab1Page implements OnInit {
   ProductosFilter: any = [];
   id: number = 0;
 
+  arregloProductos: any = [
+    {
+      id: '',
+      nombre: '',
+      descripcion: '',
+      precio: '',
+      stock: '',
+      foto: '',
+    }
+  ]
+
   @ViewChild(' swiper')
   swiperRef: ElementRef | undefined;
   swiper?: Swiper;
 
 
   constructor(
-    private router: Router,
-    private http: HttpClient) { }
-
-  swiperSlideChanged(e: any) {
-    console.log('changed', e);
-  }
-  swiperReady() {
-    this.swiper = this.swiperRef?.nativeElement.swiper;
-  }
-  goNext() {
-    this.swiper?.slideNext();
-  }
-  goPrev() {
-    this.swiper?.slidePrev();
-  }
-
+    private router: Router, private http: HttpClient, private bd: DbserviceService) {}
 
   ngOnInit() {
     this.getProductos().subscribe(res => {
       console.log("Res", res)
       this.Productos = res;
-    })
+    });
     this.getCategoria().subscribe(res => {
       console.log("Res", res)
       this.cate = res;
-    })
+    });
+    this.bd.dbState().subscribe(data=>{
+      if(data){
+        this.bd.fetchProducto().subscribe(item=>{
+          this.arregloProductos = item;
+        })
+      }
+    });
+  }
+
+  swiperSlideChanged(e: any) {
+    console.log('changed', e);
+  }
+
+  swiperReady() {
+    this.swiper = this.swiperRef?.nativeElement.swiper;
+  }
+
+  goNext() {
+    this.swiper?.slideNext();
+  }
+
+  goPrev() {
+    this.swiper?.slidePrev();
   }
 
   getProductos() {

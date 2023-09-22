@@ -638,6 +638,7 @@ export class DbserviceService {
 
       //actualizamos el observable de la DB
       this.isdDBReady.next(true);
+      this.presentAlert("Base de datos creada correctamente");
     } catch (e) {
       this.presentAlert("Error al crear Base de datos: " + e);
     }
