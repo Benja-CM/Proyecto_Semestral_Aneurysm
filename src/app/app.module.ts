@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
 
 
 @NgModule({
@@ -18,7 +19,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   
   imports: [BrowserModule,HttpClientModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule],
   
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, SQLite],
   bootstrap: [AppComponent],
   schemas:  [ CUSTOM_ELEMENTS_SCHEMA]
 })

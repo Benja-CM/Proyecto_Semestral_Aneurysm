@@ -21,20 +21,37 @@ export class DbserviceService {
   // variable para guardar la conexión a la DB
   public database!: SQLiteObject;
 
-  tablaRol: string = "CREATE TABLE IF NOT EXISTS Rol (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(120) NOT NULL;)";
-  tablaPregunta: string = "CREATE TABLE IF NOT EXISTS Pregunta (id INTEGER PRIMARY KEY AUTOINCREMENT, pregunta VARCHAR(120) NOT NULL;)";
-  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS Usuario (id INTEGER PRIMARY KEY AUTOINCREMENT, rut VARCHAR(9), dvrut VARCHAR(1), nombre VARCHAR(60), apellido_pa  VARCHAR(60), apellido_ma  VARCHAR(60), telefono VARCHAR(9), correo VARCHAR(40) NOT NULL, clave VARCHAR(30) NOT NULL, respuesta VARCHAR(30) NOT NULL, rol INTEGER, pregunta INTEGER, FOREIGN KEY (rol) REFERENCES Rol(id), FOREIGN KEY (pregunta) REFERENCES Pregunta(id);)";
+  tablaRol: string = "CREATE TABLE IF NOT EXISTS Rol (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(120) NOT NULL);";
+  tablaPregunta: string = "CREATE TABLE IF NOT EXISTS Pregunta (id INTEGER PRIMARY KEY AUTOINCREMENT, pregunta VARCHAR(120) NOT NULL);";
+  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS Usuario (id INTEGER PRIMARY KEY AUTOINCREMENT, rut VARCHAR(9), dvrut VARCHAR(1), nombre VARCHAR(60), apellido_pa  VARCHAR(60), apellido_ma  VARCHAR(60), telefono VARCHAR(9), correo VARCHAR(40) NOT NULL, clave VARCHAR(30) NOT NULL, respuesta VARCHAR(30) NOT NULL, rol INTEGER, pregunta INTEGER, FOREIGN KEY (rol) REFERENCES Rol(id), FOREIGN KEY (pregunta) REFERENCES Pregunta(id));";
 
-  tablaRegion: string = "CREATE TABLE IF NOT EXISTS Region (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL;)";
-  tablaComuna: string = "CREATE TABLE IF NOT EXISTS Comuna (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL, cost_envio INTEGER NOT NULL, region INTEGER, FOREIGN KEY (region) REFERENCES Region(id);)";
-  tablaDireccion: string = "CREATE TABLE IF NOT EXISTS Direccion (id INTEGER PRIMARY KEY AUTOINCREMENT, calle VARCHAR(40) NOT NULL, numero INTEGER NOT NULL, cod_postal INTEGER NOT NULL, comuna INTEGER, usuario INTEGER, FOREIGN KEY (comuna) REFERENCES Comuna(id), FOREIGN KEY (usuario) REFERENCES Usuario(id);)";
+  tablaRegion: string = "CREATE TABLE IF NOT EXISTS Region (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL);";
+  tablaComuna: string = "CREATE TABLE IF NOT EXISTS Comuna (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL, cost_envio INTEGER NOT NULL, region INTEGER, FOREIGN KEY (region) REFERENCES Region(id));";
+  tablaDireccion: string = "CREATE TABLE IF NOT EXISTS Direccion (id INTEGER PRIMARY KEY AUTOINCREMENT, calle VARCHAR(40) NOT NULL, numero INTEGER NOT NULL, cod_postal INTEGER NOT NULL, comuna INTEGER, usuario INTEGER, FOREIGN KEY (comuna) REFERENCES Comuna(id), FOREIGN KEY (usuario) REFERENCES Usuario(id));";
 
-  tablaCategoria: string = "CREATE TABLE IF NOT EXISTS Categoria (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL;)";
-  tablaProducto: string = "CREATE TABLE IF NOT EXISTS Producto (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(120) NOT NULL, descripcion VARCHAR(600) NOT NULL, precio INTEGER NOT NULL, stock INTEGER NOT NULL, foto TEXT NOT NULL;)";
-  tablaCP_union: string = "CREATE TABLE IF NOT EXISTS CP_union (id INTEGER PRIMARY KEY AUTOINCREMENT, producto INTEGER, categoria INTEGER, FOREIGN KEY (producto) REFERENCES Producto(id), FOREIGN KEY (categoria) REFERENCES Categoria(id);)";
+  tablaCategoria: string = "CREATE TABLE IF NOT EXISTS Categoria (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL);";
+  tablaProducto: string = "CREATE TABLE IF NOT EXISTS Producto (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(120) NOT NULL, descripcion VARCHAR(600) NOT NULL, precio INTEGER NOT NULL, stock INTEGER NOT NULL, foto TEXT NOT NULL);";
+  tablaCP_union: string = "CREATE TABLE IF NOT EXISTS CP_union (id INTEGER PRIMARY KEY AUTOINCREMENT, producto INTEGER, categoria INTEGER, FOREIGN KEY (producto) REFERENCES Producto(id), FOREIGN KEY (categoria) REFERENCES Categoria(id));";
 
-  tablaDetalle: string = "CREATE TABLE IF NOT EXISTS Detalle (id INTEGER PRIMARY KEY AUTOINCREMENT, cantidad INTEGER NOT NULL, subtotal INTEGER NOT NULL, producto INTEGER,FOREIGN KEY (producto) REFERENCES Detalle(id);)";
-  tablaCompra: string = "CREATE TABLE IF NOT EXISTS Compra (id INTEGER PRIMARY KEY AUTOINCREMENT, fech_compra DATE NOT NULL, fech_despacho DATE NOT NULL, fech_entrega DATE NOT NULL, costo_desp INTEGER NOT NULL, total INTEGER NOT NULL, carrito BOOLEAN NOT NULL, estado VARCHAR(30) NOT NULL, usuario INTEGER, detalle INTEGER, FOREIGN KEY (usuario) REFERENCES Usuario(id), FOREIGN KEY (detalle) REFERENCES Detalle(id);)";
+  tablaDetalle: string = "CREATE TABLE IF NOT EXISTS Detalle (id INTEGER PRIMARY KEY AUTOINCREMENT, cantidad INTEGER NOT NULL, subtotal INTEGER NOT NULL, producto INTEGER,FOREIGN KEY (producto) REFERENCES Detalle(id));";
+  tablaCompra: string = "CREATE TABLE IF NOT EXISTS Compra (id INTEGER PRIMARY KEY AUTOINCREMENT, fech_compra DATE NOT NULL, fech_despacho DATE NOT NULL, fech_entrega DATE NOT NULL, costo_desp INTEGER NOT NULL, total INTEGER NOT NULL, carrito BOOLEAN NOT NULL, estado VARCHAR(30) NOT NULL, usuario INTEGER, detalle INTEGER, FOREIGN KEY (usuario) REFERENCES Usuario(id), FOREIGN KEY (detalle) REFERENCES Detalle(id));";
+
+  //------------------//
+  /* INSERT DE DATOS */
+  //------------------//
+
+  //Insert de Roles
+  insertRolCliente: string = "INSERT INTO OR IGNORE Rol (id,nombre) VALUES (1, 'cliente');";
+  insertRolVendedor: string = "INSERT INTO OR IGNORE Rol (id,nombre) VALUES (2, 'vendedor');";
+  insertRolAdministrador: string = "INSERT INTO OR IGNORE Rol (id,nombre) VALUES (3, 'administrador');";
+
+  //Insert de Preguntas
+  insertPregunta1: string = "INSERT INTO OR IGNORE Pregunta (id,pregunta) VALUES (1, '¿Como se llamó tu primera mascota?');";
+  insertPregunta2: string = "INSERT INTO OR IGNORE Pregunta (id,pregunta) VALUES (2, '¿Como se llama tu primera pareja?');";
+  insertPregunta3: string = "INSERT INTO OR IGNORE Pregunta (id,pregunta) VALUES (3, '¿Cual es tu modelo de tanque favorito?');";
+
+  //Insert de Usuarios
+  insertUsuario1: string = "INSERT INTO Usuario (id,correo,clave,respuesta,pregunta,rol) VALUES (1, 'benj@gmail.com','hipo4521','No',2,1);";
 
   //variables para guardar los observables
   actualizarDB = new BehaviorSubject([]);
@@ -50,7 +67,7 @@ export class DbserviceService {
   }
 
 
-  //-------------------------------------- ---//
+  //-----------------------------------------//
   /* FUNCIONES PARA TRBAJAR CON LA TABLA ROL */
   //-----------------------------------------//
 
@@ -141,6 +158,35 @@ export class DbserviceService {
     }).catch(e => {
       this.presentAlert("Error de buscar en Base de datos (Tabla Usuario): " + e);
     })
+  }
+
+  encontrarUsuario(correo: any): Promise<Usuario | null> {
+    return new Promise((resolve) => {
+      this.database.executeSql('SELECT * FROM Usuario WHERE correo=?', [correo]).then(res => {
+        if (res.rows.length > 0) {
+          const usuario: Usuario = {
+            id: res.rows.item(0).id,
+            rut: res.rows.item(0).rut,
+            dvrut: res.rows.item(0).dvrut,
+            nombre: res.rows.item(0).nombre,
+            apellido_pa: res.rows.item(0).apellido_pa,
+            apellido_ma: res.rows.item(0).apellido_ma,
+            telefono: res.rows.item(0).telefono,
+            correo: res.rows.item(0).correo,
+            clave: res.rows.item(0).clave,
+            respuesta: res.rows.item(0).respuesta,
+            rol: res.rows.item(0).rol,
+            pregunta: res.rows.item(0).pregunta,
+          };
+          resolve(usuario);
+        } else {
+          resolve(null); // No se encontró un usuario con ese correo
+        }
+      })
+        .catch(e => {
+          this.presentAlert("Error al buscar en la base de datos (Tabla Usuario): " + e);
+        });
+    });
   }
 
   agregarUsuario(rut: any, dvrut: any, nombre: any, apellido_pa: any, apellido_ma: any, telefono: any, correo: any, clave: any, respuesta: any, rol: any, pregunta: any) {
@@ -469,7 +515,7 @@ export class DbserviceService {
       //Actualizamos el observable
       this.actualizarDB.next(items as any);
     }).catch(e => {
-      this.presentAlert("Error de buscar en Base de datos (Tabla Detalle): " + e);
+      this.presentAlert("Error de buscar en Base de datos (Tabla Detalle): " + e.message);
     })
   }
 
@@ -477,7 +523,7 @@ export class DbserviceService {
     return this.database.executeSql('INSERT INTO Detalle (cantidad,subtotal,producto) VALUES (?,?,?);', [cantidad, subtotal, producto]).then(res => {
       this.buscarDetalle();
     }).catch(e => {
-      this.presentAlert("Error de agregar nuevos datos Base de datos (Tabla Detalle): " + e);
+      this.presentAlert("Error de agregar nuevos datos Base de datos (Tabla Detalle): " + e.message);
     })
   }
 
@@ -485,7 +531,7 @@ export class DbserviceService {
     return this.database.executeSql('UPDATE Detalle SET cantidad=?, subtotal=?, producto=? WHERE id=?;', [cantidad, subtotal, producto, id]).then(res => {
       this.buscarDetalle();
     }).catch(e => {
-      this.presentAlert("Error al actualizar datos en la base de datos (Tabla Detalle): " + e);
+      this.presentAlert("Error al actualizar datos en la base de datos (Tabla Detalle): " + e.message);
     })
   }
 
@@ -493,7 +539,7 @@ export class DbserviceService {
     return this.database.executeSql('DELETE FROM Detalle WHERE id=?;', [id]).then(res => {
       this.buscarDetalle();
     }).catch(e => {
-      this.presentAlert("Error al borrar datos en la base de datos (Tabla Detalle): " + e);
+      this.presentAlert("Error al borrar datos en la base de datos (Tabla Detalle): " + e.message);
     })
   }
 
@@ -528,7 +574,7 @@ export class DbserviceService {
       //Actualizamos el observable
       this.actualizarDB.next(items as any);
     }).catch(e => {
-      this.presentAlert("Error de buscar en Base de datos (Tabla Compra): " + e);
+      this.presentAlert("Error de buscar en Base de datos (Tabla Compra): " + e.message);
     })
   }
 
@@ -536,7 +582,7 @@ export class DbserviceService {
     return this.database.executeSql('INSERT INTO Compra (fech_compra, fech_despacho, fech_entrega, costo_desp, total, carrito, estado, detalle, usuario) VALUES (?,?,?,?,?,?,?,?,?);', [fech_compra, fech_despacho, fech_entrega, costo_desp, total, carrito, estado, detalle, usuario]).then(res => {
       this.buscarCompra();
     }).catch(e => {
-      this.presentAlert("Error de agregar nuevos datos Base de datos (Tabla Compra): " + e);
+      this.presentAlert("Error de agregar nuevos datos Base de datos (Tabla Compra): " + e.message);
     })
   }
 
@@ -544,7 +590,7 @@ export class DbserviceService {
     return this.database.executeSql('UPDATE Compra SET fech_compra=?, fech_despacho=?, fech_entrega=?, costo_desp=?, total=?, carrito=?, estado=?, detalle=?, usuario=? WHERE id=?;', [fech_compra, fech_despacho, fech_entrega, costo_desp, total, carrito, estado, detalle, usuario, id]).then(res => {
       this.buscarCompra();
     }).catch(e => {
-      this.presentAlert("Error al actualizar datos en la base de datos (Tabla Compra): " + e);
+      this.presentAlert("Error al actualizar datos en la base de datos (Tabla Compra): " + e.message);
     })
   }
 
@@ -612,8 +658,9 @@ export class DbserviceService {
         this.database = db;
         //llamar a la función para que cree las tablas
         this.crearTablas();
+        this.insertarDatos();
       }).catch(e => {
-        this.presentAlert("Error al crear Base de datos: " + e);
+        this.presentAlert("Error al crear Base de datos: " + e.message);
       })
 
     })
@@ -638,9 +685,25 @@ export class DbserviceService {
 
       //actualizamos el observable de la DB
       this.isdDBReady.next(true);
-      this.presentAlert("Base de datos creada correctamente");
-    } catch (e) {
-      this.presentAlert("Error al crear Base de datos: " + e);
+    } catch (e: any) {
+      this.presentAlert("Error al crear Tablas de la Base de datos: " + e.message);
+    }
+  }
+
+  insertarDatos() {
+    try {
+      this.database.executeSql(this.insertRolCliente, []);
+      this.database.executeSql(this.insertRolVendedor, []);
+      this.database.executeSql(this.insertRolAdministrador, []);
+
+      this.database.executeSql(this.insertPregunta1, []);
+      this.database.executeSql(this.insertPregunta2, []);
+      this.database.executeSql(this.insertPregunta3, []);
+
+      this.database.executeSql(this.insertUsuario1, []);
+
+    } catch (e: any) {
+      this.presentAlert("Error al insertar datos en la Base de datos: " + e.message);
     }
   }
 
@@ -658,7 +721,7 @@ export class DbserviceService {
     const alert = await this.alertController.create({
       header: 'Alert',
       subHeader: 'Important message',
-      message: 'This is an alert!',
+      message: msj,
       buttons: ['OK'],
     });
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
+import { DbserviceService } from 'src/app/services/dbservice.service';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,23 @@ export class LoginPage implements OnInit {
   nombre: string = "Administrador Aneurysm"
   correo: string = "aneurysm@gmail.com";
   clave: string = "Aneurysm45*";
+
+  /* arregloUsuario: any = [
+    {
+      id: '',
+      rut: '',
+      dvrut: '',
+      nombre: '',
+      apellido_pa: '',
+      apellido_ma: '',
+      telefono: '',
+      correo: '',
+      clave: '',
+      respuesta: '',
+      rol: '',
+      pregunta: '',
+    }
+  ] */
 
   loginForm = this.formBuilder.group({
     email: new FormControl('', {
@@ -33,15 +51,27 @@ export class LoginPage implements OnInit {
   isSubmitted = false;
   submitError = "";
 
-  constructor(private router: Router, private formBuilder: FormBuilder) {
+  constructor(private router: Router, private formBuilder: FormBuilder, private db: DbserviceService) {
   }
 
   ngOnInit() {
+    /* 
+    this.db.dbState().subscribe(res => {
+      //si esta lista la BD
+      if (res) {
+        //me subscribo al observable de los usuarios
+        this.db.fetchUsuario().subscribe(item => {
+          this.arregloUsuario = item;
+        })
+      }
+    }) 
+    */
   }
 
-  irfgpssw(){
+  irfgpssw() {
     this.router.navigate(['/fgpssw']);
   }
+
 
   async onSubmit() {
     this.isSubmitted = true;
@@ -52,16 +82,27 @@ export class LoginPage implements OnInit {
       return;
     }
 
-    if (this.loginForm.value.email === this.correo && this.loginForm.value.password === this.clave){
-      console.log("valid")
-      let navigationExtras: NavigationExtras = {
-        state: {
-          nombre: this.nombre
-        }
+    try {
+      const usuario = await this.db.encontrarUsuario(this.loginForm.value.email);
+
+      if (usuario === null) {
+        this.db.presentAlert("Correo no existe");
+        return;
       }
-      this.router.navigate(['/tabs/tab4'], navigationExtras)
-    } else {
-      this.loginForm.controls['password'].setErrors({ 'notMatch': true })
+
+      if (this.loginForm.value.email === usuario.correo && this.loginForm.value.password === usuario.clave) {
+        console.log("valid")
+        let navigationExtras: NavigationExtras = {
+          state: {
+            nombre: this.nombre
+          }
+        }
+        this.router.navigate(['/tabs/tab4'], navigationExtras)
+      } else {
+        this.loginForm.controls['password'].setErrors({ 'notMatch': true })
+      }
+    } catch {
+      this.db.presentAlert("Error al buscar el correo en la base de datos");
     }
   }
 
