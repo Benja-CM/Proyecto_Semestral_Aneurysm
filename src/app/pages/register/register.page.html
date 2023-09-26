@@ -35,10 +35,10 @@
 
         <ion-row class="error-mesage">
           <div class="error" *ngFor="let validation of validation_messages.password">
-          <div class="error" *ngIf="isSubmitted && registerForm.get('password')?.hasError(validation.type)">
-            {{ validation.message }}
+            <div class="error" *ngIf="isSubmitted && registerForm.get('password')?.hasError(validation.type)">
+              {{ validation.message }}
+            </div>
           </div>
-        </div>
         </ion-row>
 
         <ion-row>
@@ -56,12 +56,20 @@
         </ion-row>
 
         <ion-row>
-          <ion-select aria-label="Pregunta secreta" interface="popover" placeholder="Selecciona una pregunta">
-            <ion-select-option value="preg1">¿Como se llamó tu primera mascota?</ion-select-option>
-            <ion-select-option value="preg2">¿Como se llama tu primera pareja?</ion-select-option>
-            <ion-select-option value="preg3">¿Cual es tu modelo de tanque favorito?</ion-select-option>
+          <ion-select aria-label="Pregunta secreta" interface="popover" placeholder="Selecciona una pregunta" required
+            required formControlName="pregunta" name="pregunta">
+            <ion-select-option *ngFor="let preg of arregloPreguntas" [value]="preg.id">
+              {{ preg.pregunta }}
+            </ion-select-option>
           </ion-select>
+          
+          <div class="error" *ngFor="let validation of validation_messages.pregunta">
+            <div class="error" *ngIf="isSubmitted && registerForm.get('pregunta')?.hasError(validation.type)">
+              {{ validation.message }}
+            </div>
+          </div>
         </ion-row>
+        
 
         <ion-row>
           <ion-input id="resp_secreta" type="string" fill="solid" label="Respuesta" labelPlacement="floating" required

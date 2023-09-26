@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { map } from "rxjs/operators";
+import { DbserviceService } from 'src/app/services/dbservice.service';
 
 @Component({
   selector: 'app-agregar',
@@ -24,10 +25,13 @@ export class AgregarPage implements OnInit {
   descripcion: string = "";
   req_minimo: string = "";
   req_recomendado: string = "";
-  categoria: any = [];
 
-  isSubmitted = false;
-  
+  categoria: any[] = [
+    {
+      id: '',
+      nombre: '',
+    }
+  ];
 
   agregarProdForm = this.formBuilder.group({
     name: new FormControl('', {
@@ -84,31 +88,25 @@ export class AgregarPage implements OnInit {
     }),
   })
 
+  isSubmitted = false;
+
   isAlertOpen = false;
   public alertButtons = ['OK'];
 
-  constructor(
-    private router: Router,
-    private http: HttpClient,
-    private alerta: AlertController,
-    private formBuilder: FormBuilder) { }
+  constructor(private router: Router, private http: HttpClient, private formBuilder: FormBuilder, private db: DbserviceService) { }
 
   ngOnInit() {
-    this.getCategoria().subscribe(res => {
-      console.log("Res", res)
-      this.cate = res;
-    })
+    this.db.buscarCategoria();
+    
+    this.db.dbState().subscribe(data => {
+      if (data) {
+        this.db.fetchCategoria().subscribe(item => {
+          this.cate = item;
+        })
+      }
+    });
   }
 
-  getCategoria() {
-    return this.http
-      .get("assets/datos_internos/Categorias.json")
-      .pipe(
-        map((res: any) => {
-          return res.cate;
-        })
-      )
-  }
 
   public async onFileSelected(event: any) {
     const file: File = event.target.files[0];
@@ -129,7 +127,7 @@ export class AgregarPage implements OnInit {
     this.isAlertOpen = true;
   }
 
-  isOpen(state: boolean){
+  isOpen(state: boolean) {
     if (state === false) {
       this.router.navigate(['/tabs/tab4'])
     }

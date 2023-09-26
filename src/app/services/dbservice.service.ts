@@ -46,12 +46,18 @@ export class DbserviceService {
   insertRolAdministrador: string = "INSERT INTO OR IGNORE Rol (id,nombre) VALUES (3, 'administrador');";
 
   //Insert de Preguntas
-  insertPregunta1: string = "INSERT INTO OR IGNORE Pregunta (id,pregunta) VALUES (1, '¿Como se llamó tu primera mascota?');";
-  insertPregunta2: string = "INSERT INTO OR IGNORE Pregunta (id,pregunta) VALUES (2, '¿Como se llama tu primera pareja?');";
-  insertPregunta3: string = "INSERT INTO OR IGNORE Pregunta (id,pregunta) VALUES (3, '¿Cual es tu modelo de tanque favorito?');";
+  insertPregunta1: string = "INSERT INTO Pregunta (id,pregunta) VALUES (1, '¿Como se llamó tu primera mascota?');";
+  insertPregunta2: string = "INSERT INTO Pregunta (id,pregunta) VALUES (2, '¿Como se llama tu primera pareja?');";
+  insertPregunta3: string = "INSERT INTO Pregunta (id,pregunta) VALUES (3, '¿Cual es tu modelo de tanque favorito?');";
 
   //Insert de Usuarios
   insertUsuario1: string = "INSERT INTO Usuario (id,correo,clave,respuesta,pregunta,rol) VALUES (1, 'benj@gmail.com','hipo4521','No',2,1);";
+
+  //Insert de Categorias
+  insertCat1: string = "INSERT INTO Categoria (id,nombre) VALUES (1, 'RPG');";
+  insertCat2: string = "INSERT INTO Categoria (id,nombre) VALUES (2, 'Acción');";
+  insertCat3: string = "INSERT INTO Categoria (id,nombre) VALUES (3, 'Aventura');";
+  insertCat4: string = "INSERT INTO Categoria (id,nombre) VALUES (4, 'Rol');";
 
   //variables para guardar los observables
   actualizarDB = new BehaviorSubject([]);
@@ -189,8 +195,8 @@ export class DbserviceService {
     });
   }
 
-  agregarUsuario(rut: any, dvrut: any, nombre: any, apellido_pa: any, apellido_ma: any, telefono: any, correo: any, clave: any, respuesta: any, rol: any, pregunta: any) {
-    return this.database.executeSql('INSERT INTO Usuario (titulo,texto) VALUES (?,?,?,?,?,?,?,?,?,?,?);', [rut, dvrut, nombre, apellido_pa, apellido_ma, telefono, correo, clave, respuesta, rol, pregunta]).then(res => {
+  agregarUsuario(correo: any, clave: any, respuesta: any, rol: any, pregunta: any) {
+    return this.database.executeSql('INSERT INTO Usuario (correo, clave, respuesta, rol, pregunta) VALUES (?,?,?,?,?);', [correo, clave, respuesta, rol, pregunta]).then(res => {
       this.buscarUsuario();
     }).catch(e => {
       this.presentAlert("Error de agregar nuevos datos Base de datos (Tabla Usuario): " + e);
@@ -701,6 +707,11 @@ export class DbserviceService {
       this.database.executeSql(this.insertPregunta3, []);
 
       this.database.executeSql(this.insertUsuario1, []);
+
+      this.database.executeSql(this.insertCat1, []);
+      this.database.executeSql(this.insertCat2, []);
+      this.database.executeSql(this.insertCat3, []);
+      this.database.executeSql(this.insertCat4, []);
 
     } catch (e: any) {
       this.presentAlert("Error al insertar datos en la Base de datos: " + e.message);

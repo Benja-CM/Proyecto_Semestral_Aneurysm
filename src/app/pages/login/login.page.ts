@@ -16,23 +16,6 @@ export class LoginPage implements OnInit {
   correo: string = "aneurysm@gmail.com";
   clave: string = "Aneurysm45*";
 
-  /* arregloUsuario: any = [
-    {
-      id: '',
-      rut: '',
-      dvrut: '',
-      nombre: '',
-      apellido_pa: '',
-      apellido_ma: '',
-      telefono: '',
-      correo: '',
-      clave: '',
-      respuesta: '',
-      rol: '',
-      pregunta: '',
-    }
-  ] */
-
   loginForm = this.formBuilder.group({
     email: new FormControl('', {
       validators: [
@@ -55,17 +38,6 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-    /* 
-    this.db.dbState().subscribe(res => {
-      //si esta lista la BD
-      if (res) {
-        //me subscribo al observable de los usuarios
-        this.db.fetchUsuario().subscribe(item => {
-          this.arregloUsuario = item;
-        })
-      }
-    }) 
-    */
   }
 
   irfgpssw() {

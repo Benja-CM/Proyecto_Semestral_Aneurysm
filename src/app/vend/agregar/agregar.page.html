@@ -78,8 +78,8 @@
         <ion-row>
           <ion-select id="categoria" name="categoria" aria-label="Categorias" formControlName="categoria"
             placeholder="Seleccione las categorias" [multiple]="true">
-            <ion-select-option *ngFor="let categoria of cate" value="{{ categoria.name }}">
-              {{ categoria.name}}
+            <ion-select-option *ngFor="let categoria of cate" value="{{ categoria.nombre }}">
+              {{ categoria.nombre }}
             </ion-select-option>
           </ion-select>
           <div class="error" *ngFor="let validation of validation_messages.categoria">

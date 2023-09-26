@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import type { IonInput } from '@ionic/angular';
+import { DbserviceService } from '../services/dbservice.service';
 
 @Component({
   selector: 'app-tab4',
@@ -19,10 +20,13 @@ export class Tab4Page implements OnInit {
 
   @ViewChild('ionInputEl', { static: true }) ionInputEl!: IonInput;
 
+  arregloCat: any[] = [
+    {
+      id: '',
+      nombre: '',
+    }
+  ]
   categoria: string = "";
-
-  isAlertOpen = false;
-  public alertButtons = ['OK'];
 
   categoriaForm = this.formBuilder.group({
     categoria: new FormControl('', {
@@ -37,18 +41,28 @@ export class Tab4Page implements OnInit {
   isSubmitted = false;
   submitError = "";
 
+  isAlertOpen = false;
+  public alertButtons = ['OK'];
+
   constructor(
-    private router: Router,
-    private formBuilder: FormBuilder,
-    private activeRouter: ActivatedRoute) {
+    private router: Router, private formBuilder: FormBuilder, private activeRouter: ActivatedRoute, private db: DbserviceService) {
     this.activeRouter.queryParams.subscribe(param => {
       if (this.router.getCurrentNavigation()?.extras.state) {
         this.nombreR = this.router.getCurrentNavigation()?.extras?.state?.['nombre'];
       }
-    })
+    });
   }
 
   ngOnInit() {
+    this.db.buscarCategoria();
+    
+    this.db.dbState().subscribe(data => {
+      if (data) {
+        this.db.fetchCategoria().subscribe(item => {
+          this.arregloCat = item;
+        })
+      }
+    });
   }
 
   setOpen(isOpen: boolean) {
@@ -75,6 +89,9 @@ export class Tab4Page implements OnInit {
 
     console.log("valid")
     this.isAlertOpen = true;
+    
+    let cat = this.categoriaForm.value.categoria;
+    this.db.agregarCategoria(cat);
   }
 
   public validation_messages = {

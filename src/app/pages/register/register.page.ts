@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DbserviceService } from 'src/app/services/dbservice.service';
 import { register } from 'swiper/element';
 
 @Component({
@@ -11,7 +12,15 @@ import { register } from 'swiper/element';
 export class RegisterPage implements OnInit {
   email: string = "";
   password: string = "";
+  pregunta: string = "";
   resp_secreta: string = "";
+
+  arregloPreguntas: any[] = [
+    {
+      id: '',
+      pregunta: ''
+    }
+  ]
 
   public registerForm = this.formBuilder.group({
     email: new FormControl('', {
@@ -33,6 +42,11 @@ export class RegisterPage implements OnInit {
         Validators.required
       ]
     }),
+    pregunta: new FormControl('', {
+      validators: [
+        Validators.required
+      ]
+    }),
     resp_secreta: new FormControl('', {
       validators: [
         Validators.required,
@@ -46,11 +60,18 @@ export class RegisterPage implements OnInit {
   isSubmitted = false;
   submitError = "";
 
-  constructor(private router: Router,
-    private formBuilder: FormBuilder) {
+  constructor(private router: Router, private formBuilder: FormBuilder, private db: DbserviceService) {
+    this.db.buscarPregunta();
   }
 
   ngOnInit() {
+    this.db.dbState().subscribe(data => {
+      if (data) {
+        this.db.fetchPregunta().subscribe(item => {
+          this.arregloPreguntas = item;
+        })
+      }
+    });
   }
 
   async onSubmit() {
@@ -66,23 +87,29 @@ export class RegisterPage implements OnInit {
     }
 
     console.log("valid");
+    let correo = this.registerForm.value.email;
+    let clave = this.registerForm.value.password;
+    let pregunta = this.registerForm.value.pregunta;
+    let respuesta = this.registerForm.value.resp_secreta;
+
+    this.db.agregarUsuario(correo, clave, respuesta, 1, pregunta)
     this.router.navigate(['/tabs/tab4'] /* navigationExtras */)
   }
 
-  claveValida(password: any){
-    if (/^(?=.*[A-Z]).*$/.test(password) == false){
+  claveValida(password: any) {
+    if (/^(?=.*[A-Z]).*$/.test(password) == false) {
       this.registerForm.controls['password'].setErrors({ 'errorMayus': true })
     }
-    if (/^(?=.*[!@#$&*_+.?~]).*$/.test(password) == false){
+    if (/^(?=.*[!@#$&*_+.?~]).*$/.test(password) == false) {
       this.registerForm.controls['password'].setErrors({ 'errorCarEspecial': true })
     }
-    if (/^(?=.*[\d*]).*$/.test(password) == false){
+    if (/^(?=.*[\d*]).*$/.test(password) == false) {
       this.registerForm.controls['password'].setErrors({ 'errorNumerico': true })
     }
   }
 
-  confClave(password: any, password_conf: any){
-    if (password !== password_conf){
+  confClave(password: any, password_conf: any) {
+    if (password !== password_conf) {
       this.registerForm.controls['password_conf'].setErrors({ 'errorConf': true })
     }
   }
@@ -104,6 +131,9 @@ export class RegisterPage implements OnInit {
     'password_conf': [
       { type: 'required', message: 'La confirmación de contraseña es obligatoria' },
       { type: 'errorConf', message: 'La contraseña debe coincidir con la contraseña elegida' }
+    ],
+    'pregunta': [
+      { type: 'required', message: 'La pregunta secreta es obligatoria' },
     ],
     'resp_secreta': [
       { type: 'required', message: 'La respuesta secreta es obligatoria' },
