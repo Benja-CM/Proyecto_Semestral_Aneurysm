@@ -41,7 +41,7 @@
       <ion-card-title>ACERCA DE ESTE JUEGO</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <p>{{ producto.descripcion }}</p>
+      <p style="white-space: pre-wrap">{{ producto.descripcion }}</p>
     </ion-card-content>
     <ion-card-header>
       <ion-card-title>REQUISITOS DEL SISTEMA</ion-card-title>
@@ -51,13 +51,13 @@
         <ul>
           <strong>Mínimo:</strong><br>
           <ul class="bb_ul">
-            <li>{{producto.req_minimo}}</li>
+            <li style="white-space: pre-wrap">{{producto.req_minimo}}</li>
           </ul>
         </ul>
         <ul>
           <strong>Recomendado:</strong><br>
           <ul class="bb_ul">
-            <li>{{producto.req_recomendado}}</li>
+            <li style="white-space: pre-wrap">{{producto.req_recomendado}}</li>
           </ul>
         </ul>
       </ion-col>

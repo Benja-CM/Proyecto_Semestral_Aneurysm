@@ -38,6 +38,7 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
+
   }
 
   irfgpssw() {
@@ -69,6 +70,8 @@ export class LoginPage implements OnInit {
             nombre: this.nombre
           }
         }
+        await this.db.set('id', usuario.id);
+        localStorage.setItem('usuario', JSON.stringify(usuario.id));
         this.router.navigate(['/tabs/tab4'], navigationExtras)
       } else {
         this.loginForm.controls['password'].setErrors({ 'notMatch': true })
@@ -86,7 +89,7 @@ export class LoginPage implements OnInit {
     'password': [
       { type: 'required', message: 'La contraseña es obligatoria' },
       { type: 'pattern', message: 'La contraseña no es una contraseña valida' },
-      { type: 'notMatch', message: 'La contraseña no es correcta' },
+      { type: 'notMatch', message: 'El correo o la contraseña no son validas' },
     ]
   }
 }

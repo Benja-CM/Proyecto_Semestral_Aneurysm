@@ -6,8 +6,7 @@ export class Usuario {
     rut!: number;
     dvrut!: string;
     nombre!: string;
-    apellido_pa!: string;
-    apellido_ma!: string;
+    apellido!: string;
     telefono!: number;
     correo!: string;
     clave!: string;

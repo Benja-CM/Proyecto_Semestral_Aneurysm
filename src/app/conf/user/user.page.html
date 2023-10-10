@@ -61,7 +61,7 @@
 
         <ion-row>
           <ion-input id="email" label="Correo Electrónico" label-placement="floating" fill="solid"
-            formControlName="email" placeholder="Introduzca su Correo"></ion-input>
+            formControlName="email" placeholder="Introduzca su Correo" [disabled]="true"></ion-input>
         </ion-row>
         <ion-row class="error-mesage">
           <small *ngFor="let validation of validation_messages.email">
@@ -73,7 +73,25 @@
 
         <ion-row>
           <ion-input id="tfn" label="Número de telefono" label-placement="floating" fill="solid" formControlName="tfn"
-            placeholder="Introduzca su Número de telefono"></ion-input>
+            type="number" placeholder="Introduzca su Número de telefono"></ion-input>
+        </ion-row>
+        <ion-row class="error-mesage">
+          <small *ngFor="let validation of validation_messages.tfn">
+            <div class="error" *ngIf="isSubmitted && userForm.get('tfn')?.hasError(validation.type)">
+              {{ validation.message }}
+            </div>
+          </small>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-input id="rut" label="Número de Rut" label-placement="floating" fill="solid" formControlName="tfn"
+              type="number" placeholder="Introduzca su Rut" maxlength="8"></ion-input>
+          </ion-col>
+          <ion-col>
+            <ion-input id="dvrut" label="Digito verificador" label-placement="floating" fill="solid" formControlName="tfn"
+              placeholder="Introduzca su Digito verificador" maxlength="1"></ion-input>
+          </ion-col>
         </ion-row>
         <ion-row class="error-mesage">
           <small *ngFor="let validation of validation_messages.tfn">

@@ -14,7 +14,7 @@ export class Tab4Page implements OnInit {
   inputModel = '';
 
   nombreR: string = "";
-  
+
   isAlertOpenLogin = false;
   public alertButtons1 = ['OK'];
 
@@ -55,7 +55,7 @@ export class Tab4Page implements OnInit {
 
   ngOnInit() {
     this.db.buscarCategoria();
-    
+
     this.db.dbState().subscribe(data => {
       if (data) {
         this.db.fetchCategoria().subscribe(item => {
@@ -78,6 +78,11 @@ export class Tab4Page implements OnInit {
     this.nombreR = "";
   }
 
+  async getUser() {
+    const id = await this.db.get('id');
+    this.db.presentAlert("id de usuario: "+id);
+  }
+
   async onSubmit() {
     this.isSubmitted = true;
     console.log(this.categoriaForm.value)
@@ -89,7 +94,7 @@ export class Tab4Page implements OnInit {
 
     console.log("valid")
     this.isAlertOpen = true;
-    
+
     let cat = this.categoriaForm.value.categoria;
     this.db.agregarCategoria(cat);
   }

@@ -12,15 +12,17 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
 
+import { IonicStorageModule } from '@ionic/storage-angular';
+
 
 @NgModule({
 
   declarations: [AppComponent],
-  
-  imports: [BrowserModule,HttpClientModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule],
-  
+
+  imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule, IonicStorageModule.forRoot()],
+
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, SQLite],
   bootstrap: [AppComponent],
-  schemas:  [ CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AppModule {}
+export class AppModule { }

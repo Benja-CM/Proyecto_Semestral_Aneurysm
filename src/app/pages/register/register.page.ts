@@ -92,8 +92,8 @@ export class RegisterPage implements OnInit {
     let pregunta = this.registerForm.value.pregunta;
     let respuesta = this.registerForm.value.resp_secreta;
 
-    this.db.agregarUsuario(correo, clave, respuesta, 1, pregunta)
-    this.router.navigate(['/tabs/tab4'] /* navigationExtras */)
+    this.db.agregarUsuario(correo, clave, respuesta, 1, pregunta);
+    this.router.navigate(['/tabs/tab4'] /* navigationExtras */);
   }
 
   claveValida(password: any) {

@@ -6,8 +6,9 @@ export class Direccion {
     calle!: string;
     numero!: number;
     cod_postal!: number;
+    region!: string;
+    comuna!: string;
 
     //Foranea
-    comuna!: Comuna;
     usuario!: Usuario;
 }

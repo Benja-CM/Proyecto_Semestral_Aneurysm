@@ -1,6 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DbserviceService } from 'src/app/services/dbservice.service';
 
 @Component({
   selector: 'app-user',
@@ -11,12 +12,14 @@ export class UserPage implements OnInit {
   name: string = "";
   surname: string = "";
   email: string = "";
-  tfn: string = "";
+  tfn: number = 0;
+  rut: number = 0;
+  dvrut: string = "";
   str: string = "";
-  number: string = "";
+  number: number = 0;
   region: string = "";
   comun: string = "";
-  cod: string = "";
+  cod: number = 0;
 
   letra: string = "";
 
@@ -46,10 +49,22 @@ export class UserPage implements OnInit {
         Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
       ]
     }),
-    tfn: new FormControl('', {
+    tfn: new FormControl(0, {
       validators: [
         Validators.required,
         Validators.minLength(9),
+      ]
+    }),
+    rut: new FormControl(0, {
+      validators: [
+        Validators.required,
+        Validators.minLength(8),
+      ]
+    }),
+    dvrut: new FormControl('', {
+      validators: [
+        Validators.required,
+        Validators.pattern("^[0-9kK]+$")
       ]
     }),
     str: new FormControl('', {
@@ -59,7 +74,7 @@ export class UserPage implements OnInit {
         Validators.pattern("^[A-Za-z]+$")
       ]
     }),
-    number: new FormControl('', {
+    number: new FormControl(0, {
       validators: [
         Validators.required,
         Validators.minLength(1),
@@ -76,7 +91,7 @@ export class UserPage implements OnInit {
         Validators.required
       ]
     }),
-    cod: new FormControl('', {
+    cod: new FormControl(0, {
       validators: [
         Validators.required,
         Validators.pattern("^\d{7}$")
@@ -84,12 +99,44 @@ export class UserPage implements OnInit {
     }),
   })
 
-  constructor(
-    private router: Router,
-    private formBuilder: FormBuilder) {
+  constructor(private router: Router, private formBuilder: FormBuilder, private db: DbserviceService,) {
   }
 
   ngOnInit() {
+    this.db.buscarUsuario();
+    this.db.buscarDireccion();
+
+    this.yoquese();
+  }
+
+  async yoquese() {
+    let userID = localStorage.getItem('usuario');
+    const usuario = await this.db.encontrarUsuarioID(userID);
+    const direccion = await this.db.encontrarDireccionPorID(userID);
+
+    if (usuario === null) {
+      this.db.presentAlert("Error al buscar el usuario (Error Fatal en la tarjeta de memoria)");
+      return;
+    }
+
+    if (direccion === null) {
+      this.db.presentAlert("Error al buscar la dirección (Error Fatal en la tarjeta de memoria)");
+      return;
+    }
+
+    this.userForm.patchValue({
+      name: usuario.nombre,
+      surname: usuario.apellido,
+      email: usuario.correo,
+      tfn: usuario.telefono,
+      rut: usuario.rut,
+      dvrut: usuario.dvrut,
+      str: direccion.calle,
+      number: direccion.numero,
+      region: direccion.region,
+      comun: direccion.comuna,
+      cod: direccion.cod_postal,
+    });
   }
 
   public async onFileSelected(event: any) {
@@ -188,6 +235,14 @@ export class UserPage implements OnInit {
       { type: 'required', message: 'El telefono es obligatoria' },
       { type: 'minlength', message: 'El telefono debe tene minimo 9 números' },
       { type: 'errorPatron', message: 'El teléfono solo debe contener números, espacios y el signo +' },
+    ],
+    'rut': [
+      { type: 'required', message: 'El rut es obligatorio' },
+      { type: 'minlength', message: 'El rut debe tener 8 números' }
+    ],
+    'dvrut': [
+      { type: 'required', message: 'El digito verificador es obligatorio' },
+      { type: 'pattern', message: 'El digito verificador debe ser un número o la letra "K"' }
     ],
     'str': [
       { type: 'required', message: 'El nombre de la calle es obligatorio' },

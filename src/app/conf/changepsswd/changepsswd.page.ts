@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { DbserviceService } from 'src/app/services/dbservice.service';
 
 @Component({
   selector: 'app-changepsswd',
@@ -13,7 +14,6 @@ export class ChangepsswdPage implements OnInit {
   claveRep1: string = "";
   claveRep2: string = "";
 
-  claveVieja: string = "Aneurysm45*"
 
   changePassForm = this.formBuilder.group({
     clave: new FormControl('', {
@@ -41,11 +41,15 @@ export class ChangepsswdPage implements OnInit {
 
   isSubmitted = false;
   submitError = "";
+  userID: any;
+  claveVieja: any;
 
   constructor(
     private router: Router,
     private alerta: AlertController,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    private db: DbserviceService
+    ) { }
 
   ngOnInit() {
   }
@@ -53,8 +57,16 @@ export class ChangepsswdPage implements OnInit {
   async onSubmit() {
     this.isSubmitted = true;
     console.log(this.changePassForm.value);
+    
+    this.userID = localStorage.getItem('usuario');
+    const usuario = await this.db.encontrarUsuarioID(this.userID);
 
-    this.confClaveVieja(this.changePassForm.value.clave, this.claveVieja);
+    if (usuario === null) {
+      this.db.presentAlert("Error al buscar el usuario (Error Fatal en la tarjeta de memoria)");
+      return;
+    }
+
+    this.confClaveVieja(this.changePassForm.value.clave, usuario.clave);
     this.claveValida(this.changePassForm.value.claveRep1);
     this.confClave(this.changePassForm.value.claveRep1, this.changePassForm.value.claveRep2);
 
@@ -63,6 +75,7 @@ export class ChangepsswdPage implements OnInit {
       return;
     }
 
+    this.db.actualizarClave(this.userID, this.changePassForm.value.claveRep1);
     console.log("valid");
     this.isAlertOpen = true;
   }

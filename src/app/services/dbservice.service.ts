@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
 import { AlertController, Platform } from '@ionic/angular';
 import { BehaviorSubject, Observable } from 'rxjs';
+
 import { Rol } from './User/rol';
 import { Pregunta } from './User/pregunta';
 import { Usuario } from './User/usuario';
@@ -14,6 +15,8 @@ import { Detalle } from './Purchase/detalle';
 import { Compra } from './Purchase/compra';
 import { CPUnion } from './Product/cp-union';
 
+import { Storage } from '@ionic/storage-angular';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -21,43 +24,55 @@ export class DbserviceService {
   // variable para guardar la conexión a la DB
   public database!: SQLiteObject;
 
+
+  //Storage
+  private _storage: Storage | null = null;
+
+
   tablaRol: string = "CREATE TABLE IF NOT EXISTS Rol (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(120) NOT NULL);";
   tablaPregunta: string = "CREATE TABLE IF NOT EXISTS Pregunta (id INTEGER PRIMARY KEY AUTOINCREMENT, pregunta VARCHAR(120) NOT NULL);";
-  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS Usuario (id INTEGER PRIMARY KEY AUTOINCREMENT, rut VARCHAR(9), dvrut VARCHAR(1), nombre VARCHAR(60), apellido_pa  VARCHAR(60), apellido_ma  VARCHAR(60), telefono VARCHAR(9), correo VARCHAR(40) NOT NULL, clave VARCHAR(30) NOT NULL, respuesta VARCHAR(30) NOT NULL, rol INTEGER, pregunta INTEGER, FOREIGN KEY (rol) REFERENCES Rol(id), FOREIGN KEY (pregunta) REFERENCES Pregunta(id));";
+  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS Usuario (id INTEGER PRIMARY KEY AUTOINCREMENT, rut VARCHAR(9), dvrut VARCHAR(1), nombre VARCHAR(60), apellido  VARCHAR(60), telefono VARCHAR(9), correo VARCHAR(40) NOT NULL, clave VARCHAR(30) NOT NULL, respuesta VARCHAR(30) NOT NULL, rol INTEGER, pregunta INTEGER, FOREIGN KEY (rol) REFERENCES Rol(id), FOREIGN KEY (pregunta) REFERENCES Pregunta(id));";
 
   tablaRegion: string = "CREATE TABLE IF NOT EXISTS Region (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL);";
   tablaComuna: string = "CREATE TABLE IF NOT EXISTS Comuna (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL, cost_envio INTEGER NOT NULL, region INTEGER, FOREIGN KEY (region) REFERENCES Region(id));";
-  tablaDireccion: string = "CREATE TABLE IF NOT EXISTS Direccion (id INTEGER PRIMARY KEY AUTOINCREMENT, calle VARCHAR(40) NOT NULL, numero INTEGER NOT NULL, cod_postal INTEGER NOT NULL, comuna INTEGER, usuario INTEGER, FOREIGN KEY (comuna) REFERENCES Comuna(id), FOREIGN KEY (usuario) REFERENCES Usuario(id));";
+  tablaDireccion: string = "CREATE TABLE IF NOT EXISTS Direccion (id INTEGER PRIMARY KEY AUTOINCREMENT, calle VARCHAR(40) NOT NULL, numero INTEGER NOT NULL, cod_postal INTEGER NOT NULL, region VARCHAR(25), comuna VARCHAR(35), usuario INTEGER, FOREIGN KEY (usuario) REFERENCES Usuario(id));";
 
   tablaCategoria: string = "CREATE TABLE IF NOT EXISTS Categoria (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL);";
   tablaProducto: string = "CREATE TABLE IF NOT EXISTS Producto (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(120) NOT NULL, descripcion VARCHAR(600) NOT NULL, precio INTEGER NOT NULL, stock INTEGER NOT NULL, foto TEXT NOT NULL);";
   tablaCP_union: string = "CREATE TABLE IF NOT EXISTS CP_union (id INTEGER PRIMARY KEY AUTOINCREMENT, producto INTEGER, categoria INTEGER, FOREIGN KEY (producto) REFERENCES Producto(id), FOREIGN KEY (categoria) REFERENCES Categoria(id));";
 
   tablaDetalle: string = "CREATE TABLE IF NOT EXISTS Detalle (id INTEGER PRIMARY KEY AUTOINCREMENT, cantidad INTEGER NOT NULL, subtotal INTEGER NOT NULL, producto INTEGER,FOREIGN KEY (producto) REFERENCES Detalle(id));";
-  tablaCompra: string = "CREATE TABLE IF NOT EXISTS Compra (id INTEGER PRIMARY KEY AUTOINCREMENT, fech_compra DATE NOT NULL, fech_despacho DATE NOT NULL, fech_entrega DATE NOT NULL, costo_desp INTEGER NOT NULL, total INTEGER NOT NULL, carrito BOOLEAN NOT NULL, estado VARCHAR(30) NOT NULL, usuario INTEGER, detalle INTEGER, FOREIGN KEY (usuario) REFERENCES Usuario(id), FOREIGN KEY (detalle) REFERENCES Detalle(id));";
+  tablaCompra: string = "CREATE TABLE IF NOT EXISTS Compra (id INTEGER PRIMARY KEY AUTOINCREMENT, fech_compra DATE, fech_despacho DATE, fech_entrega DATE, costo_desp INTEGER, total INTEGER, carrito BOOLEAN NOT NULL, estado VARCHAR(30), usuario INTEGER, detalle INTEGER, FOREIGN KEY (usuario) REFERENCES Usuario(id), FOREIGN KEY (detalle) REFERENCES Detalle(id));";
 
   //------------------//
   /* INSERT DE DATOS */
   //------------------//
 
   //Insert de Roles
-  insertRolCliente: string = "INSERT INTO OR IGNORE Rol (id,nombre) VALUES (1, 'cliente');";
-  insertRolVendedor: string = "INSERT INTO OR IGNORE Rol (id,nombre) VALUES (2, 'vendedor');";
-  insertRolAdministrador: string = "INSERT INTO OR IGNORE Rol (id,nombre) VALUES (3, 'administrador');";
+  insertRolCliente: string = "INSERT OR IGNORE INTO Rol (id,nombre) VALUES (1, 'cliente');";
+  insertRolVendedor: string = "INSERT OR IGNORE INTO Rol (id,nombre) VALUES (2, 'vendedor');";
+  insertRolAdministrador: string = "INSERT OR IGNORE INTO Rol (id,nombre) VALUES (3, 'administrador');";
 
   //Insert de Preguntas
-  insertPregunta1: string = "INSERT INTO Pregunta (id,pregunta) VALUES (1, '¿Como se llamó tu primera mascota?');";
-  insertPregunta2: string = "INSERT INTO Pregunta (id,pregunta) VALUES (2, '¿Como se llama tu primera pareja?');";
-  insertPregunta3: string = "INSERT INTO Pregunta (id,pregunta) VALUES (3, '¿Cual es tu modelo de tanque favorito?');";
+  insertPregunta1: string = "INSERT OR IGNORE INTO Pregunta (id,pregunta) VALUES (1, '¿Como se llamó tu primera mascota?');";
+  insertPregunta2: string = "INSERT OR IGNORE INTO Pregunta (id,pregunta) VALUES (2, '¿Como se llama tu primera pareja?');";
+  insertPregunta3: string = "INSERT OR IGNORE INTO Pregunta (id,pregunta) VALUES (3, '¿Cual es tu modelo de tanque favorito?');";
 
   //Insert de Usuarios
-  insertUsuario1: string = "INSERT INTO Usuario (id,correo,clave,respuesta,pregunta,rol) VALUES (1, 'benj@gmail.com','hipo4521','No',2,1);";
+  insertUsuario1: string = "INSERT OR IGNORE INTO Usuario (id,correo,clave,respuesta,pregunta,rol) VALUES (1, 'benj@gmail.com','hipo4521','No',2,1);";
 
   //Insert de Categorias
-  insertCat1: string = "INSERT INTO Categoria (id,nombre) VALUES (1, 'RPG');";
-  insertCat2: string = "INSERT INTO Categoria (id,nombre) VALUES (2, 'Acción');";
-  insertCat3: string = "INSERT INTO Categoria (id,nombre) VALUES (3, 'Aventura');";
-  insertCat4: string = "INSERT INTO Categoria (id,nombre) VALUES (4, 'Rol');";
+  insertCat1: string = "INSERT OR IGNORE INTO Categoria (id,nombre) VALUES (1, 'RPG');";
+  insertCat2: string = "INSERT OR IGNORE INTO Categoria (id,nombre) VALUES (2, 'Acción');";
+  insertCat3: string = "INSERT OR IGNORE INTO Categoria (id,nombre) VALUES (3, 'Aventura');";
+  insertCat4: string = "INSERT OR IGNORE INTO Categoria (id,nombre) VALUES (4, 'Rol');";
+
+  //Insert de Productos
+
+
+  //Insert de Direcciones
+  insertDir1: string ="INSERT OR IGNORE INTO Direccion (id,calle, numero, cod_postal, region, comuna, usuario) VALUES (1, 'Mar de Chile', 1684, 7789890, 'Metropolitana', 'Cerro Navia', 1);";
+  insertDir2: string ="INSERT OR IGNORE INTO Direccion (id,usuario) VALUES (2, 2);";
 
   //variables para guardar los observables
   actualizarDB = new BehaviorSubject([]);
@@ -70,6 +85,35 @@ export class DbserviceService {
     private platform: Platform,
     private alertController: AlertController) {
     this.crearDB();
+  }
+
+
+  async init() {
+    // If using, define drivers here: await this.storage.defineDriver();
+    const storage = await this._storage!.create();
+    this._storage = storage;
+  }
+
+  // Create and expose methods that users of this service can
+  // call, for example:
+  public set(key: string, value: any) {
+    this._storage?.set(key, value);
+  }
+
+  public get(key: string) {
+    this._storage?.get(key);
+  }
+
+  public remove(key: string) {
+    this._storage?.remove(key);
+  }
+
+  public clear() {
+    this._storage?.clear;
+  }
+
+  public getAll() {
+    this._storage?.keys();
   }
 
 
@@ -146,8 +190,7 @@ export class DbserviceService {
             rut: res.rows.item(i).rut,
             dvrut: res.rows.item(i).dvrut,
             nombre: res.rows.item(i).nombre,
-            apellido_pa: res.rows.item(i).apellido_pa,
-            apellido_ma: res.rows.item(i).apellido_ma,
+            apellido: res.rows.item(i).apellido,
             telefono: res.rows.item(i).telefono,
             correo: res.rows.item(i).correo,
             clave: res.rows.item(i).clave,
@@ -168,15 +211,42 @@ export class DbserviceService {
 
   encontrarUsuario(correo: any): Promise<Usuario | null> {
     return new Promise((resolve) => {
-      this.database.executeSql('SELECT * FROM Usuario WHERE correo=?', [correo]).then(res => {
+      this.database.executeSql('SELECT * FROM Usuario WHERE correo=?;', [correo]).then(res => {
         if (res.rows.length > 0) {
           const usuario: Usuario = {
             id: res.rows.item(0).id,
             rut: res.rows.item(0).rut,
             dvrut: res.rows.item(0).dvrut,
             nombre: res.rows.item(0).nombre,
-            apellido_pa: res.rows.item(0).apellido_pa,
-            apellido_ma: res.rows.item(0).apellido_ma,
+            apellido: res.rows.item(0).apellido,
+            telefono: res.rows.item(0).telefono,
+            correo: res.rows.item(0).correo,
+            clave: res.rows.item(0).clave,
+            respuesta: res.rows.item(0).respuesta,
+            rol: res.rows.item(0).rol,
+            pregunta: res.rows.item(0).pregunta,
+          };
+          resolve(usuario);
+        } else {
+          resolve(null); // No se encontró un usuario con ese correo
+        }
+      })
+        .catch(e => {
+          this.presentAlert("Error al buscar en la base de datos (Tabla Usuario): " + e);
+        });
+    });
+  }
+
+  encontrarUsuarioID(id: any): Promise<Usuario | null> {
+    return new Promise((resolve) => {
+      this.database.executeSql('SELECT * FROM Usuario WHERE id=?;', [id]).then(res => {
+        if (res.rows.length > 0) {
+          const usuario: Usuario = {
+            id: res.rows.item(0).id,
+            rut: res.rows.item(0).rut,
+            dvrut: res.rows.item(0).dvrut,
+            nombre: res.rows.item(0).nombre,
+            apellido: res.rows.item(0).apellido,
             telefono: res.rows.item(0).telefono,
             correo: res.rows.item(0).correo,
             clave: res.rows.item(0).clave,
@@ -207,7 +277,23 @@ export class DbserviceService {
     return this.database.executeSql('UPDATE Usuario SET rut=?, dvrut=?, nombre=?, apellido_pa=?, apellido_ma=?, telefono=?, correo=?, clave=?, respuesta=?, rol=?, pregunta=?  WHERE id=?;', [rut, dvrut, nombre, apellido_pa, apellido_ma, telefono, correo, clave, respuesta, rol, pregunta, id]).then(res => {
       this.buscarUsuario();
     }).catch(e => {
-      this.presentAlert("Error al actualizar datos en la base de datos (Tabla Usuario): " + e);
+      this.presentAlert("Error al actualizar la información del usuario: " + e);
+    })
+  }
+
+  actualizarClave(id: any, clave: any) {
+    return this.database.executeSql('UPDATE Usuario SET clave=?  WHERE id=?;', [clave, id]).then(res => {
+      this.buscarUsuario();
+    }).catch(e => {
+      this.presentAlert("Error al cambiar clave del usuario: " + e);
+    })
+  }
+
+  actualizarRol(id: any, rol: any) {
+    return this.database.executeSql('UPDATE Usuario SET rol=?  WHERE id=?;', [rol, id]).then(res => {
+      this.buscarUsuario();
+    }).catch(e => {
+      this.presentAlert("Error al cambiar clave del usuario: " + e);
     })
   }
 
@@ -215,7 +301,7 @@ export class DbserviceService {
     return this.database.executeSql('DELETE FROM Usuario WHERE id=?;', [id]).then(res => {
       this.buscarUsuario();
     }).catch(e => {
-      this.presentAlert("Error al borrar datos en la base de datos (Tabla Usuario): " + e);
+      this.presentAlert("Error al borrar : " + e);
     })
   }
 
@@ -296,10 +382,11 @@ export class DbserviceService {
             id: res.rows.item(i).id,
             calle: res.rows.item(i).calle,
             numero: res.rows.item(i).numero,
-            cod_postal: res.rows.item(i).cost_envio,
+            cod_postal: res.rows.item(i).cod_postal,
+            region: res.rows.item(i).region,
+            comuna: res.rows.item(i).comuna,
 
             //Foranea
-            comuna: res.rows.item(i).comuna,
             usuario: res.rows.item(i).usuario
           })
         }
@@ -311,19 +398,44 @@ export class DbserviceService {
     })
   }
 
-  agregarDireccion(calle: any, numero: any, cod_postal: any, comuna: any, usuario: any) {
-    return this.database.executeSql('INSERT INTO Direccion (calle,numero,cod_postal,comuna,usuario) VALUES (?,?,?,?,?);', [calle, numero, cod_postal, comuna, usuario]).then(res => {
+  agregarDireccion(calle: any, numero: any, cod_postal: any, region: any, comuna: any, usuario: any) {
+    return this.database.executeSql('INSERT INTO Direccion (calle,numero,cod_postal,region,comuna,usuario) VALUES (?,?,?,?,?,?);', [calle, numero, cod_postal, region, comuna, usuario]).then(res => {
       this.buscarDireccion();
     }).catch(e => {
       this.presentAlert("Error de agregar nuevos datos Base de datos (Tabla Direccion): " + e);
     })
   }
 
-  actualizarDireccion(id: any, calle: any, numero: any, cod_postal: any, comuna: any, usuario: any) {
-    return this.database.executeSql('UPDATE Direccion SET calle=?, numero=?, cod_postal=?, comuna=?, usuario=? WHERE id=?;', [calle, numero, cod_postal, comuna, usuario, id]).then(res => {
+  actualizarDireccion(id: any, calle: any, numero: any, cod_postal: any, region: any, comuna: any, usuario: any) {
+    return this.database.executeSql('UPDATE Direccion SET calle=?, numero=?, cod_postal=?, region=?, comuna=?, usuario=? WHERE id=?;', [calle, numero, cod_postal, region, comuna, usuario, id]).then(res => {
       this.buscarDireccion();
     }).catch(e => {
       this.presentAlert("Error al actualizar datos en la base de datos (Tabla Direccion): " + e);
+    })
+  }
+
+  encontrarDireccionPorID(userID: any): Promise<Direccion | null> {
+    return new Promise((resolve) => {
+      this.database.executeSql('SELECT * FROM Direccion WHERE usuario=?', [userID]).then(res => {
+        if (res.rows.length > 0) {
+          const direccion: Direccion = {
+            id: res.rows.item(0).id,
+            calle: res.rows.item(0).calle,
+            numero: res.rows.item(0).numero,
+            cod_postal: res.rows.item(0).cod_postal,
+            region: res.rows.item(0).region,
+            comuna: res.rows.item(0).comuna,
+
+            //Foranea
+            usuario: res.rows.item(0).usuario
+          }
+          resolve(direccion);
+        } else {
+          resolve(null); // No se encontró un usuario con ese correo
+        }
+      }).catch(e => {
+        this.presentAlert("Error de buscar en Base de datos (Tabla Direccion): " + e);
+      });
     })
   }
 
@@ -712,6 +824,9 @@ export class DbserviceService {
       this.database.executeSql(this.insertCat2, []);
       this.database.executeSql(this.insertCat3, []);
       this.database.executeSql(this.insertCat4, []);
+
+      this.database.executeSql(this.insertDir1, []);
+      this.database.executeSql(this.insertDir2, []);
 
     } catch (e: any) {
       this.presentAlert("Error al insertar datos en la Base de datos: " + e.message);
