@@ -21,12 +21,13 @@
       <ion-card class="card-component">
         <ion-row>
           <ion-col size="3">
-            <img src="/assets/Cover/img/{{producto.image}}">
+            <img [src]="producto.foto">
           </ion-col>
           <ion-col size="9">
             <ion-card-header>
-              <ion-card-title>{{ producto.name }}</ion-card-title>
-              <ion-card-subtitle>{{ producto.price | currency: "CLP" }}</ion-card-subtitle>
+              <ion-card-title>{{ producto.nombre }}</ion-card-title>
+              <ion-card-subtitle>{{ producto.precio | currency: "CLP" }}</ion-card-subtitle>
+              <h4>stock: {{producto.stock}}</h4>
             </ion-card-header>
           </ion-col>
         </ion-row>

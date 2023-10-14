@@ -16,17 +16,19 @@ export class Tab1Page implements OnInit {
   cate: any = [];
 
   juegos: string = "";
-  Productos: any = [];
+  arregloProductos: any = [];
   ProductosFilter: any = [];
   id: number = 0;
 
-  arregloProductos: any = [
+  arregloProducto: any[] = [
     {
       id: '',
       nombre: '',
       descripcion: '',
       precio: '',
       stock: '',
+      req_minimo: '',
+      req_recomendado: '',
       foto: '',
     }
   ]
@@ -37,24 +39,24 @@ export class Tab1Page implements OnInit {
 
 
   constructor(
-    private router: Router, private http: HttpClient, private bd: DbserviceService) {}
+    private router: Router, private http: HttpClient, private bd: DbserviceService) { }
 
   ngOnInit() {
-    this.getProductos().subscribe(res => {
-      console.log("Res", res)
-      this.Productos = res;
-    });
-    this.getCategoria().subscribe(res => {
-      console.log("Res", res)
-      this.cate = res;
-    });
-    this.bd.dbState().subscribe(data=>{
-      if(data){
-        this.bd.fetchProducto().subscribe(item=>{
+  /*   this.onInit(); */
+    this.bd.dbState().subscribe(data => {
+      if (data) {
+        this.bd.fetchProducto().subscribe(item => {
           this.arregloProductos = item;
         })
       }
     });
+  }
+
+  ionViewWillEnter() {
+    this.bd.buscarProducto();
+  }
+
+  async onInit() {
   }
 
   swiperSlideChanged(e: any) {
@@ -93,7 +95,7 @@ export class Tab1Page implements OnInit {
   }
 
   getId(productoId: number) {
-    for (const producto of this.Productos) {
+    for (const producto of this.arregloProductos) {
       if (producto.id === productoId) {
         return productoId;
       }
@@ -102,30 +104,30 @@ export class Tab1Page implements OnInit {
   }
 
   getItem() {
-    const objectKey = 'name';
+    const objectKey = 'nombre';
 
     this.ProductosFilter = [];
 
-    for (const producto of this.Productos) {
+    for (const producto of this.arregloProductos) {
 
       if (producto[objectKey].toLowerCase().includes(this.juegos.toLowerCase())) {
         this.ProductosFilter.push(producto);
       }
 
-      if (this.juegos === ""){
+      if (this.juegos === "") {
         this.ProductosFilter = [];
       }
     }
   }
 
   showProducto(productoId: number) {
-    const idEncontrada = this.getId(productoId);
+
     let navigationExtras: NavigationExtras = {
       state: {
-        id: idEncontrada
+        id: productoId
       }
     }
-    console.log(idEncontrada)
+    console.log(productoId)
     this.router.navigate(['/tabs/tab1/tab1view'], navigationExtras)
   }
 }

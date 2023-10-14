@@ -84,18 +84,24 @@
         </ion-row>
 
         <ion-row>
-          <ion-col>
-            <ion-input id="rut" label="Número de Rut" label-placement="floating" fill="solid" formControlName="tfn"
-              type="number" placeholder="Introduzca su Rut" maxlength="8"></ion-input>
-          </ion-col>
-          <ion-col>
-            <ion-input id="dvrut" label="Digito verificador" label-placement="floating" fill="solid" formControlName="tfn"
-              placeholder="Introduzca su Digito verificador" maxlength="1"></ion-input>
-          </ion-col>
+          <ion-input id="rut" label="Número de Rut" label-placement="floating" fill="solid" formControlName="rut"
+            type="number" placeholder="Introduzca su Rut"></ion-input>
         </ion-row>
         <ion-row class="error-mesage">
-          <small *ngFor="let validation of validation_messages.tfn">
-            <div class="error" *ngIf="isSubmitted && userForm.get('tfn')?.hasError(validation.type)">
+          <small *ngFor="let validation of validation_messages.rut">
+            <div class="error" *ngIf="isSubmitted && userForm.get('rut')?.hasError(validation.type)">
+              {{ validation.message }}
+            </div>
+          </small>
+        </ion-row>
+
+        <ion-row>
+          <ion-input id="dvrut" label="Digito verificador" label-placement="floating" fill="solid"
+            formControlName="dvrut" placeholder="Introduzca su Digito verificador" maxlength="1"></ion-input>
+        </ion-row>
+        <ion-row class="error-mesage">
+          <small *ngFor="let validation of validation_messages.dvrut">
+            <div class="error" *ngIf="isSubmitted && userForm.get('dvrut')?.hasError(validation.type)">
               {{ validation.message }}
             </div>
           </small>

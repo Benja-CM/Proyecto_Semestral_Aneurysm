@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from "@angular/common/http";
-import { map } from "rxjs/operators";
+import { map, switchMap } from "rxjs/operators";
+import { DbserviceService } from 'src/app/services/dbservice.service';
 
 @Component({
   selector: 'app-tab1view',
@@ -12,16 +13,16 @@ import { map } from "rxjs/operators";
 export class Tab1viewPage implements OnInit {
 
   idRecibida: number = 0;
-  producto: any = {};
+  producto: any = [];
+  categorias: any = [];
+  categoriasFilter: any = [];
 
-  
+
   isAlertOpen = false;
   public alertButtons = ['OK'];
 
   constructor(
-    private router: Router,
-    private activeRouter: ActivatedRoute,
-    private http: HttpClient) {
+    private router: Router, private activeRouter: ActivatedRoute, private http: HttpClient, private db: DbserviceService) {
     this.activeRouter.queryParams.subscribe(param => {
       if (this.router.getCurrentNavigation()?.extras.state) {
         this.idRecibida = this.router.getCurrentNavigation()?.extras?.state?.['id'];
@@ -30,25 +31,30 @@ export class Tab1viewPage implements OnInit {
   }
 
   ngOnInit() {
-    this.getProducto(this.idRecibida).subscribe(producto => {
-      if (producto) {
-        this.producto = producto;
-        console.log(this.producto);
-      } else {
-        console.error('Producto no encontrado.');
-      }
-    });
+    this.getProducto();
+    this.getUnion();
   }
 
-  getProducto(id: number) {
-    return this.http.get("assets/datos_internos/productos.json")
-      .pipe(
-        map((res: any) => {
-          const productos = res.data;
-          const productoEncontrado = productos.find((producto: any) => producto.id === id);
-          return productoEncontrado;
-        })
-      );
+  async getProducto() {
+    const producto = await this.db.encontrarProducto(this.idRecibida);
+    this.producto = producto;
+  }
+
+  async getUnion() {
+    this.categoriasFilter = [];
+    console.log("GetUnion");
+    const categorias = await this.db.encontrarUnionPorProducto(this.idRecibida);
+
+    if (categorias !== null) {
+      for (const categoria of categorias) {
+        const categoriaDetalle = await this.db.encontrarCategoria(categoria.categoria);
+        if (categoriaDetalle !== null) {
+          this.categoriasFilter.push(categoriaDetalle.nombre);
+        }
+      }
+    } else {
+      return;
+    }
   }
 
   setOpen(isOpen: boolean) {
@@ -57,6 +63,8 @@ export class Tab1viewPage implements OnInit {
 
   comprar() {
     this.setOpen(true);
+    this.db.actualizarStock(this.producto.id, this.producto.stock-1);
+    this.getProducto();
   }
 
   agregarCar() {

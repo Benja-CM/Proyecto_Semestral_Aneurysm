@@ -6,12 +6,12 @@
         <ion-card class="card-component " (click)="showProducto(producto.id)">
           <ion-row>
             <ion-col size="3">
-              <img src="/assets/Cover/img/{{producto.image}}">
+              <ion-img alt="Prod" [src]="producto.foto"></ion-img>
             </ion-col>
             <ion-col size="9">
               <ion-card-header>
-                <ion-card-title>{{ producto.name }}</ion-card-title>
-                <ion-card-subtitle>{{ producto.price | currency: "CLP" }}</ion-card-subtitle>
+                <ion-card-title>{{ producto.nombre }}</ion-card-title>
+                <ion-card-subtitle>{{ producto.precio | currency: "CLP" }}</ion-card-subtitle>
               </ion-card-header>
             </ion-col>
           </ion-row>
@@ -30,23 +30,23 @@
   <div class="card-banner"><app-banner></app-banner></div>
 
   <ion-card-header>
-    <ion-card-title><strong>Los más vendidos</strong> </ion-card-title>
+    <ion-card-title><strong>Los más vendidos</strong></ion-card-title>
   </ion-card-header>
   <swiper-container class="custom-swiper-game" (slidechange)="swiperSlideChanged($event)" [loop]="true"
     [slidesPerView]="2">
-    <swiper-slide *ngFor="let juego of Productos.slice(0,5)">
+    <swiper-slide *ngFor="let juego of arregloProductos.slice(0,5)">
       <ion-card class="prod-card-2" (click)="showProducto(juego.id)">
         <div class="image-container">
-          <img class="prod-img" src="/assets/Cover/img/{{juego.image}}">
+          <ion-img class="prod-img" alt="Prod" [src]="juego.foto"></ion-img>
         </div>
         <ion-card-header>
-          <ion-card-title>{{juego.name}}</ion-card-title>
-          <ion-card-subtitle>{{juego.price | currency:'CLP'}}</ion-card-subtitle>
+          <ion-card-title>{{juego.nombre}}</ion-card-title>
+          <ion-card-subtitle>{{juego.precio | currency:'CLP'}}</ion-card-subtitle>
         </ion-card-header>
       </ion-card>
     </swiper-slide>
   </swiper-container>
-  
+
   <!-- #si se cambia cate por cate.slice(0, 5) se limitan la cantidad de slice que muestra del listado,
      aun puede mostrar todo de la lista pero hasta 5 #como para hacer un mostrar mas-->
 
@@ -71,14 +71,14 @@
     <ion-card-title><strong>Lista De juegos</strong></ion-card-title>
   </ion-card-header>
   <ion-row class="multiple-card">
-    <ion-col size="6" *ngFor="let juego of Productos">
+    <ion-col size="6" *ngFor="let juego of arregloProductos">
       <ion-card class="prod-card" (click)="showProducto(juego.id)">
         <div class="image-container">
-          <img alt="prod" class="prod-img" src="/assets/Cover/img/{{juego.image}}" />
+          <ion-img class="prod-img" alt="Prod" [src]="juego.foto"></ion-img>
         </div>
         <ion-card-header>
-          <ion-card-title>{{juego.name}}</ion-card-title>
-          <ion-card-subtitle>{{juego.price | currency:'CLP'}}</ion-card-subtitle>
+          <ion-card-title>{{juego.nombre}}</ion-card-title>
+          <ion-card-subtitle>{{juego.precio | currency:'CLP'}}</ion-card-subtitle>
         </ion-card-header>
       </ion-card>
     </ion-col>

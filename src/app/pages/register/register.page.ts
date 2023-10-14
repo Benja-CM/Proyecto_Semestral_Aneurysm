@@ -93,6 +93,12 @@ export class RegisterPage implements OnInit {
     let respuesta = this.registerForm.value.resp_secreta;
 
     this.db.agregarUsuario(correo, clave, respuesta, 1, pregunta);
+
+    let nuevoUsuario: any = [];
+    nuevoUsuario = await this.db.encontrarUsuario(correo);
+    this.db.agregarCarrito(nuevoUsuario.id);
+    this.db.agregarDireccion(nuevoUsuario.id);
+    console.log(nuevoUsuario.id);
     this.router.navigate(['/tabs/tab4'] /* navigationExtras */);
   }
 

@@ -62,7 +62,7 @@ export class ChangepsswdPage implements OnInit {
     const usuario = await this.db.encontrarUsuarioID(this.userID);
 
     if (usuario === null) {
-      this.db.presentAlert("Error al buscar el usuario (Error Fatal en la tarjeta de memoria)");
+      this.db.presentAlert("Error", "","No existe usuario asociado al correo ingresado");
       return;
     }
 

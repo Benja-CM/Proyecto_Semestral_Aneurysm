@@ -6,6 +6,8 @@ export class Producto {
     descripcion!: string;
     precio!: number;
     stock!: number;
+    req_minimo!: string;
+    req_recomendado!: string;
     foto!: string;
     
 }

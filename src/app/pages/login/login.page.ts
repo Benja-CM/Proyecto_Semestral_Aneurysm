@@ -59,7 +59,7 @@ export class LoginPage implements OnInit {
       const usuario = await this.db.encontrarUsuario(this.loginForm.value.email);
 
       if (usuario === null) {
-        this.db.presentAlert("Correo no existe");
+        this.loginForm.controls['password'].setErrors({ 'notMatch': true })
         return;
       }
 
@@ -77,7 +77,7 @@ export class LoginPage implements OnInit {
         this.loginForm.controls['password'].setErrors({ 'notMatch': true })
       }
     } catch {
-      this.db.presentAlert("Error al buscar el correo en la base de datos");
+      this.db.presentAlert("Error", "Error en la base de datos", "Error al buscar el correo en la base de datos");
     }
   }
 
