@@ -9,9 +9,7 @@ export class Compra {
     costo_desp!: number;
     total!: number;
     carrito!: boolean;
-    estado!: string;
 
     //Foraneo
-    detalle!: Detalle;
     usuario!: Usuario;
 }

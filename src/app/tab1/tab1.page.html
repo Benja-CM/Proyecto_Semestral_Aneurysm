@@ -58,7 +58,7 @@
     [slidesPerView]="3">
     <swiper-slide *ngFor="let categoria of cate">
       <ion-card class="prod-card-2">
-        <img class="prod-img" src="/assets/Cover/img/{{categoria.image}}">
+        <img class="prod-img" [src]="img/{{categoria.image}}">
         <ion-card-header>
           <ion-card-title>{{categoria.name}}</ion-card-title>
         </ion-card-header>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DbserviceService } from 'src/app/services/dbservice.service';
 
 @Component({
   selector: 'app-agregar-vend',
@@ -10,7 +11,15 @@ import { Router } from '@angular/router';
 export class AgregarVendPage implements OnInit {
   email: string = "";
   password: string = "";
+  pregunta: string = "";
   resp_secreta: string = "";
+
+  arregloPreguntas: any[] = [
+    {
+      id: '',
+      pregunta: ''
+    }
+  ]
 
   public agregarForm = this.formBuilder.group({
     email: new FormControl('', {
@@ -31,17 +40,37 @@ export class AgregarVendPage implements OnInit {
       validators: [
         Validators.required
       ]
+    }),
+    pregunta: new FormControl('', {
+      validators: [
+        Validators.required
+      ]
+    }),
+    resp_secreta: new FormControl('', {
+      validators: [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(30),
+        Validators.pattern("^[a-zA-Z0-9 ]*$")
+      ]
     })
   })
 
   isSubmitted = false;
   submitError = "";
 
-  constructor(
-    private router: Router,
-    private formBuilder: FormBuilder) {}
+  constructor(private router: Router, private formBuilder: FormBuilder, private db: DbserviceService) {
+    this.db.buscarPregunta();
+  }
 
   ngOnInit() {
+    this.db.dbState().subscribe(data => {
+      if (data) {
+        this.db.fetchPregunta().subscribe(item => {
+          this.arregloPreguntas = item;
+        })
+      }
+    });
   }
 
   async onSubmit() {
@@ -57,23 +86,35 @@ export class AgregarVendPage implements OnInit {
     }
 
     console.log("valid");
-    this.router.navigate(['/tabs/tab4'] /* navigationExtras */)
+    let correo = this.agregarForm.value.email;
+    let clave = this.agregarForm.value.password;
+    let pregunta = this.agregarForm.value.pregunta;
+    let respuesta = this.agregarForm.value.resp_secreta;
+
+    this.db.agregarUsuario(correo, clave, respuesta, 2, pregunta);
+
+    let nuevoUsuario: any = [];
+    nuevoUsuario = await this.db.encontrarUsuario(correo);
+    this.db.agregarCarrito(nuevoUsuario.id);
+    this.db.agregarDireccion(nuevoUsuario.id);
+    console.log(nuevoUsuario.id);
+    this.router.navigate(['/tabs/tab4'] /* navigationExtras */);
   }
 
-  claveValida(password: any){
-    if (/^(?=.*[A-Z]).*$/.test(password) == false){
+  claveValida(password: any) {
+    if (/^(?=.*[A-Z]).*$/.test(password) == false) {
       this.agregarForm.controls['password'].setErrors({ 'errorMayus': true })
     }
-    if (/^(?=.*[!@#$&*_+.?~]).*$/.test(password) == false){
+    if (/^(?=.*[!@#$&*_+.?~]).*$/.test(password) == false) {
       this.agregarForm.controls['password'].setErrors({ 'errorCarEspecial': true })
     }
-    if (/^(?=.*[\d*]).*$/.test(password) == false){
+    if (/^(?=.*[\d*]).*$/.test(password) == false) {
       this.agregarForm.controls['password'].setErrors({ 'errorNumerico': true })
     }
   }
 
-  confClave(password: any, password_conf: any){
-    if (password !== password_conf){
+  confClave(password: any, password_conf: any) {
+    if (password !== password_conf) {
       this.agregarForm.controls['password_conf'].setErrors({ 'errorConf': true })
     }
   }
@@ -95,7 +136,13 @@ export class AgregarVendPage implements OnInit {
     'password_conf': [
       { type: 'required', message: 'La confirmación de contraseña es obligatoria' },
       { type: 'errorConf', message: 'La contraseña debe coincidir con la contraseña elegida' }
+    ],
+    'pregunta': [
+      { type: 'required', message: 'La pregunta secreta es obligatoria' },
+    ],
+    'resp_secreta': [
+      { type: 'required', message: 'La respuesta secreta es obligatoria' },
+      { type: 'pattern', message: 'La respuesta no debe llevar caracteres especiales' }
     ]
   }
-
 }

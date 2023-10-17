@@ -9,27 +9,23 @@
 
 <ion-content [fullscreen]="true">
   <ion-searchbar animated="true" placeholder="Buscar"></ion-searchbar>
-  <ion-card class="custom-card">
+  <ion-card class="custom-card" *ngFor="let com of arregloCompra">
     <ion-card-content class="card-content">
       <ion-grid>
         <ion-row class="info-row">
-          <ion-label class="info-label">Fecha</ion-label>
-          <ion-label class="info-value">7/8/2023, 16:11</ion-label>
+          <ion-label class="info-label">Fecha de Compra</ion-label>
+          <ion-label class="info-value">{{com.fech_compra}}</ion-label>
         </ion-row>
 
-        <ion-row class="info-row">
-          <ion-label class="info-label">Estado</ion-label>
-          <ion-label class="info-value"><span class="status">Entregado</span></ion-label>
-        </ion-row>
 
         <ion-row class="info-row">
-          <ion-label class="info-label">Productos</ion-label>
-          <ion-label class="info-value">Monster Hunter: World Steam Key LATAM</ion-label>
+          <ion-label class="info-label">Fecha de entrega</ion-label>
+          <ion-label class="info-value">{{com.fech_entrega}}</ion-label>
         </ion-row>
 
         <ion-row class="info-row">
           <ion-label class="info-label">ID de pedido</ion-label>
-          <ion-label class="info-value">o-ymwc6zo</ion-label>
+          <ion-label class="info-value">{{com.id}}</ion-label>
         </ion-row>
 
         <ion-row class="info-row">
@@ -39,49 +35,11 @@
 
         <ion-row class="info-row">
           <ion-label class="info-label">Cantidad total</ion-label>
-          <ion-label class="info-value">11.588 CLP</ion-label>
+          <ion-label class="info-value">{{com.total | currency:'CLP'}}</ion-label>
         </ion-row>
       </ion-grid>
       <ion-button fill="clear" style="color: rgb(239, 150, 17);" expand="block"
-        (click)="setOpen(true)">Detalles</ion-button>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card class="custom-card">
-    <ion-card-content class="card-content">
-      <ion-grid>
-        <ion-row class="info-row">
-          <ion-label class="info-label">Fecha</ion-label>
-          <ion-label class="info-value">7/8/2023, 16:11</ion-label>
-        </ion-row>
-
-        <ion-row class="info-row">
-          <ion-label class="info-label">Estado</ion-label>
-          <ion-label class="info-value"><span class="status">Entregado</span></ion-label>
-        </ion-row>
-
-        <ion-row class="info-row">
-          <ion-label class="info-label">Productos</ion-label>
-          <ion-label class="info-value">Monster Hunter: World Steam Key LATAM</ion-label>
-        </ion-row>
-
-        <ion-row class="info-row">
-          <ion-label class="info-label">ID de pedido</ion-label>
-          <ion-label class="info-value">o-ymwc6zo</ion-label>
-        </ion-row>
-
-        <ion-row class="info-row">
-          <ion-label class="info-label">Método de pago</ion-label>
-          <ion-label class="info-value">WebPay</ion-label>
-        </ion-row>
-
-        <ion-row class="info-row">
-          <ion-label class="info-label">Cantidad total</ion-label>
-          <ion-label class="info-value">11.588 CLP</ion-label>
-        </ion-row>
-      </ion-grid>
-      <ion-button fill="clear" style="color: rgb(239, 150, 17);" expand="block"
-        (click)="setOpen(true)">Detalles</ion-button>
+        (click)="setOpen(true, com.id)">Detalles</ion-button>
     </ion-card-content>
   </ion-card>
 
@@ -91,7 +49,7 @@
         <ion-toolbar>
           <ion-title>Detalles</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="setOpen(false)">Cerrar</ion-button>
+            <ion-button (click)="setOpen1(false)">Cerrar</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
@@ -102,41 +60,42 @@
               <ion-row class="info-row">
                 <ion-label class=" info-label">Productos</ion-label>
               </ion-row>
-              <ion-row class="info-row">
+              <ion-row class="info-row" *ngFor="let producto of arregloDetalle">
                 <!-- Debo crear un nuevo grid, para ajustar la separacion vertical (es mucha) -->
-                <ion-col size="auto">
-                  <img src="/assets/Cover/img/mh_world.jpg">
-                </ion-col>
-                <ion-col size="auto">
-                  <ion-row class="ion-align-items-center">
-                    <div class="custom-titles">
-                      <ion-card-subtitle>Monster Hunter: World</ion-card-subtitle>
-                      <ion-card-subtitle>11.588 CLP</ion-card-subtitle>
-                    </div>
-                  </ion-row>
-                </ion-col>
-                <ion-col size="auto">
-                  <img src="/assets/Cover/img/mh_world.jpg">
-                </ion-col>
-                <ion-col size="auto">
-                  <ion-row class="ion-align-items-center">
-                    <div class="custom-titles">
-                      <ion-card-subtitle>Monster Hunter: World</ion-card-subtitle>
-                      <ion-card-subtitle>11.588 CLP</ion-card-subtitle>
-                    </div>
-                  </ion-row>
-                </ion-col>
+                  <ion-col size="auto">
+                    <img [src]="producto.foto">
+                  </ion-col>
+                  <ion-col size="auto">
+                    <ion-row class="ion-align-items-center">
+                      <div class="custom-titles">
+                        <ion-card-subtitle>Producto: {{producto.nombre}}</ion-card-subtitle>
+                        <ion-card-subtitle>Valor por unidad: {{producto.precio | currency:'CLP'}}</ion-card-subtitle>
+                        <ion-card-subtitle>Cantidad comprada: {{producto.cantidad}}</ion-card-subtitle>
+                      </div>
+                    </ion-row>
+                  </ion-col>
               </ion-row>
 
               <ion-row class="info-row infor-row2">
-                <ion-label class="info-label">Fecha</ion-label>
-                <ion-label class="info-value">7/8/2023, 16:11</ion-label>
+                <ion-label class="info-label">Fecha de Compra</ion-label>
+                <ion-label class="info-value">{{compra.fech_compra}}</ion-label>
               </ion-row>
 
               <ion-row class="info-row infor-row2">
-                <ion-label class="info-label">Estado</ion-label>
-                <ion-label class="info-value"><span class="status">Entregado</span></ion-label>
+                <ion-label class="info-label">Fecha de Despacho</ion-label>
+                <ion-label class="info-value">{{compra.fech_despacho}}</ion-label>
               </ion-row>
+
+              <ion-row class="info-row infor-row2">
+                <ion-label class="info-label">Fecha de Entrega</ion-label>
+                <ion-label class="info-value">{{compra.fech_entrega}}</ion-label>
+              </ion-row>
+
+              <ion-row class="info-row infor-row2">
+                <ion-label class="info-label">Costo de Despacho</ion-label>
+                <ion-label class="info-value">{{compra.costo_desp}}</ion-label>
+              </ion-row>
+
             </ion-grid>
           </ion-card-content>
         </ion-card>
@@ -147,7 +106,7 @@
               <ion-label class=" info-label">Resumen del Pedido</ion-label>
             </ion-row>
             <div class="subtotal">
-              <ion-card-title>23.176 CLP</ion-card-title>
+              <ion-card-title>{{compra.total | currency:'CLP'}}</ion-card-title>
             </div>
           </ion-card-content>
         </ion-card>

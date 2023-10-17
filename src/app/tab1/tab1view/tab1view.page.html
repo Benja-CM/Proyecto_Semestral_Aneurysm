@@ -30,7 +30,7 @@
         <ion-button class="buynow" expand="full" (click)="comprar()">Comprar ahora</ion-button>
       </ion-col>
       <ion-col size="2">
-        <ion-button class="addcart" expand="full" (click)="agregarCar()">
+        <ion-button class="addcart" expand="full" (click)="agregar()">
           <ion-icon name="bag-handle-outline"></ion-icon>
         </ion-button>
       </ion-col>
@@ -64,7 +64,6 @@
       </ion-col>
     </ion-card-content>
   </ion-card>
-
 </ion-content>
 
 <ion-alert [isOpen]="isAlertOpen" header="Compra realizada" subHeader="La compra se ha realizado correctamente"

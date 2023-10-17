@@ -42,7 +42,6 @@ export class Tab1Page implements OnInit {
     private router: Router, private http: HttpClient, private bd: DbserviceService) { }
 
   ngOnInit() {
-  /*   this.onInit(); */
     this.bd.dbState().subscribe(data => {
       if (data) {
         this.bd.fetchProducto().subscribe(item => {
@@ -54,9 +53,6 @@ export class Tab1Page implements OnInit {
 
   ionViewWillEnter() {
     this.bd.buscarProducto();
-  }
-
-  async onInit() {
   }
 
   swiperSlideChanged(e: any) {
@@ -73,25 +69,6 @@ export class Tab1Page implements OnInit {
 
   goPrev() {
     this.swiper?.slidePrev();
-  }
-
-  getProductos() {
-    return this.http
-      .get("assets/datos_internos/productos.json")
-      .pipe(
-        map((res: any) => {
-          return res.data;
-        })
-      )
-  }
-  getCategoria() {
-    return this.http
-      .get("assets/datos_internos/Categorias.json")
-      .pipe(
-        map((res: any) => {
-          return res.cate;
-        })
-      )
   }
 
   getId(productoId: number) {

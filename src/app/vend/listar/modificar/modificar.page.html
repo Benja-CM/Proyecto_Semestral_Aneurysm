@@ -1,0 +1,113 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button icon="close-outline"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Modificar Producto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-content class="ion-padding">
+    <ion-card>
+      <ion-card-content class="custom-card">
+        <form [formGroup]="modificarProdForm" (ngSubmit)="onSubmit()">
+          <ion-row>
+            <ion-input id="name" name="name" formControlName="name" label="Nombre del Producto"
+              label-placement="floating" fill="solid" placeholder="Introduzca el nombre del producto"></ion-input>
+            <div class="error" *ngFor="let validation of validation_messages.name">
+              <div class="error" *ngIf="isSubmitted && modificarProdForm.get('name')?.hasError(validation.type)">
+                {{ validation.message }}
+              </div>
+            </div>
+          </ion-row>
+
+          <ion-row>
+            <ion-input id="price" name="price" formControlName="price" label="Precio" label-placement="floating"
+              fill="solid" placeholder="Introduzca el precio del producto" type="number"></ion-input>
+            <div class="error" *ngFor="let validation of validation_messages.price">
+              <div class="error" *ngIf="isSubmitted && modificarProdForm.get('price')?.hasError(validation.type)">
+                {{ validation.message }}
+              </div>
+            </div>
+          </ion-row>
+
+          <ion-row>
+            <ion-input id="stock" name="stock" formControlName="stock" label="Stock" label-placement="floating"
+              fill="solid" placeholder="Introduzca el stock del producto" type="number"></ion-input>
+            <div class="error" *ngFor="let validation of validation_messages.stock">
+              <div class="error" *ngIf="isSubmitted && modificarProdForm.get('stock')?.hasError(validation.type)">
+                {{ validation.message }}
+              </div>
+            </div>
+          </ion-row>
+
+          <ion-row>
+            <ion-textarea id="descripcion" name="descripcion" formControlName="descripcion" label="Descripción"
+              label-placement="floating" fill="solid" placeholder="Introduzca la descripción del producto"
+              [autoGrow]="true">
+            </ion-textarea>
+            <div class="error" *ngFor="let validation of validation_messages.descripcion">
+              <div class="error" *ngIf="isSubmitted && modificarProdForm.get('descripcion')?.hasError(validation.type)">
+                {{ validation.message }}
+              </div>
+            </div>
+          </ion-row>
+
+          <ion-row>
+            <ion-textarea id="req_minimo" name="req_minimo" formControlName="req_minimo" label="Requisitos Minimos"
+              label-placement="floating" fill="solid" placeholder="Introduzca los Requisitos mínimos del prodcuto"
+              [autoGrow]="true"></ion-textarea>
+            <div class="error" *ngFor="let validation of validation_messages.req_minimo">
+              <div class="error" *ngIf="isSubmitted && modificarProdForm.get('req_minimo')?.hasError(validation.type)">
+                {{ validation.message }}
+              </div>
+            </div>
+          </ion-row>
+
+          <ion-row>
+            <ion-textarea id="req_recomendado" name="req_recomendado" formControlName="req_recomendado"
+              label="Requisitos Recomendados" label-placement="floating" fill="solid"
+              placeholder="Introduzca los Requisitos recomendados del producto" [autoGrow]="true"></ion-textarea>
+            <div class="error" *ngFor="let validation of validation_messages.req_recomendado">
+              <div class="error"
+                *ngIf="isSubmitted && modificarProdForm.get('descrireq_recomendadopcion')?.hasError(validation.type)">
+                {{ validation.message }}
+              </div>
+            </div>
+          </ion-row>
+
+          <ion-row>
+            <ion-select id="categoria" name="categoria" aria-label="Categorias" formControlName="categoria"
+              placeholder="Seleccione las categorias" [multiple]="true">
+              <ion-select-option *ngFor="let cat of arregloCategorias" value="{{ cat.id }}">
+                {{cat.nombre}}
+              </ion-select-option>
+            </ion-select>
+            <div class="error" *ngFor="let validation of validation_messages.categoria">
+              <div class="error" *ngIf="isSubmitted && modificarProdForm.get('categoria')?.hasError(validation.type)">
+                {{ validation.message }}
+              </div>
+            </div>
+          </ion-row>
+
+          <ion-button class="fkup">
+            <ion-icon name="attach"></ion-icon>
+            <!-- <label class="myFakeUploadButton" for="myFileInput">Agregar Imagen</label> -->
+            <input formControlName="img" accept="image/*" type="file" id="myFileInput">
+          </ion-button>
+
+          <div class="error" *ngFor="let validation of validation_messages.img">
+            <div class="error" *ngIf="isSubmitted && modificarProdForm.get('img')?.hasError(validation.type)">
+              {{ validation.message }}
+            </div>
+          </div>
+
+          <p>Nombre de Archivo: {{ productoFilter.foto}}</p>
+
+          <ion-button expand="full" type="submit">Guardar</ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
+</ion-content>

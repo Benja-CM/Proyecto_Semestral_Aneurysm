@@ -1,4 +1,5 @@
 import { Producto } from "../Product/producto";
+import { Compra } from "./compra";
 
 export class Detalle {
     id!: number;
@@ -7,4 +8,8 @@ export class Detalle {
 
     //Foranea
     producto!: Producto;
+    compra!: Compra;
+    nombre!: string;
+    precio!: number;
+    foto!: string;
 }

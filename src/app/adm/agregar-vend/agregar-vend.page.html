@@ -49,6 +49,33 @@
           </small>
         </ion-row>
 
+         <ion-row>
+          <ion-select aria-label="Pregunta secreta" interface="popover" placeholder="Selecciona una pregunta" required
+            required formControlName="pregunta" name="pregunta">
+            <ion-select-option *ngFor="let preg of arregloPreguntas" [value]="preg.id">
+              {{ preg.pregunta }}
+            </ion-select-option>
+          </ion-select>
+          
+          <div class="error" *ngFor="let validation of validation_messages.pregunta">
+            <div class="error" *ngIf="isSubmitted && agregarForm.get('pregunta')?.hasError(validation.type)">
+              {{ validation.message }}
+            </div>
+          </div>
+        </ion-row>
+        
+
+        <ion-row>
+          <ion-input id="resp_secreta" type="string" fill="solid" label="Respuesta" labelPlacement="floating" required
+            [clearInput]="true" formControlName="resp_secreta" name="resp_secreta"></ion-input>
+        </ion-row>
+
+        <div class="error" *ngFor="let validation of validation_messages.resp_secreta">
+          <div class="error" *ngIf="isSubmitted && agregarForm.get('resp_secreta')?.hasError(validation.type)">
+            {{ validation.message }}
+          </div>
+        </div>
+
         <ion-button type="submit" expand="full">Registrar</ion-button>
       </form>
     </ion-card-content>

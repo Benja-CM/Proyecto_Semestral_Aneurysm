@@ -41,8 +41,8 @@ export class DbserviceService {
   tablaProducto: string = "CREATE TABLE IF NOT EXISTS Producto (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(120) NOT NULL, descripcion VARCHAR(1600) NOT NULL, precio INTEGER NOT NULL, stock INTEGER NOT NULL, req_minimo VARCHAR(800), req_recomendado VARCHAR(800), foto TEXT NOT NULL);";
   tablaCPunion: string = "CREATE TABLE IF NOT EXISTS CPunion (id INTEGER PRIMARY KEY AUTOINCREMENT, producto INTEGER, categoria INTEGER, FOREIGN KEY (producto) REFERENCES Producto(id), FOREIGN KEY (categoria) REFERENCES Categoria(id));";
 
-  tablaCompra: string = "CREATE TABLE IF NOT EXISTS Compra (id INTEGER PRIMARY KEY AUTOINCREMENT, fech_compra DATE, fech_despacho DATE, fech_entrega DATE, costo_desp INTEGER, total INTEGER, carrito BOOLEAN NOT NULL, estado VARCHAR(30), usuario INTEGER, FOREIGN KEY (usuario) REFERENCES Usuario(id));";
-  tablaDetalle: string = "CREATE TABLE IF NOT EXISTS Detalle (id INTEGER PRIMARY KEY AUTOINCREMENT, cantidad INTEGER NOT NULL, subtotal INTEGER NOT NULL, producto INTEGER, compra INTEGER,FOREIGN KEY (producto) REFERENCES Detalle(id), FOREIGN KEY (compra) REFERENCES Compra(id));";
+  tablaCompra: string = "CREATE TABLE IF NOT EXISTS Compra (id INTEGER PRIMARY KEY AUTOINCREMENT, fech_compra DATE, fech_despacho DATE, fech_entrega DATE, costo_desp INTEGER, total INTEGER, carrito BOOLEAN NOT NULL, usuario INTEGER, FOREIGN KEY (usuario) REFERENCES Usuario(id));";
+  tablaDetalle: string = "CREATE TABLE IF NOT EXISTS Detalle (id INTEGER PRIMARY KEY AUTOINCREMENT, cantidad INTEGER NOT NULL, subtotal INTEGER, producto INTEGER, compra INTEGER, nombre VARCHAR(120), precio INTEGER, foto TEXT,FOREIGN KEY (producto) REFERENCES Producto(id), FOREIGN KEY (compra) REFERENCES Compra(id));";
 
   //------------------//
   /* INSERT DE DATOS */
@@ -59,10 +59,10 @@ export class DbserviceService {
   insertPregunta3: string = "INSERT OR IGNORE INTO Pregunta (id,pregunta) VALUES (3, '¿Cual es tu modelo de tanque favorito?');";
 
   //Insert de Usuarios
-  insertUsuario1: string = "INSERT OR IGNORE INTO Usuario (id,correo,clave,respuesta,pregunta,rol) VALUES (1, 'benj@gmail.com','hipo4521','No',2,1);";
+  insertUsuario1: string = "INSERT OR IGNORE INTO Usuario (id,correo,clave,respuesta,pregunta,rol) VALUES (1, 'aneurysm@gmail.cl','Aneurysm4521#','Aneurisma',3,3);";
 
   //Insert de Compra/Carrito
-  insertCompra1: string ="INSERT OR IGNORE INTO Compra (id, carrito, usuario) VALUES (1, 0, 1);";
+  insertCompra1: string = "INSERT OR IGNORE INTO Compra (id, carrito, usuario) VALUES (1, 0, 1);";
 
   //Insert de Categorias
   insertCat1: string = "INSERT OR IGNORE INTO Categoria (id,nombre) VALUES (1, 'RPG');";
@@ -572,7 +572,7 @@ export class DbserviceService {
     })
   }
 
-  encontrarCategoria(id:any): Promise<Categoria | null> {
+  encontrarCategoria(id: any): Promise<Categoria | null> {
     return new Promise((resolve) => {
       this.database.executeSql('SELECT * FROM Categoria WHERE id=?', [id]).then(res => {
         if (res.rows.length > 0) {
@@ -659,7 +659,7 @@ export class DbserviceService {
           resolve(null); // No se encontró un producto con ese correo
         }
       }).catch(e => {
-        this.presentAlert("Error", "Error en la base de datos", "Error al buscar en la base de datos (Tabla producto): " + e.message);
+        this.presentAlert("Error", "Error en la base de datos", "Error al buscar producto por su id: " + e.message);
       });
     });
   }
@@ -670,6 +670,21 @@ export class DbserviceService {
     }).catch(e => {
       this.presentAlert("Error", "Error en la base de datos", "Error de agregar nuevos datos Base de datos (Tabla Producto): " + e.message);
     })
+  }
+
+  UltimaIDProducto(): Promise<number> {
+    return new Promise<number>((resolve) => {
+      this.database.executeSql('SELECT MAX(id) as last_id FROM Producto', [])
+        .then(res => {
+          if (res.rows.length > 0) {
+            const id = res.rows.item(0).last_id;
+            resolve(id);
+          }
+        })
+        .catch(e => {
+          this.presentAlert("Error", "Error en la base de datos", "Error de la ultima ID de la tabla Producto: " + e.message);
+        });
+    });
   }
 
   actualizarProducto(id: any, nombre: any, descripcion: any, precio: any, stock: any, req_minimo: any, req_recomendado: any, foto: any) {
@@ -785,7 +800,11 @@ export class DbserviceService {
             id: res.rows.item(i).id,
             cantidad: res.rows.item(i).cantidad,
             subtotal: res.rows.item(i).subtotal,
-            producto: res.rows.item(i).producto
+            producto: res.rows.item(i).producto,
+            compra: res.rows.item(i).compra,
+            nombre: res.rows.item(i).nombre,
+            precio: res.rows.item(i).precio,
+            foto: res.rows.item(i).foto,
           })
         }
       }
@@ -796,8 +815,47 @@ export class DbserviceService {
     })
   }
 
-  agregarDetalle(cantidad: any, subtotal: any, producto: any) {
-    return this.database.executeSql('INSERT INTO Detalle (cantidad,subtotal,producto) VALUES (?,?,?);', [cantidad, subtotal, producto]).then(res => {
+  encontrarDetalle(idCompra: any): Promise<Detalle[] | null> {
+    return new Promise((resolve) => {
+      this.database.executeSql('SELECT * FROM Detalle WHERE compra=?;', [idCompra]).then(res => {
+        if (res.rows.length > 0) {
+
+          let items: Detalle[] = [];
+          for (var i = 0; i < res.rows.length; i++) {
+            //Guardar dentro de la variable
+            items.push({
+              id: res.rows.item(i).id,
+              cantidad: res.rows.item(i).cantidad,
+              subtotal: res.rows.item(i).subtotal,
+              producto: res.rows.item(i).producto,
+              compra: res.rows.item(i).compra,
+              nombre: res.rows.item(i).nombre,
+              precio: res.rows.item(i).precio,
+              foto: res.rows.item(i).foto,
+            })
+            console.log(items);
+          }
+          console.log(items);
+          resolve(items);
+        } else {
+          resolve(null); // No se encontró un producto con ese correo
+        }
+      }).catch(e => {
+        this.presentAlert("Error", "Error en la base de datos", "Error al buscar por compra en la tabla 'Detalle': " + e.message);
+      });
+    });
+  }
+
+  agregarDetalle(cantidad: any, subtotal: any, producto: any, compra: any, nombre: any, precio: any, foto: any) {
+    return this.database.executeSql('INSERT INTO Detalle (cantidad,subtotal,producto,compra, nombre, precio, foto) VALUES (?,?,?,?,?,?,?);', [cantidad, subtotal, producto, compra, nombre, precio, foto]).then(res => {
+      this.buscarDetalle();
+    }).catch(e => {
+      this.presentAlert("Error", "Error en la base de datos", "Error al agregar datos en la tabla 'Detalle': " + e.message);
+    })
+  }
+
+  crearDetalle(cantidad: any, producto: any, compra: any) {
+    return this.database.executeSql('INSERT INTO Detalle (cantidad,producto,compra) VALUES (?,?,?);', [cantidad, producto, compra]).then(res => {
       this.buscarDetalle();
     }).catch(e => {
       this.presentAlert("Error", "Error en la base de datos", "Error al agregar datos en la tabla 'Detalle': " + e.message);
@@ -806,6 +864,14 @@ export class DbserviceService {
 
   actualizarDetalle(id: any, cantidad: any, subtotal: any, producto: any) {
     return this.database.executeSql('UPDATE Detalle SET cantidad=?, subtotal=?, producto=? WHERE id=?;', [cantidad, subtotal, producto, id]).then(res => {
+      this.buscarDetalle();
+    }).catch(e => {
+      this.presentAlert("Error", "Error en la base de datos", "Error al actualizar datos en la tabla 'Detalle': " + e.message);
+    })
+  }
+
+  actualizarInfoDetalle(id: any, cantidad: any, subtotal: any, producto: any, nombre: any, precio: any, foto: any) {
+    return this.database.executeSql('UPDATE Detalle SET cantidad=?, subtotal=?, producto=?, nombre=?, precio=?, foto=? WHERE id=?;', [cantidad, subtotal, producto, nombre, precio, foto, id]).then(res => {
       this.buscarDetalle();
     }).catch(e => {
       this.presentAlert("Error", "Error en la base de datos", "Error al actualizar datos en la tabla 'Detalle': " + e.message);
@@ -842,8 +908,6 @@ export class DbserviceService {
             costo_desp: res.rows.item(i).costo_desp,
             total: res.rows.item(i).total,
             carrito: res.rows.item(i).carrito,
-            estado: res.rows.item(i).estado,
-            detalle: res.rows.item(i).detalle,
             usuario: res.rows.item(i).usuario,
           })
         }
@@ -855,8 +919,87 @@ export class DbserviceService {
     })
   }
 
-  agregarCompra(fech_compra: any, fech_despacho: any, fech_entrega: any, costo_desp: any, total: any, carrito: any, estado: any, detalle: any, usuario: any) {
-    return this.database.executeSql('INSERT INTO Compra (fech_compra, fech_despacho, fech_entrega, costo_desp, total, carrito, estado, detalle, usuario) VALUES (?,?,?,?,?,?,?,?,?);', [fech_compra, fech_despacho, fech_entrega, costo_desp, total, carrito, estado, detalle, usuario]).then(res => {
+  encontrarCompra(id: any): Promise<Compra | null> {
+    return new Promise((resolve) => {
+      this.database.executeSql('SELECT * FROM Compra WHERE usuario=? and carrito=0;', [id]).then(res => {
+        if (res.rows.length > 0) {
+          const compra: Compra = {
+            id: res.rows.item(0).id,
+            fech_compra: res.rows.item(0).fech_compra,
+            fech_despacho: res.rows.item(0).fech_despacho,
+            fech_entrega: res.rows.item(0).fech_entrega,
+            costo_desp: res.rows.item(0).costo_desp,
+            total: res.rows.item(0).total,
+            carrito: res.rows.item(0).carrito,
+            usuario: res.rows.item(0).usuario,
+          };
+          console.log(compra);
+          resolve(compra);
+        } else {
+          resolve(null); // No se encontró un producto con ese correo
+        }
+      }).catch(e => {
+        this.presentAlert("Error", "Error en la base de datos", "Error al buscar por usuario en la tabla 'Compra': " + e.message);
+      });
+    });
+  }
+
+  encontrarComprasUsuario(id: any): Promise<Compra[] | null> {
+    return new Promise((resolve) => {
+      this.database.executeSql('SELECT * FROM Compra WHERE usuario=? and carrito=1;', [id]).then(res => {
+        if (res.rows.length > 0) {
+          let items: Compra[] = [];
+          for (var i = 0; i < res.rows.length; i++) {
+            //Guardar dentro de la variable
+            items.push({
+              id: res.rows.item(i).id,
+              fech_compra: res.rows.item(i).fech_compra,
+              fech_despacho: res.rows.item(i).fech_despacho,
+              fech_entrega: res.rows.item(i).fech_entrega,
+              costo_desp: res.rows.item(i).costo_desp,
+              total: res.rows.item(i).total,
+              carrito: res.rows.item(i).carrito,
+              usuario: res.rows.item(i).usuario,
+            });
+          }
+          console.log(items);
+          resolve(items);
+        } else {
+          resolve(null); // No se encontró un producto con ese correo
+        }
+      }).catch(e => {
+        this.presentAlert("Error", "Error en la base de datos", "Error al buscar por usuario en la tabla 'Compra': " + e.message);
+      });
+    });
+  }
+
+  encontrarCompraID(id: any): Promise<Compra | null> {
+    return new Promise((resolve) => {
+      this.database.executeSql('SELECT * FROM Compra WHERE id=?;', [id]).then(res => {
+        if (res.rows.length > 0) {
+          const compra: Compra = {
+            id: res.rows.item(0).id,
+            fech_compra: res.rows.item(0).fech_compra,
+            fech_despacho: res.rows.item(0).fech_despacho,
+            fech_entrega: res.rows.item(0).fech_entrega,
+            costo_desp: res.rows.item(0).costo_desp,
+            total: res.rows.item(0).total,
+            carrito: res.rows.item(0).carrito,
+            usuario: res.rows.item(0).usuario,
+          };
+          console.log(compra);
+          resolve(compra);
+        } else {
+          resolve(null); // No se encontró un producto con ese correo
+        }
+      }).catch(e => {
+        this.presentAlert("Error", "Error en la base de datos", "Error al buscar por usuario en la tabla 'Compra': " + e.message);
+      });
+    });
+  }
+
+  agregarCompra(usuario: any) {
+    return this.database.executeSql('INSERT INTO Compra (carrito, usuario) VALUES (0,?);', [usuario]).then(res => {
       this.buscarCompra();
     }).catch(e => {
       this.presentAlert("Error", "Error en la base de datos", "Error de agregar nuevos datos en la tabla 'Compra': " + e.message);
@@ -871,8 +1014,8 @@ export class DbserviceService {
     })
   }
 
-  actualizarCompra(id: any, fech_compra: any, fech_despacho: any, fech_entrega: any, costo_desp: any, total: any, carrito: any, estado: any, detalle: any, usuario: any) {
-    return this.database.executeSql('UPDATE Compra SET fech_compra=?, fech_despacho=?, fech_entrega=?, costo_desp=?, total=?, carrito=?, estado=?, detalle=?, usuario=? WHERE id=?;', [fech_compra, fech_despacho, fech_entrega, costo_desp, total, carrito, estado, detalle, usuario, id]).then(res => {
+  actualizarCompra(id: any, fech_compra: any, fech_despacho: any, fech_entrega: any, costo_desp: any, total: any, carrito: any, usuario: any) {
+    return this.database.executeSql('UPDATE Compra SET fech_compra=?, fech_despacho=?, fech_entrega=?, costo_desp=?, total=?, carrito=?, usuario=? WHERE id=?;', [fech_compra, fech_despacho, fech_entrega, costo_desp, total, carrito, usuario, id]).then(res => {
       this.buscarCompra();
     }).catch(e => {
       this.presentAlert("Error", "Error en la base de datos", "Error al actualizar datos en la tabla 'Compra': " + e.message);
@@ -970,8 +1113,8 @@ export class DbserviceService {
       await this.database.executeSql(this.tablaProducto, []);
       await this.database.executeSql(this.tablaCPunion, []);
 
-      await this.database.executeSql(this.tablaDetalle, []);
       await this.database.executeSql(this.tablaCompra, []);
+      await this.database.executeSql(this.tablaDetalle, []);
 
       //actualizamos el observable de la DB
       this.isdDBReady.next(true);

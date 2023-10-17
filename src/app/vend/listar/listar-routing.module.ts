@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: ListarPage
+  },  {
+    path: 'modificar',
+    loadChildren: () => import('./modificar/modificar.module').then( m => m.ModificarPageModule)
   }
+
 ];
 
 @NgModule({

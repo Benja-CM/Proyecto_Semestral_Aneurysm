@@ -117,6 +117,7 @@ export class UserPage implements OnInit {
 
     if (usuario === null) {
       this.db.presentAlert("Error", "Error en la base de datos", "Error al buscar el usuario");
+      this.router.navigate(['/tabs/tab4'])
       return;
     }
 
@@ -172,8 +173,8 @@ export class UserPage implements OnInit {
     let region = this.userForm.value.region;
     let cod_postal = this.userForm.value.cod;
 
-    console.log(name +', '+ surname +', '+ email +', '+ rut +', '+ dvrut +', '+ tfn);
-    console.log(calle +', '+ numero +', '+ comuna +', '+ region +', '+ cod_postal);
+    console.log(name + ', ' + surname + ', ' + email + ', ' + rut + ', ' + dvrut + ', ' + tfn);
+    console.log(calle + ', ' + numero + ', ' + comuna + ', ' + region + ', ' + cod_postal);
 
     if (!this.userForm.valid) {
       console.log("not valid");

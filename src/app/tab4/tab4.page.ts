@@ -15,6 +15,8 @@ export class Tab4Page implements OnInit {
 
   nombreR: string = "";
 
+
+
   isAlertOpenLogin = false;
   public alertButtons1 = ['OK'];
 
@@ -26,7 +28,7 @@ export class Tab4Page implements OnInit {
       nombre: '',
     }
   ]
-  
+
   categoria: string = "";
 
   categoriaForm = this.formBuilder.group({
@@ -45,16 +47,25 @@ export class Tab4Page implements OnInit {
   isAlertOpen = false;
   public alertButtons = ['OK'];
 
-  constructor(
-    private router: Router, private formBuilder: FormBuilder, private activeRouter: ActivatedRoute, private db: DbserviceService) {
+  userID: any = '';
+  id: any = '';
+  rol: any = '';
+
+  constructor(private router: Router, private formBuilder: FormBuilder, private activeRouter: ActivatedRoute, private db: DbserviceService) {
     this.activeRouter.queryParams.subscribe(param => {
       if (this.router.getCurrentNavigation()?.extras.state) {
-        this.nombreR = this.router.getCurrentNavigation()?.extras?.state?.['nombre'];
+        this.userID = this.router.getCurrentNavigation()?.extras?.state?.['id'];
+        this.rol = this.router.getCurrentNavigation()?.extras?.state?.['rol'];
       }
     });
   }
 
   ngOnInit() {
+    let usID = localStorage.getItem('usuario')
+    this.userID = usID;
+    let userRol = localStorage.getItem('rol')
+    this.rol = userRol;
+
     this.db.buscarCategoria();
     this.db.dbState().subscribe(data => {
       if (data) {
@@ -65,6 +76,13 @@ export class Tab4Page implements OnInit {
     });
   }
 
+  ionViewWillEnter() {
+    let usID = localStorage.getItem('usuario')
+    this.userID = usID;
+    let userRol = localStorage.getItem('rol')
+    this.rol = userRol;
+  }
+
   setOpen(isOpen: boolean) {
     this.isModalOpen = isOpen;
     if (!isOpen) {
@@ -73,16 +91,27 @@ export class Tab4Page implements OnInit {
     }
   }
 
-  logout() {
+  async logout() {
     this.isAlertOpenLogin = true;
-    this.nombreR = "";
+    this.userID = '';
+    localStorage.setItem('usuario', this.nombreR);
   }
-/* 
+
   async getUser() {
-    const id = await this.db.get('id');
-    this.db.presentAlert("Error", "Error en la base de datos","id de usuario: "+id);
+    let usID = localStorage.getItem('usuario')
+    this.db.presentAlert("Error", "Error en la base de datos", "id de usuario: " + this.userID + " o " + this.rol);
   }
- */
+
+  irHistorial() {
+    let navigationExtras: NavigationExtras = {
+      state: {
+        userID: this.userID
+      }
+    }
+
+    this.router.navigate(['/tabs/tab3'], navigationExtras)
+  }
+
   async onSubmit() {
     this.isSubmitted = true;
     console.log(this.categoriaForm.value)

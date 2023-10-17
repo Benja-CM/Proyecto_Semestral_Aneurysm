@@ -67,11 +67,14 @@ export class LoginPage implements OnInit {
         console.log("valid")
         let navigationExtras: NavigationExtras = {
           state: {
-            nombre: this.nombre
+            id: usuario.id,
+            rol: usuario.rol,
           }
         }
-        await this.db.set('id', usuario.id);
+
         localStorage.setItem('usuario', JSON.stringify(usuario.id));
+        localStorage.setItem('rol', JSON.stringify(usuario.rol));
+        
         this.router.navigate(['/tabs/tab4'], navigationExtras)
       } else {
         this.loginForm.controls['password'].setErrors({ 'notMatch': true })

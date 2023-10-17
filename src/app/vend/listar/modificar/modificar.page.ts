@@ -1,54 +1,42 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
-import { map } from "rxjs/operators";
+import { ActivatedRoute, Router } from '@angular/router';
 import { DbserviceService } from 'src/app/services/dbservice.service';
 
 @Component({
-  selector: 'app-agregar',
-  templateUrl: './agregar.page.html',
-  styleUrls: ['./agregar.page.scss'],
+  selector: 'app-modificar',
+  templateUrl: './modificar.page.html',
+  styleUrls: ['./modificar.page.scss'],
 })
-export class AgregarPage implements OnInit {
-  @Output() data = new EventEmitter<FormData>();
-
-  public uploadFileName: string = "";
-  public uploadFileContent: string = "";
-
-  cate: any = [];
+export class ModificarPage implements OnInit {
 
   name: string = "";
-  price: string = "";
-  stock: string = "";
+  price: number = 0;
+  stock: number = 0;
   descripcion: string = "";
   req_minimo: string = "";
   req_recomendado: string = "";
+  categoria: any = [];
+  img: string = "";
 
-  categoria: any[] = [
-    {
-      id: '',
-      nombre: '',
-    }
-  ];
 
-  agregarProdForm = this.formBuilder.group({
+  modificarProdForm = this.formBuilder.group({
     name: new FormControl('', {
       validators: [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(60),
-        Validators.pattern("^[A-Za-z0-9 áéíóúÁÉÍÓÚñÑ/*#'’&,.:()+\n-Ⓡ™]+$")
+        Validators.pattern("^[A-Za-z0-9 áéíóúÁÉÍÓÚñÑ/*#'’-Ⓡ™]+$")
       ]
     }),
-    price: new FormControl('', {
+    price: new FormControl(0, {
       validators: [
         Validators.required,
         Validators.pattern("^[0-9]+$")
       ]
     }),
-    stock: new FormControl('', {
+    stock: new FormControl(0, {
       validators: [
         Validators.required,
         Validators.pattern("^[0-9]+$")
@@ -65,7 +53,7 @@ export class AgregarPage implements OnInit {
     req_minimo: new FormControl('', {
       validators: [
         Validators.required,
-        Validators.minLength(10),
+        Validators.minLength(3),
         Validators.maxLength(1600),
         Validators.pattern("^[A-Za-z0-9 áéíóúÁÉÍÓÚñÑ/*#'’&,.:()+\n-Ⓡ™]+$")
       ]
@@ -73,12 +61,12 @@ export class AgregarPage implements OnInit {
     req_recomendado: new FormControl('', {
       validators: [
         Validators.required,
-        Validators.minLength(10),
+        Validators.minLength(3),
         Validators.maxLength(1600),
         Validators.pattern("^[A-Za-z0-9 áéíóúÁÉÍÓÚñÑ/*#'’&,.:()+\n-Ⓡ™]+$")
       ]
     }),
-    categoria: new FormControl('', {
+    categoria: new FormControl({}, {
       validators: [
         Validators.required
       ]
@@ -92,58 +80,109 @@ export class AgregarPage implements OnInit {
 
   isSubmitted = false;
 
-  isAlertOpen = false;
-  public alertButtons = ['OK'];
+  productoFilter: any = [];
 
-  constructor(private router: Router, private http: HttpClient, private formBuilder: FormBuilder, private db: DbserviceService) { }
+  idRecibida: number = 0;
+
+  arregloCategorias: any = [];
+  categorias: any = [];
+  categoriasFilter: any = [];
+
+  categoriasSeleccionadas: number[] = [];
+
+  constructor(private formBuilder: FormBuilder, private activeRouter: ActivatedRoute, private db: DbserviceService, private router: Router, private http: HttpClient,) {
+    this.activeRouter.queryParams.subscribe(param => {
+      if (this.router.getCurrentNavigation()?.extras.state) {
+        this.idRecibida = this.router.getCurrentNavigation()?.extras?.state?.['id'];
+      }
+    })
+  }
 
   ngOnInit() {
-    this.db.buscarCategoria();
+    this.getUnion();
+    this.init(this.idRecibida);
+  }
 
-    this.db.dbState().subscribe(data => {
+  async init(id: number) {
+    const producto = await this.db.encontrarProducto(id);
+
+    const categorias = await this.db.encontrarUnionPorProducto(id);
+
+    if (producto === null) {
+      this.db.presentAlert("Error", "Error en la base de datos", "Error al buscar el producto");
+      return;
+    }
+
+    if (categorias === null) {
+      this.db.presentAlert("Error", "Error en la base de datos", "Error al buscar la categorias");
+      return;
+    }
+
+    await this.db.buscarCategoria();
+    await this.db.dbState().subscribe(data => {
       if (data) {
         this.db.fetchCategoria().subscribe(item => {
-          this.cate = item;
+          this.arregloCategorias = item;
         })
       }
     });
+
+    this.productoFilter = producto;
+
+    if (producto) {
+      this.modificarProdForm.patchValue({
+        name: producto.nombre,
+        price: producto.precio,
+        stock: producto.stock,
+        descripcion: producto.descripcion,
+        req_minimo: producto.req_minimo,
+        req_recomendado: producto.req_recomendado,
+        categoria: null,
+        img: producto.foto,
+      });
+    } else {
+      console.error('Producto no encontrado.');
+    }
+    console.log(producto);
   }
 
+  async getUnion() {
+    this.categoriasFilter = [];
+    console.log("GetUnion");
+    const categorias = await this.db.encontrarUnionPorProducto(this.idRecibida);
 
-  public async onFileSelected(event: any) {
-    const file: File = event.target.files[0];
-    this.uploadFileName = file.name;
-    this.uploadFileContent = await file.text();
+    if (categorias !== null) {
+      for (const categoria of categorias) {
+        const categoriaDetalle = await this.db.encontrarCategoria(categoria.categoria);
+        if (categoriaDetalle !== null) {
+          await this.categoriasFilter.push(categoriaDetalle);
+          await this.categoriasSeleccionadas.push(categoriaDetalle.id);
+          await console.log("categoriasFilter: ", this.categoriasFilter);
+          await console.log("categoriasSeleccionadas ", this.categoriasSeleccionadas);
+        }
+      }
+
+    }
+    if (this.categoriasSeleccionadas !== null) {
+
+      this.modificarProdForm.get('categoria')?.setValue(this.categoriasSeleccionadas);
+      this.modificarProdForm.get('categoria')?.setValue(11);
+    }
   }
 
   async onSubmit() {
     this.isSubmitted = true;
-    console.log(this.agregarProdForm.value)
+    console.log(this.modificarProdForm.value)
 
-    if (!this.agregarProdForm.valid) {
+    this.categorias = this.modificarProdForm.value.categoria;
+    console.log("llolol "+this.categorias);
+
+    if (!this.modificarProdForm.valid) {
       console.log("not valid");
       return;
     }
 
-    let nombre = this.agregarProdForm.value.name;
-    let precio = this.agregarProdForm.value.price;
-    let stock = this.agregarProdForm.value.stock;
-    let descripcion = this.agregarProdForm.value.descripcion;
-    let req_minimo = this.agregarProdForm.value.req_minimo;
-    let req_recomendado = this.agregarProdForm.value.req_recomendado;
-    let categorias = this.agregarProdForm.value.categoria;
-    let foto = this.agregarProdForm.value.img;
-
-    console.log("valid")
-    await this.db.agregarProducto(nombre, descripcion, precio, stock, req_minimo, req_recomendado, foto);
-    const idProd = await this.db.UltimaIDProducto();
-
-    if (categorias !== null && categorias !== undefined) {
-      for (const cat of categorias) {
-        await this.db.agregarUnionCP(idProd, cat);
-      }
-    }
-    this.isAlertOpen = true;
+    console.log("valid");
   }
 
   isOpen(state: boolean) {

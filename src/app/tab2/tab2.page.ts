@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { map } from "rxjs/operators";
+import { DbserviceService } from '../services/dbservice.service';
 
 @Component({
   selector: 'app-tab2',
@@ -11,27 +12,30 @@ import { map } from "rxjs/operators";
 export class Tab2Page implements OnInit {
 
   juegos: string = "";
-  Productos: any = [];
+  arregloProductos: any = [];
   ProductosFilter: any = [];
   id: number = 0;
 
-  constructor(private router: Router, private http: HttpClient) {
+  constructor(private router: Router, private http: HttpClient, private db: DbserviceService) {
   }
 
   ngOnInit() {
-    this.getProductos().subscribe(res => {
-      console.log("Res", res)
-      this.Productos = res;
-      console.log(this.Productos.name)
-    })
+    this.db.buscarProducto();
+    this.db.dbState().subscribe(data => {
+      if (data) {
+        this.db.fetchProducto().subscribe(item => {
+          this.arregloProductos = item;
+        })
+      }
+    });
   }
 
   getItem() {
-    const objectKey = 'name';
+    const objectKey = 'nombre';
 
     this.ProductosFilter = [];
 
-    for (const producto of this.Productos) {
+    for (const producto of this.arregloProductos) {
 
       if (producto[objectKey].toLowerCase().includes(this.juegos.toLowerCase())) {
         this.ProductosFilter.push(producto);
@@ -43,18 +47,8 @@ export class Tab2Page implements OnInit {
     }
   }
 
-  getProductos() {
-    return this.http
-      .get("assets/datos_internos/productos.json")
-      .pipe(
-        map((res: any) => {
-          return res.data;
-        })
-      )
-  }
-
   getId(productoId: number) {
-    for (const producto of this.Productos) {
+    for (const producto of this.ProductosFilter) {
       if (producto.id === productoId) {
         return productoId;
       }
