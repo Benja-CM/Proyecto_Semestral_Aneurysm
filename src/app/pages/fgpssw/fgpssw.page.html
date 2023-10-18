@@ -16,7 +16,7 @@
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
         <ion-row>
-          <ion-input id="email" type="email" fill="solid" label="Email" labelPlacement="floating" required name="email"
+          <ion-input id="email" type="email" fill="solid" label="Correo" labelPlacement="floating" required name="email"
             formControlName="email"></ion-input>
         </ion-row>
 
@@ -29,11 +29,18 @@
         </ion-row>
 
         <ion-row>
-          <ion-select aria-label="Pregunta secreta" interface="popover" placeholder="Selecciona una pregunta">
-            <ion-select-option value="preg1">¿Como se llamó tu primera mascota?</ion-select-option>
-            <ion-select-option value="preg2">¿Como se llama tu primera pareja?</ion-select-option>
-            <ion-select-option value="preg3">¿Cual es tu modelo de tanque favorito?</ion-select-option>
+          <ion-select aria-label="Pregunta secreta" interface="popover" placeholder="Selecciona una pregunta" required
+            required formControlName="pregunta" name="pregunta">
+            <ion-select-option *ngFor="let preg of arregloPreguntas" [value]="preg.id">
+              {{ preg.pregunta }}
+            </ion-select-option>
           </ion-select>
+
+          <div class="error" *ngFor="let validation of validation_messages.pregunta">
+            <div class="error" *ngIf="isSubmitted && registerForm.get('pregunta')?.hasError(validation.type)">
+              {{ validation.message }}
+            </div>
+          </div>
         </ion-row>
 
         <ion-row>
@@ -50,7 +57,7 @@
         <div id="btn_login">
           <ion-row text-align="center">
             <ion-col size="12">
-              <ion-button type="submit" fill="outline" expand="full" shape="round">Registrarse</ion-button>
+              <ion-button type="submit" fill="outline" expand="full" shape="round">Recuperar contraseña</ion-button>
             </ion-col>
           </ion-row>
         </div>

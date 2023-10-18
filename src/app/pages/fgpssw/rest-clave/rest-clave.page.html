@@ -1,0 +1,48 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button icon="close-outline"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Reestablecer contraseña</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-card-content class="custom-card">
+      <form [formGroup]="changePassForm" (ngSubmit)="onSubmit()">
+        <ion-row>
+          <ion-input id="claveRep1" name="claveRep1" label="Introduce tu nueva contraseña" formControlName="claveRep1"
+            label-placement="floating" fill="solid" placeholder="Nueva contraseña" type="password"></ion-input>
+        </ion-row>
+        <ion-row class="error-mesage">
+          <small *ngFor="let validation of validation_messages.claveRep1">
+            <div class="error" *ngIf="isSubmitted && changePassForm.get('claveRep1')?.hasError(validation.type)">
+              {{ validation.message }}
+            </div>
+          </small>
+        </ion-row>
+
+        <ion-row>
+          <ion-input id="claveRep2" name="claveRep2" label="Vuelve a introducir tu nueva contraseña"
+            formControlName="claveRep2" label-placement="floating" fill="solid" placeholder="Nueva contraseña"
+            type="password"></ion-input>
+        </ion-row>
+        <ion-row class="error-mesage">
+          <small *ngFor="let validation of validation_messages.claveRep2">
+            <div class="error" *ngIf="isSubmitted && changePassForm.get('claveRep2')?.hasError(validation.type)">
+              {{ validation.message }}
+            </div>
+          </small>
+        </ion-row>
+
+        <ion-button type="submit" expand="full">Cambiar Contraseña</ion-button>
+      </form>
+
+      <ion-alert [isOpen]="isAlertOpen" header="Contraseña Cambiada"
+        subHeader="La Contraseña se ha Cambiado correctamente" [buttons]="alertButtons"
+        (didDismiss)="isOpen(false)"></ion-alert>
+
+    </ion-card-content>
+  </ion-card>
+</ion-content>

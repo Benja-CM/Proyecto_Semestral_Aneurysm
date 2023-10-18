@@ -60,6 +60,10 @@ export class RegisterPage implements OnInit {
   isSubmitted = false;
   submitError = "";
 
+  public alertButtons = ['OK'];
+
+  isAlertOpen = false;
+
   constructor(private router: Router, private formBuilder: FormBuilder, private db: DbserviceService) {
     this.db.buscarPregunta();
   }
@@ -74,17 +78,24 @@ export class RegisterPage implements OnInit {
     });
   }
 
+  setOpen(isOpen: boolean){
+    this.isAlertOpen = isOpen;
+  }
+
   async onSubmit() {
     this.isSubmitted = true;
     console.log(this.registerForm.value);
 
-    this.claveValida(this.registerForm.value.password);
-    this.confClave(this.registerForm.value.password, this.registerForm.value.password_conf);
+    await this.validarCorreo(this.registerForm.value.email);
+    await this.claveValida(this.registerForm.value.password);
+    await this.confClave(this.registerForm.value.password, this.registerForm.value.password_conf);
 
     if (!this.registerForm.valid) {
       console.log("not valid");
       return;
     }
+
+    this.setOpen(true);
 
     console.log("valid");
     let correo = this.registerForm.value.email;
@@ -120,10 +131,19 @@ export class RegisterPage implements OnInit {
     }
   }
 
+  async validarCorreo(correo:any){
+    let email = await this.db.encontrarUsuario(correo);
+
+    if (email !== null) {
+      this.registerForm.controls['email'].setErrors({ 'errorDuplicado': true })
+    }
+  }
+
   public validation_messages = {
     'email': [
       { type: 'required', message: 'El correo es obligatorio' },
-      { type: 'pattern', message: 'El correo no cumple con el patron' }
+      { type: 'pattern', message: 'El correo no cumple con el patron' },
+      { type: 'errorDuplicado', message: 'El correo ya esta en uso en otra cuenta' },
     ],
     'password': [
       { type: 'required', message: 'La contraseña es obligatoria' },

@@ -2,9 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
-import { map } from "rxjs/operators";
 import { DbserviceService } from 'src/app/services/dbservice.service';
+import { Camera, CameraResultType } from '@capacitor/camera';
 
 @Component({
   selector: 'app-agregar',
@@ -18,6 +17,8 @@ export class AgregarPage implements OnInit {
   public uploadFileContent: string = "";
 
   cate: any = [];
+
+  catFoto: any = '';
 
   name: string = "";
   price: string = "";
@@ -39,7 +40,7 @@ export class AgregarPage implements OnInit {
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(60),
-        Validators.pattern("^[A-Za-z0-9 áéíóúÁÉÍÓÚñÑ/*#'’&,.:()+\n-Ⓡ™]+$")
+        Validators.pattern("^[A-Za-z0-9 áéíóúÁÉÍÓÚñÑ/*#'’&,.:()+\n-Ⓡ™・]+$")
       ]
     }),
     price: new FormControl('', {
@@ -59,23 +60,23 @@ export class AgregarPage implements OnInit {
         Validators.required,
         Validators.minLength(10),
         Validators.maxLength(1600),
-        Validators.pattern("^[A-Za-z0-9 áéíóúÁÉÍÓÚñÑ/*#'’&,.:()+\n-Ⓡ™]+$")
+        Validators.pattern("^[A-Za-z0-9 áéíóúÁÉÍÓÚñÑ/*#'’&,.:()+\n-Ⓡ™・]+$")
       ]
     }),
     req_minimo: new FormControl('', {
       validators: [
         Validators.required,
-        Validators.minLength(10),
+        Validators.minLength(3),
         Validators.maxLength(1600),
-        Validators.pattern("^[A-Za-z0-9 áéíóúÁÉÍÓÚñÑ/*#'’&,.:()+\n-Ⓡ™]+$")
+        Validators.pattern("^[A-Za-z0-9 áéíóúÁÉÍÓÚñÑ/*#'’&,.:()+\n-Ⓡ™・]+$")
       ]
     }),
     req_recomendado: new FormControl('', {
       validators: [
         Validators.required,
-        Validators.minLength(10),
+        Validators.minLength(3),
         Validators.maxLength(1600),
-        Validators.pattern("^[A-Za-z0-9 áéíóúÁÉÍÓÚñÑ/*#'’&,.:()+\n-Ⓡ™]+$")
+        Validators.pattern("^[A-Za-z0-9 áéíóúÁÉÍÓÚñÑ/*#'’&,.:()+\n-Ⓡ™・]+$")
       ]
     }),
     categoria: new FormControl('', {
@@ -87,7 +88,7 @@ export class AgregarPage implements OnInit {
       validators: [
         Validators.required
       ]
-    }),
+    })
   })
 
   isSubmitted = false;
@@ -109,6 +110,20 @@ export class AgregarPage implements OnInit {
     });
   }
 
+  takePicture = async () => {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: true,
+      resultType: CameraResultType.Uri,
+      promptLabelHeader: 'Imagen',
+      promptLabelPhoto: 'Seleccionar imagen',
+      promptLabelPicture: 'Tomar Foto'
+    });
+
+    var imageUrl = image.webPath;
+
+    this.catFoto = imageUrl;
+  };
 
   public async onFileSelected(event: any) {
     const file: File = event.target.files[0];
@@ -118,7 +133,13 @@ export class AgregarPage implements OnInit {
 
   async onSubmit() {
     this.isSubmitted = true;
-    console.log(this.agregarProdForm.value)
+    console.log(this.agregarProdForm.value);
+    this.agregarProdForm.get('img')?.setValue(this.catFoto);
+
+    if (this.catFoto === '' || this.catFoto === null) {
+      this.agregarProdForm.controls['img'].setErrors({ 'required': true });
+      return;
+    }
 
     if (!this.agregarProdForm.valid) {
       console.log("not valid");
@@ -132,7 +153,7 @@ export class AgregarPage implements OnInit {
     let req_minimo = this.agregarProdForm.value.req_minimo;
     let req_recomendado = this.agregarProdForm.value.req_recomendado;
     let categorias = this.agregarProdForm.value.categoria;
-    let foto = this.agregarProdForm.value.img;
+    let foto = this.catFoto;
 
     console.log("valid")
     await this.db.agregarProducto(nombre, descripcion, precio, stock, req_minimo, req_recomendado, foto);

@@ -90,11 +90,11 @@
         </ion-row>
 
         <ion-row>
-          <ion-button class="fkup">
+          <ion-button class="fkup" (click)="takePicture()">
             <ion-icon name="attach"></ion-icon>
             <label class="myFakeUploadButton" for="myFileInput">Agregar Imagen</label>
-            <input formControlName="img" accept="image/*" type="file" id="myFileInput">
           </ion-button>
+
           <div class="error" *ngFor="let validation of validation_messages.img">
             <div class="error" *ngIf="isSubmitted && agregarProdForm.get('img')?.hasError(validation.type)">
               {{ validation.message }}
@@ -102,12 +102,13 @@
           </div>
         </ion-row>
 
-        <p>Nombre de Archivo: {{uploadFileName}}</p>
+        <img *ngIf="catFoto" [src]="catFoto" alt="producto">
+        <p>Nombre de Archivo: {{catFoto}}</p>
 
         <ion-button expand="full" type="submit">Guardar</ion-button>
       </form>
 
-      <ion-alert [isOpen]="isAlertOpen" header="Producto Agregado" subHeader="El prodcuto se ha agregado correctamente"
+      <ion-alert [isOpen]="isAlertOpen" header="Producto Agregado" subHeader="El producto se ha agregado correctamente"
         [buttons]="alertButtons" (didDismiss)="isOpen(false)"></ion-alert>
 
     </ion-card-content>

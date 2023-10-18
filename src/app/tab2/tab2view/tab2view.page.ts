@@ -42,6 +42,8 @@ export class Tab2viewPage implements OnInit {
   ionViewWillEnter() {
     let usID = localStorage.getItem('usuario')
     this.userID = usID;
+    
+    this.getProducto();
   }
 
   async getProducto() {

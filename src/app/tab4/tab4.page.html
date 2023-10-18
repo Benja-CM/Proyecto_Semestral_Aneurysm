@@ -24,7 +24,7 @@
     <ion-col></ion-col>
   </ion-row>
 
-  <ion-row *ngIf="userID === ''" class="custom-center custom-row">
+  <ion-row *ngIf="userID === '' || userID === null" class="custom-center custom-row">
     <ion-col size="auto">
       <ion-button fill="solid" [routerLink]="['/login']">Iniciar Sesión</ion-button>
       <ion-button fill="clear" [routerLink]="['/register']">Registrarse</ion-button>
@@ -40,7 +40,7 @@
   <ion-alert [isOpen]="isAlertOpenLogin" header="Sesión Cerrada" subHeader="La Sesión se ha finalizado correctamente"
     [buttons]="alertButtons1" (didDismiss)="setOpen(false)"></ion-alert>
 
-  <ion-list lines="none" *ngIf="userID !== ''">
+  <ion-list lines="none" *ngIf="userID !== '' && userID !== null">
     <ion-item-group>
       <ion-item-divider>
         <ion-label> Mi Perfil </ion-label>

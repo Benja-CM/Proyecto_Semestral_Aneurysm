@@ -12,7 +12,7 @@
     <ion-card-content class="custom-card">
       <form [formGroup]="agregarForm" (ngSubmit)="onSubmit()">
         <ion-row>
-          <ion-input id="email" name="email" label="Correo" label-placement="floating" fill="solid"
+          <ion-input id="email" name="email" type="email" label="Correo" label-placement="floating" fill="solid"
             formControlName="email" placeholder="Introduzca su Correo"></ion-input>
         </ion-row>
         <ion-row class="error-mesage">

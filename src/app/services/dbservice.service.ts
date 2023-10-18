@@ -749,7 +749,7 @@ export class DbserviceService {
   }
 
   borrarUnionCP(id: any) {
-    return this.database.executeSql('DELETE FROM CPunion WHERE id=?;', [id]).then(res => {
+    return this.database.executeSql('DELETE FROM CPunion WHERE producto=?;', [id]).then(res => {
       this.buscarUnionCP();
     }).catch(e => {
       this.presentAlert("Error", "Error en la base de datos", "Error al borrar datos en la tabla 'CPunion': " + e.message);
@@ -780,6 +780,14 @@ export class DbserviceService {
         this.presentAlert("Error", "Error en la base de datos", "Error al buscar por producto en la tabla 'CPunion': " + e.message);
       });
     });
+  }
+
+  actualizarUnion(id: any, producto: any, categoria:any) {
+    return this.database.executeSql('UPDATE CP_union SET producto=?, categoria=? WHERE id=?;', [producto, categoria, id]).then(res => {
+      this.buscarUnionCP();
+    }).catch(e => {
+      this.presentAlert("Error", "Error en la base de datos", "Error al actualizar datos en la tabla 'CP_union': " + e.message);
+    })
   }
 
   //---------------------------------------------//

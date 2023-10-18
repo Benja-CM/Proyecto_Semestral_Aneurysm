@@ -71,7 +71,7 @@
               placeholder="Introduzca los Requisitos recomendados del producto" [autoGrow]="true"></ion-textarea>
             <div class="error" *ngFor="let validation of validation_messages.req_recomendado">
               <div class="error"
-                *ngIf="isSubmitted && modificarProdForm.get('descrireq_recomendadopcion')?.hasError(validation.type)">
+                *ngIf="isSubmitted && modificarProdForm.get('req_recomendado')?.hasError(validation.type)">
                 {{ validation.message }}
               </div>
             </div>
@@ -84,6 +84,7 @@
                 {{cat.nombre}}
               </ion-select-option>
             </ion-select>
+
             <div class="error" *ngFor="let validation of validation_messages.categoria">
               <div class="error" *ngIf="isSubmitted && modificarProdForm.get('categoria')?.hasError(validation.type)">
                 {{ validation.message }}
@@ -91,19 +92,21 @@
             </div>
           </ion-row>
 
-          <ion-button class="fkup">
-            <ion-icon name="attach"></ion-icon>
-            <!-- <label class="myFakeUploadButton" for="myFileInput">Agregar Imagen</label> -->
-            <input formControlName="img" accept="image/*" type="file" id="myFileInput">
-          </ion-button>
-
-          <div class="error" *ngFor="let validation of validation_messages.img">
-            <div class="error" *ngIf="isSubmitted && modificarProdForm.get('img')?.hasError(validation.type)">
-              {{ validation.message }}
+          <ion-row>
+            <ion-button class="fkup" (click)="takePicture()">
+              <ion-icon name="attach"></ion-icon>
+              <label class="myFakeUploadButton" for="myFileInput">Agregar Imagen</label>
+            </ion-button>
+  
+            <div class="error" *ngFor="let validation of validation_messages.img">
+              <div class="error" *ngIf="isSubmitted && modificarProdForm.get('img')?.hasError(validation.type)">
+                {{ validation.message }}
+              </div>
             </div>
-          </div>
-
-          <p>Nombre de Archivo: {{ productoFilter.foto}}</p>
+          </ion-row>
+  
+          <img *ngIf="catFoto" [src]="catFoto" alt="producto">
+          <p>Nombre de Archivo: {{catFoto}}</p>
 
           <ion-button expand="full" type="submit">Guardar</ion-button>
         </form>

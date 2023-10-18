@@ -16,7 +16,7 @@
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
         <ion-row>
-          <ion-input id="email" type="email" fill="solid" label="Email" labelPlacement="floating" required name="email"
+          <ion-input id="email" type="email" fill="solid" label="Correo" labelPlacement="floating" required name="email"
             formControlName="email"></ion-input>
         </ion-row>
 
@@ -62,14 +62,18 @@
               {{ preg.pregunta }}
             </ion-select-option>
           </ion-select>
-          
+
           <div class="error" *ngFor="let validation of validation_messages.pregunta">
             <div class="error" *ngIf="isSubmitted && registerForm.get('pregunta')?.hasError(validation.type)">
               {{ validation.message }}
             </div>
           </div>
+          <div>
+            <h4>Ten en cuenta que esta información será utilizada para recuperar tu contraseña en caso de que la
+              olvides, por lo que no podras cambiar la respuesta o la pregunta una vez estes registrado.</h4>
+          </div>
         </ion-row>
-        
+
 
         <ion-row>
           <ion-input id="resp_secreta" type="string" fill="solid" label="Respuesta" labelPlacement="floating" required
@@ -93,3 +97,7 @@
     </ion-card-content>
   </ion-card>
 </ion-content>
+
+<ion-alert [isOpen]="isAlertOpen" header="Registro Completo"
+  subHeader="Te has registrado exitosamente. Ahora puedes iniciar sesion con tu cuenta." [buttons]="alertButtons"
+  (didDismiss)="setOpen(false)"></ion-alert>

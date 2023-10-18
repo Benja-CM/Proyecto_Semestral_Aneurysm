@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ModificarPageRoutingModule } from './modificar-routing.module';
 
 import { ModificarPage } from './modificar.page';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { ModificarPage } from './modificar.page';
     FormsModule,
     IonicModule,
     ModificarPageRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule,
   ],
   declarations: [ModificarPage]
 })

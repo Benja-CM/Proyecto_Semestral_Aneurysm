@@ -25,7 +25,7 @@ export class AgregarVendPage implements OnInit {
     email: new FormControl('', {
       validators: [
         Validators.required,
-        Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+        Validators.email,
       ]
     }),
     password: new FormControl('', {
@@ -79,6 +79,7 @@ export class AgregarVendPage implements OnInit {
 
     this.claveValida(this.agregarForm.value.password);
     this.confClave(this.agregarForm.value.password, this.agregarForm.value.password_conf);
+    this.validarCorreo(this.agregarForm.value.email);
 
     if (!this.agregarForm.valid) {
       console.log("not valid");
@@ -119,10 +120,19 @@ export class AgregarVendPage implements OnInit {
     }
   }
 
+  async validarCorreo(correo:any){
+    let email = await this.db.encontrarUsuario(correo);
+
+    if (email !== null) {
+      this.agregarForm.controls['email'].setErrors({ 'errorDuplicado': true })
+    }
+  }
+
   public validation_messages = {
     'email': [
       { type: 'required', message: 'El correo es obligatorio' },
-      { type: 'pattern', message: 'El correo no cumple con el patron' }
+      { type: 'email', message: 'El correo no es valido' },
+      { type: 'errorDuplicado', message: 'El correo ya esta en uso en otra cuenta' },
     ],
     'password': [
       { type: 'required', message: 'La contraseña es obligatoria' },
