@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { UserPageRoutingModule } from './user-routing.module';
 
 import { UserPage } from './user.page';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import { UserPage } from './user.page';
     IonicModule,
     UserPageRoutingModule
   ],
-  declarations: [UserPage]
+  declarations: [UserPage],
 })
 export class UserPageModule {}

@@ -18,18 +18,16 @@
         <ion-col size="4"></ion-col>
         <ion-col size="4" class="center-content">
           <ion-avatar>
-            <img (click)="fileUpload.click()" class="myFakeUploadButton" for="myFileInput"
-              alt="Silhouette of a person's head" src="../assets/edit_profile.png" />
+            <img (click)="takePicture()" class="myFakeUploadButton" alt="Foto de Perfil" [src]="catFoto" />
           </ion-avatar>
-          <input #fileUpload accept="image/*" type="file" id="myFileInput" (change)="onFileSelected($event)"
-            style="display: none;">
         </ion-col>
         <ion-col size=""></ion-col>
       </ion-item>
       <ion-item>
         <ion-col size="2"></ion-col>
         <ion-col size="8" style="text-align: center;">
-          <p>Cambiar foto de perfil</p>
+          <p (click)="takePicture()">Cambiar foto de perfil</p>
+          <small class="pad-bottom">{{ usuario.correo }}</small>
         </ion-col>
         <ion-col size="2"></ion-col>
       </ion-item>
@@ -54,18 +52,6 @@
         <ion-row class="error-mesage">
           <small *ngFor="let validation of validation_messages.surname">
             <div class="error" *ngIf="isSubmitted && userForm.get('surname')?.hasError(validation.type)">
-              {{ validation.message }}
-            </div>
-          </small>
-        </ion-row>
-
-        <ion-row>
-          <ion-input id="email" label="Correo Electrónico" label-placement="floating" fill="solid"
-            formControlName="email" placeholder="Introduzca su Correo" [disabled]="true"></ion-input>
-        </ion-row>
-        <ion-row class="error-mesage">
-          <small *ngFor="let validation of validation_messages.email">
-            <div class="error" *ngIf="isSubmitted && userForm.get('email')?.hasError(validation.type)">
               {{ validation.message }}
             </div>
           </small>
@@ -112,8 +98,8 @@
         </div>
 
         <ion-row>
-          <ion-input id="str" label="Calle" label-placement="floating" fill="solid" formControlName="str"
-            placeholder="Introduzca su Calle"></ion-input>
+          <ion-input id="inputPlaces" #inputPlaces label="Direccion" label-placement="floating" fill="solid"
+            formControlName="str" placeholder="Introduzca su Calle"></ion-input>
         </ion-row>
         <ion-row class="error-mesage">
           <small *ngFor="let validation of validation_messages.str">
@@ -171,9 +157,11 @@
           </small>
         </ion-row>
 
+        <!-- <ion-button expand="full" (click)="irDireccion()">direccion</ion-button> -->
         <ion-button type="submit" expand="full">Guardar Cambios</ion-button>
 
       </form>
     </ion-card-content>
   </ion-card>
+
 </ion-content>

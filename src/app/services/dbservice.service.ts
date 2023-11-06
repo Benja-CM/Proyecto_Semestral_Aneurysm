@@ -31,7 +31,7 @@ export class DbserviceService {
 
   tablaRol: string = "CREATE TABLE IF NOT EXISTS Rol (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(120) NOT NULL);";
   tablaPregunta: string = "CREATE TABLE IF NOT EXISTS Pregunta (id INTEGER PRIMARY KEY AUTOINCREMENT, pregunta VARCHAR(120) NOT NULL);";
-  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS Usuario (id INTEGER PRIMARY KEY AUTOINCREMENT, rut VARCHAR(9), dvrut VARCHAR(1), nombre VARCHAR(60), apellido  VARCHAR(60), telefono VARCHAR(9), correo VARCHAR(40) NOT NULL, clave VARCHAR(30) NOT NULL, respuesta VARCHAR(30) NOT NULL, rol INTEGER, pregunta INTEGER, FOREIGN KEY (rol) REFERENCES Rol(id), FOREIGN KEY (pregunta) REFERENCES Pregunta(id));";
+  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS Usuario (id INTEGER PRIMARY KEY AUTOINCREMENT, rut VARCHAR(9), dvrut VARCHAR(1), nombre VARCHAR(60), apellido  VARCHAR(60), telefono VARCHAR(9), correo VARCHAR(40) NOT NULL, clave VARCHAR(30) NOT NULL, respuesta VARCHAR(30) NOT NULL, rol INTEGER, pregunta INTEGER, foto text, FOREIGN KEY (rol) REFERENCES Rol(id), FOREIGN KEY (pregunta) REFERENCES Pregunta(id));";
 
   tablaRegion: string = "CREATE TABLE IF NOT EXISTS Region (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL);";
   tablaComuna: string = "CREATE TABLE IF NOT EXISTS Comuna (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL, cost_envio INTEGER NOT NULL, region INTEGER, FOREIGN KEY (region) REFERENCES Region(id));";
@@ -59,7 +59,7 @@ export class DbserviceService {
   insertPregunta3: string = "INSERT OR IGNORE INTO Pregunta (id,pregunta) VALUES (3, '¿Cual es tu modelo de tanque favorito?');";
 
   //Insert de Usuarios
-  insertUsuario1: string = "INSERT OR IGNORE INTO Usuario (id,correo,clave,respuesta,pregunta,rol) VALUES (1, 'aneurysm@gmail.cl','Aneurysm4521#','Aneurisma',3,3);";
+  insertUsuario1: string = "INSERT OR IGNORE INTO Usuario (id,correo,clave,respuesta,pregunta,rol, foto) VALUES (1, 'aneurysm@gmail.cl','Aneurysm4521#','Aneurisma',3,3,'/assets/icon.png');";
 
   //Insert de Compra/Carrito
   insertCompra1: string = "INSERT OR IGNORE INTO Compra (id, carrito, usuario) VALUES (1, 0, 1);";
@@ -305,6 +305,7 @@ export class DbserviceService {
             //Datos Foraneos
             rol: res.rows.item(i).rol,
             pregunta: res.rows.item(i).pregunta,
+            foto: res.rows.item(0).foto,
           })
         }
       }
@@ -331,6 +332,7 @@ export class DbserviceService {
             respuesta: res.rows.item(0).respuesta,
             rol: res.rows.item(0).rol,
             pregunta: res.rows.item(0).pregunta,
+            foto: res.rows.item(0).foto,
           };
           resolve(usuario);
         } else {
@@ -359,6 +361,7 @@ export class DbserviceService {
             respuesta: res.rows.item(0).respuesta,
             rol: res.rows.item(0).rol,
             pregunta: res.rows.item(0).pregunta,
+            foto: res.rows.item(0).foto,
           };
           resolve(usuario);
         } else {
@@ -371,16 +374,16 @@ export class DbserviceService {
     });
   }
 
-  agregarUsuario(correo: any, clave: any, respuesta: any, rol: any, pregunta: any) {
-    return this.database.executeSql('INSERT INTO Usuario (correo, clave, respuesta, rol, pregunta) VALUES (?,?,?,?,?);', [correo, clave, respuesta, rol, pregunta]).then(res => {
+  agregarUsuario(correo: any, clave: any, respuesta: any, rol: any, pregunta: any, foto:any) {
+    return this.database.executeSql('INSERT INTO Usuario (correo, clave, respuesta, rol, pregunta, foto) VALUES (?,?,?,?,?,?);', [correo, clave, respuesta, rol, pregunta, foto]).then(res => {
       this.buscarUsuario();
     }).catch(e => {
       this.presentAlert("Error", "Error en la base de datos", "Error de agregar nuevos datos Base de datos (Tabla Usuario): " + e.message);
     })
   }
 
-  actualizarUsuario(id: any, rut: any, dvrut: any, nombre: any, apellido: any, telefono: any) {
-    return this.database.executeSql('UPDATE Usuario SET rut=?, dvrut=?, nombre=?, apellido=?, telefono=?  WHERE id=?;', [rut, dvrut, nombre, apellido, telefono, id]).then(res => {
+  actualizarUsuario(id: any, rut: any, dvrut: any, nombre: any, apellido: any, telefono: any, foto:any) {
+    return this.database.executeSql('UPDATE Usuario SET rut=?, dvrut=?, nombre=?, apellido=?, telefono=?, foto=?  WHERE id=?;', [rut, dvrut, nombre, apellido, telefono, foto, id]).then(res => {
       this.buscarUsuario();
     }).catch(e => {
       this.presentAlert("Error", "Error en la base de datos", "Error al actualizar la información del usuario: " + e.message);

@@ -32,6 +32,9 @@
                 Subtotal: {{ detalleArr.detalle.cantidad * detalleArr.producto.precio | currency: "CLP" }}
               </ion-card-subtitle>
             </ion-card-header>
+            <ion-button class="addcart" expand="full" (click)="borrar(detalleArr.detalle.id,i)">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
           </ion-col>
         </ion-row>
       </ion-card>

@@ -71,8 +71,8 @@ export class Tab3Page {
     if (this.userID !== '') {
       if (usuario !== null && usuario.nombre !== '') {
         const alert = await this.alertController.create({
-          header: 'Está seguro de que quiere realizar la compra?',
-          subHeader: 'El total a pagar es ' + this.total,
+          header: 'El total a pagar es ' + this.total,
+          subHeader: '¿Está seguro de que quiere realizar la compra?',
           buttons: [
             {
               text: 'Cancelar',
@@ -80,7 +80,7 @@ export class Tab3Page {
             },
             {
               text: 'OK',
-              handler: (data) => {
+              handler: () => {
                 this.setOpen(true);
 
                 this.compraRealizada();
@@ -97,6 +97,32 @@ export class Tab3Page {
     } else {
       this.db.presentAlert('Error', '', 'Debes iniciar sesión para poder comprar');
     }
+  }
+
+  async borrar(id: any, index: any) {
+    const alert2 = await this.alertController.create({
+      header: '¿Está seguro?',
+      subHeader: '¿Quiere eliminar este pedido del carrito?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+        },
+        {
+          text: 'Sí',
+          handler: () => {
+            this.borrarDetalle(id, index);
+          },
+        },
+      ],
+    });
+
+    await alert2.present();
+  }
+
+  async borrarDetalle(id: any, index: any) {
+    await this.db.borrarDetalle(id);
+    this.arregloDetalleProducto.splice(index, 1);
   }
 
   async compraRealizada() {

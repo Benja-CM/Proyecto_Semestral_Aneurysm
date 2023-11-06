@@ -84,7 +84,7 @@ export class Tab1viewPage implements OnInit {
 
   async comprar() {
     const usuario = await this.db.encontrarUsuarioID(this.userID);
-    if (this.userID !== '' || this.userID !== null) {
+    if (this.userID !== '' && this.userID !== null) {
       if (usuario !== null && usuario.nombre !== '') {
         const alert = await this.alertController.create({
           header: '¿Cuantos productos quieres comprar?',
@@ -165,7 +165,7 @@ export class Tab1viewPage implements OnInit {
   }
 
   async agregar() {
-    if (this.userID !== '' || this.userID !== null) {
+    if (this.userID !== '' && this.userID !== null) {
       const alert = await this.alertController.create({
         header: '¿Cuantos productos quieres agregar al carrito?',
         inputs: [

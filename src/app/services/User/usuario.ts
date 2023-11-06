@@ -15,4 +15,5 @@ export class Usuario {
     //Foraneas
     rol!: Rol;
     pregunta!: Pregunta;
+    foto!: string;
 }

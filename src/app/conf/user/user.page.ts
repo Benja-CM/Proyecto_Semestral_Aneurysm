@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DbserviceService } from 'src/app/services/dbservice.service';
+import { Camera, CameraResultType } from '@capacitor/camera';
 
 @Component({
   selector: 'app-user',
@@ -9,6 +10,9 @@ import { DbserviceService } from 'src/app/services/dbservice.service';
   styleUrls: ['./user.page.scss'],
 })
 export class UserPage implements OnInit {
+
+  catFoto: any = ""
+  
   name: string = "";
   surname: string = "";
   email: string = "";
@@ -24,6 +28,8 @@ export class UserPage implements OnInit {
   letra: string = "";
 
   isSubmitted = false;
+
+  usuario: any = [];
 
   public uploadFileName: string = "";
   public uploadFileContent: string = "";
@@ -43,16 +49,11 @@ export class UserPage implements OnInit {
         Validators.pattern("^[A-Za-z]+$")
       ]
     }),
-    email: new FormControl('', {
-      validators: [
-        Validators.required,
-        Validators.email,
-      ]
-    }),
     tfn: new FormControl(0, {
       validators: [
         Validators.required,
         Validators.minLength(9),
+        Validators.maxLength(9),
       ]
     }),
     rut: new FormControl(0, {
@@ -100,7 +101,7 @@ export class UserPage implements OnInit {
     }),
   })
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private db: DbserviceService,) {
+  constructor(private router: Router, private formBuilder: FormBuilder, private db: DbserviceService) {
   }
 
   ngOnInit() {
@@ -113,6 +114,7 @@ export class UserPage implements OnInit {
   async init() {
     let userID = localStorage.getItem('usuario');
     const usuario = await this.db.encontrarUsuarioID(userID);
+    this.usuario = usuario;
     const direccion = await this.db.encontrarDireccionPorID(userID);
 
     if (usuario === null) {
@@ -126,10 +128,11 @@ export class UserPage implements OnInit {
       return;
     }
 
+    this.catFoto = usuario.foto;
+
     this.userForm.patchValue({
       name: usuario.nombre,
       surname: usuario.apellido,
-      email: usuario.correo,
       tfn: usuario.telefono,
       rut: usuario.rut,
       dvrut: usuario.dvrut,
@@ -141,10 +144,25 @@ export class UserPage implements OnInit {
     });
   }
 
-  public async onFileSelected(event: any) {
-    const file: File = event.target.files(0);
-    this.uploadFileName = file.name;
-    this.uploadFileContent = await file.text();
+  takePicture = async () => {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.Uri,
+      promptLabelHeader: 'Imagen',
+      promptLabelPhoto: 'Seleccionar imagen',
+      promptLabelPicture: 'Tomar Foto',
+      width: 400,
+      height: 400,
+    });
+
+    var imageUrl = image.webPath;
+
+    this.catFoto = imageUrl;
+  };
+
+  async irDireccion() {
+    this.router.navigate(['/user/direccion'])
   }
 
   async onSubmit() {
@@ -162,7 +180,7 @@ export class UserPage implements OnInit {
 
     let name = this.userForm.value.name;
     let surname = this.userForm.value.surname;
-    let email = this.userForm.value.email;
+    let email = this.usuario.correo;
     let rut = this.userForm.value.rut;
     let dvrut = this.userForm.value.dvrut;
     let tfn = this.userForm.value.tfn;
@@ -172,6 +190,7 @@ export class UserPage implements OnInit {
     let comuna = this.userForm.value.comun;
     let region = this.userForm.value.region;
     let cod_postal = this.userForm.value.cod;
+    let foto = this.catFoto;
 
     console.log(name + ', ' + surname + ', ' + email + ', ' + rut + ', ' + dvrut + ', ' + tfn);
     console.log(calle + ', ' + numero + ', ' + comuna + ', ' + region + ', ' + cod_postal);
@@ -183,10 +202,11 @@ export class UserPage implements OnInit {
 
     let userID = localStorage.getItem('usuario');
 
-    this.db.actualizarUsuario(userID, rut, dvrut, name, surname, tfn);
+    this.db.actualizarUsuario(userID, rut, dvrut, name, surname, tfn, foto);
     this.db.actualizarDireccion(calle, numero, cod_postal, region, comuna, userID);
     console.log("valid");
     this.db.presentAlert("Guardado exitoso", "", "Se ha guardado exitosamente la información personal");
+    this.router.navigate(['/tabs/tab4'])
   }
 
   /* Validar Nombre*/
@@ -280,8 +300,8 @@ export class UserPage implements OnInit {
     ],
     'tfn': [
       { type: 'required', message: 'El telefono es obligatoria' },
-      { type: 'minlength', message: 'El telefono debe tene minimo 9 números' },
-      /* { type: 'errorPatron', message: 'El teléfono solo debe contener números, espacios y el signo +' }, */
+      { type: 'minlength', message: 'El telefono debe tene 9 números' },
+      { type: 'maxlength', message: 'El telefono debe tene 9 números' },
     ],
     'rut': [
       { type: 'required', message: 'El rut es obligatorio' },

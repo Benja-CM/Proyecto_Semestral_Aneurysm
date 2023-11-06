@@ -103,7 +103,7 @@ export class RegisterPage implements OnInit {
     let pregunta = this.registerForm.value.pregunta;
     let respuesta = this.registerForm.value.resp_secreta;
 
-    this.db.agregarUsuario(correo, clave, respuesta, 1, pregunta);
+    this.db.agregarUsuario(correo, clave, respuesta, 1, pregunta, '/assets/icon.png');
 
     let nuevoUsuario: any = [];
     nuevoUsuario = await this.db.encontrarUsuario(correo);

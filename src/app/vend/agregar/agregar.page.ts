@@ -113,7 +113,7 @@ export class AgregarPage implements OnInit {
   takePicture = async () => {
     const image = await Camera.getPhoto({
       quality: 90,
-      allowEditing: true,
+      allowEditing: false,
       resultType: CameraResultType.Uri,
       promptLabelHeader: 'Imagen',
       promptLabelPhoto: 'Seleccionar imagen',

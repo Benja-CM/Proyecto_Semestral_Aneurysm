@@ -92,7 +92,7 @@ export class AgregarVendPage implements OnInit {
     let pregunta = this.agregarForm.value.pregunta;
     let respuesta = this.agregarForm.value.resp_secreta;
 
-    this.db.agregarUsuario(correo, clave, respuesta, 2, pregunta);
+    this.db.agregarUsuario(correo, clave, respuesta, 2, pregunta, '/assets/icon.png');
 
     let nuevoUsuario: any = [];
     nuevoUsuario = await this.db.encontrarUsuario(correo);

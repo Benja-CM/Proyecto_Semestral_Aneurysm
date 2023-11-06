@@ -15,6 +15,8 @@ export class Tab4Page implements OnInit {
 
   nombreR: string = "";
 
+  usuario: any = [];
+
 
 
   isAlertOpenLogin = false;
@@ -56,6 +58,7 @@ export class Tab4Page implements OnInit {
       if (this.router.getCurrentNavigation()?.extras.state) {
         this.userID = this.router.getCurrentNavigation()?.extras?.state?.['id'];
         this.rol = this.router.getCurrentNavigation()?.extras?.state?.['rol'];
+        this.init(this.userID);
       }
     });
   }
@@ -81,6 +84,16 @@ export class Tab4Page implements OnInit {
     this.userID = usID;
     let userRol = localStorage.getItem('rol')
     this.rol = userRol;
+
+    if (this.userID !== '' && this.userID !== null) {
+      this.init(this.userID);
+    }
+
+  }
+
+  async init (id:any){
+    let usu = await this.db.encontrarUsuarioID(id);
+    this.usuario = usu;
   }
 
   setOpen(isOpen: boolean) {
