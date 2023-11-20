@@ -32,6 +32,10 @@ export class ListarPage implements OnInit {
   constructor(private router: Router, private http: HttpClient, private db: DbserviceService, private alertController: AlertController) { }
 
   ngOnInit() {
+    this.init();
+  }
+
+  async init() {
     this.db.buscarProducto();
     this.db.dbState().subscribe(data => {
       if (data) {
@@ -43,7 +47,6 @@ export class ListarPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.db.buscarProducto();
   }
 
   getProducto(id: number) {

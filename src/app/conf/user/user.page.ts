@@ -1,6 +1,6 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DbserviceService } from 'src/app/services/dbservice.service';
 import { Camera, CameraResultType } from '@capacitor/camera';
 
@@ -12,7 +12,7 @@ import { Camera, CameraResultType } from '@capacitor/camera';
 export class UserPage implements OnInit {
 
   catFoto: any = ""
-  
+
   name: string = "";
   surname: string = "";
   email: string = "";
@@ -52,7 +52,6 @@ export class UserPage implements OnInit {
     tfn: new FormControl(0, {
       validators: [
         Validators.required,
-        Validators.minLength(9),
         Validators.maxLength(9),
       ]
     }),
@@ -101,17 +100,54 @@ export class UserPage implements OnInit {
     }),
   })
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private db: DbserviceService) {
+  calleRec: any = null;
+  numeroRec: any;
+  codpostalRec: any;
+  regionRec: any;
+  comunaRec: any;
+
+  constructor(private router: Router,
+    private formBuilder: FormBuilder,
+    private db: DbserviceService,
+    private activeRouter: ActivatedRoute
+  ) {
+    
   }
 
   ngOnInit() {
-    this.db.buscarUsuario();
-    this.db.buscarDireccion();
-
     this.init();
   }
 
+  ionViewWillEnter() {
+    this.activeRouter.queryParams.subscribe(param => {
+      if (this.router.getCurrentNavigation()?.extras.state) {
+        this.calleRec = this.router.getCurrentNavigation()?.extras?.state?.['calle'];
+        this.numeroRec = this.router.getCurrentNavigation()?.extras?.state?.['numero'];
+        this.codpostalRec = this.router.getCurrentNavigation()?.extras?.state?.['cod_postal'];
+        console.log(this.router.getCurrentNavigation()?.extras?.state?.['cod_postal'])
+        this.regionRec = this.router.getCurrentNavigation()?.extras?.state?.['region'];
+        this.comunaRec = this.router.getCurrentNavigation()?.extras?.state?.['comuna'];
+      }
+    });
+    console.log(this.calleRec, this.numeroRec, this.codpostalRec, this.regionRec, this.comunaRec)
+
+    if (this.calleRec !== null) {
+      console.log("pasa direccion");
+      this.userForm.patchValue({
+        str: this.calleRec,
+        number: this.numeroRec,
+        region: this.regionRec,
+        comun: this.comunaRec,
+        cod: this.codpostalRec,
+      })
+    }
+  }
+
   async init() {
+    
+    this.db.buscarUsuario();
+    this.db.buscarDireccion();
+
     let userID = localStorage.getItem('usuario');
     const usuario = await this.db.encontrarUsuarioID(userID);
     this.usuario = usuario;
@@ -136,12 +172,18 @@ export class UserPage implements OnInit {
       tfn: usuario.telefono,
       rut: usuario.rut,
       dvrut: usuario.dvrut,
-      str: direccion.calle,
-      number: direccion.numero,
-      region: direccion.region,
-      comun: direccion.comuna,
-      cod: direccion.cod_postal,
     });
+
+    if (this.calleRec === null) {
+      console.log("no pasa direccion");
+      this.userForm.patchValue({
+        str: direccion.calle,
+        number: direccion.numero,
+        region: direccion.region,
+        comun: direccion.comuna,
+        cod: direccion.cod_postal,
+      });
+    } 
   }
 
   takePicture = async () => {
@@ -171,7 +213,7 @@ export class UserPage implements OnInit {
 
     this.nombreValido(this.userForm.value.name);
     this.apellidoValido(this.userForm.value.surname);
-    /* this.telefonoValido(this.userForm.value.tfn); */
+    this.telefonoValido(this.userForm.value.tfn);
     this.calleValida(this.userForm.value.str);
     this.regionValida(this.userForm.value.region);
     this.comunaValida(this.userForm.value.comun);
@@ -236,13 +278,11 @@ export class UserPage implements OnInit {
   }
 
   /* Validar Telefono*/
-  /* telefonoValido(tfn: any) {
-    console.log("validacion telefono");
-    if (/^[0-9+ ]+$/.test(tfn) == false) {
-      console.log("error telefono");
-      this.userForm.controls['tfn'].setErrors({ 'errorPatron': true });
+  telefonoValido(tlf: any) {
+    if (tlf.toString().length != 9) {
+      this.userForm.controls['tfn'].setErrors({ 'errorLargo': true });
     }
-  } */
+  }
 
   /* Validar rut */
   rutValido(rut: any) {
@@ -300,8 +340,8 @@ export class UserPage implements OnInit {
     ],
     'tfn': [
       { type: 'required', message: 'El telefono es obligatoria' },
-      { type: 'minlength', message: 'El telefono debe tene 9 números' },
-      { type: 'maxlength', message: 'El telefono debe tene 9 números' },
+      { type: 'errorLargo', message: 'El telefono debe tene 9 números' }
+
     ],
     'rut': [
       { type: 'required', message: 'El rut es obligatorio' },

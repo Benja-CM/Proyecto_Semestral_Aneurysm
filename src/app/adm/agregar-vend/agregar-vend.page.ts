@@ -60,10 +60,13 @@ export class AgregarVendPage implements OnInit {
   submitError = "";
 
   constructor(private router: Router, private formBuilder: FormBuilder, private db: DbserviceService) {
-    this.db.buscarPregunta();
   }
 
   ngOnInit() {
+    this.init();
+  }
+
+  async init(){
     this.db.dbState().subscribe(data => {
       if (data) {
         this.db.fetchPregunta().subscribe(item => {

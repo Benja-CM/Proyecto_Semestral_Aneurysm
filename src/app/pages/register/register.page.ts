@@ -65,10 +65,14 @@ export class RegisterPage implements OnInit {
   isAlertOpen = false;
 
   constructor(private router: Router, private formBuilder: FormBuilder, private db: DbserviceService) {
-    this.db.buscarPregunta();
   }
 
   ngOnInit() {
+    this.init();
+  }
+
+  async init() {
+    this.db.buscarPregunta();
     this.db.dbState().subscribe(data => {
       if (data) {
         this.db.fetchPregunta().subscribe(item => {
@@ -78,7 +82,7 @@ export class RegisterPage implements OnInit {
     });
   }
 
-  setOpen(isOpen: boolean){
+  setOpen(isOpen: boolean) {
     this.isAlertOpen = isOpen;
   }
 
@@ -131,7 +135,7 @@ export class RegisterPage implements OnInit {
     }
   }
 
-  async validarCorreo(correo:any){
+  async validarCorreo(correo: any) {
     let email = await this.db.encontrarUsuario(correo);
 
     if (email !== null) {

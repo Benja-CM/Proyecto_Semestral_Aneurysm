@@ -32,10 +32,13 @@ export class ListarUsPage implements OnInit {
   ]
 
   constructor(private alertController: AlertController, private db: DbserviceService,) {
-    this.db.buscarUsuario();
   }
 
   ngOnInit() {
+
+  }
+
+  async init() {
     this.db.buscarUsuario();
     this.db.dbState().subscribe(res => {
       if (res) {

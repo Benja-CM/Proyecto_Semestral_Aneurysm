@@ -20,6 +20,10 @@ export class Tab2Page implements OnInit {
   }
 
   ngOnInit() {
+    this.init();
+  }
+
+  async init() {
     this.db.buscarProducto();
     this.db.dbState().subscribe(data => {
       if (data) {

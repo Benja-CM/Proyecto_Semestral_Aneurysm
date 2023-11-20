@@ -1,0 +1,27 @@
+.map {
+    --background: transparent;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .miubicacion {
+    position: fixed;
+    bottom: 0px;  
+    background: #ffd740;
+    }
+    
+    .aceptar {
+      position: fixed;
+      top: 50px;
+      right: 5px;
+      margin-top: 3vh;
+      background: #80d894;
+    }
+    
+    .search {
+      position: fixed;
+      top: 45px;
+      left: 0px;
+      margin-bottom: 1vh;
+    }

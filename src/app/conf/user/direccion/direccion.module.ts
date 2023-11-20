@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { DireccionPageRoutingModule } from './direccion-routing.module';
 
 import { DireccionPage } from './direccion.page';
+import { GooglemapsComponent } from 'src/app/components/googlemaps/googlemaps.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,7 @@ import { DireccionPage } from './direccion.page';
     IonicModule,
     DireccionPageRoutingModule
   ],
-  declarations: [DireccionPage],
+  declarations: [DireccionPage, GooglemapsComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class DireccionPageModule {}

@@ -64,6 +64,22 @@ export class Tab4Page implements OnInit {
   }
 
   ngOnInit() {
+    this.init1();
+  }
+
+  ionViewWillEnter() {
+    let usID = localStorage.getItem('usuario')
+    this.userID = usID;
+    let userRol = localStorage.getItem('rol')
+    this.rol = userRol;
+
+    if (this.userID !== '' && this.userID !== null) {
+      this.init(this.userID);
+    }
+
+  }
+
+  async init1() {
     let usID = localStorage.getItem('usuario')
     this.userID = usID;
     let userRol = localStorage.getItem('rol')
@@ -77,18 +93,6 @@ export class Tab4Page implements OnInit {
         })
       }
     });
-  }
-
-  ionViewWillEnter() {
-    let usID = localStorage.getItem('usuario')
-    this.userID = usID;
-    let userRol = localStorage.getItem('rol')
-    this.rol = userRol;
-
-    if (this.userID !== '' && this.userID !== null) {
-      this.init(this.userID);
-    }
-
   }
 
   async init (id:any){

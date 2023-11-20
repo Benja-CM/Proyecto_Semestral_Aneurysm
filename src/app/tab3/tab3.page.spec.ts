@@ -6,6 +6,8 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 import { Tab3Page } from './tab3.page';
 import { HttpHandler } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
+import { of } from 'rxjs';
 
 describe('Tab3Page', () => {
   let component: Tab3Page;
@@ -15,7 +17,21 @@ describe('Tab3Page', () => {
     await TestBed.configureTestingModule({
       declarations: [Tab3Page],
       imports: [IonicModule.forRoot(), ExploreContainerComponentModule],
-      providers: [HttpHandler, ActivatedRoute]
+      providers: [HttpHandler, SQLite, {
+        provide: ActivatedRoute,
+        useValue: {
+          queryParams: of({
+            id: 1,
+            nombre: 'Noita',
+            descripcion: 'Descripcion generica',
+            precio: 1000,
+            stock: 30,
+            req_minimo: 'N/A',
+            req_recomendado: 'N/A',
+            foto: 'Fotogenerica.jpg'
+          }),
+        },
+      },]
     }).compileComponents();
 
     fixture = TestBed.createComponent(Tab3Page);

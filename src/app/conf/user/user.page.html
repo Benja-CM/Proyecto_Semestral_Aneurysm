@@ -98,8 +98,11 @@
         </div>
 
         <ion-row>
-          <ion-input id="inputPlaces" #inputPlaces label="Direccion" label-placement="floating" fill="solid"
+          <ion-input id="inputPlaces" #inputPlaces label="Calle" label-placement="floating" fill="solid"
             formControlName="str" placeholder="Introduzca su Calle"></ion-input>
+        </ion-row>
+        <ion-row>
+          <ion-button [routerLink]="['./direccion']"></ion-button>
         </ion-row>
         <ion-row class="error-mesage">
           <small *ngFor="let validation of validation_messages.str">

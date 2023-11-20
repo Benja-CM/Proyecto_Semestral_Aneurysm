@@ -2,28 +2,22 @@ ion-content {
 
     .card-banner {
         margin-block-start: 20vh;
-        padding-top: 20vh;
+        padding-top: 10vh;
     }
 
     ion-card-title {
         font-size: 1.3rem !important;
     }
 
-    .multiple-card {
-        ion-card-title {
-            font-size: 0.9rem !important;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            line-height: 1.5;
-            max-height: 1.4em;
-        }
+}
 
+ion-title {
+    font-size: 1.6rem !important;
+    padding-inline-start: 0;
+    color: #FFFFFF;
+    font-weight: bold;
+}
 
-
-        ion-card-subtitle {
-            font-size: 1rem !important;
-            margin-block-start: 0.8vh;
-        }
-    }
+ion-card-header {
+    padding-bottom: 1vh;
 }

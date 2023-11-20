@@ -99,6 +99,9 @@ export class AgregarPage implements OnInit {
   constructor(private router: Router, private http: HttpClient, private formBuilder: FormBuilder, private db: DbserviceService) { }
 
   ngOnInit() {
+  }
+
+  async init() {
     this.db.buscarCategoria();
 
     this.db.dbState().subscribe(data => {
@@ -108,6 +111,7 @@ export class AgregarPage implements OnInit {
         })
       }
     });
+
   }
 
   takePicture = async () => {

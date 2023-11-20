@@ -46,6 +46,10 @@ export class FgpsswPage implements OnInit {
   }
 
   ngOnInit() {
+    this.init();
+  }
+
+  async init() {
     this.db.buscarPregunta();
     this.db.dbState().subscribe(data => {
       if (data) {

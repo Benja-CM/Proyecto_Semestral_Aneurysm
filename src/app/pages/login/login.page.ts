@@ -38,12 +38,13 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-
   }
 
   irfgpssw() {
     this.router.navigate(['/fgpssw']);
   }
+
+  
 
 
   async onSubmit() {
