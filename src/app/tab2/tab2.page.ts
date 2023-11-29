@@ -24,7 +24,6 @@ export class Tab2Page implements OnInit {
   }
 
   async init() {
-    this.db.buscarProducto();
     this.db.dbState().subscribe(data => {
       if (data) {
         this.db.fetchProducto().subscribe(item => {

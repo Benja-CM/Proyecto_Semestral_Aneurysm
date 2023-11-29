@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, NavigationExtras, Router } from '@angular/router';
 import type { IonInput } from '@ionic/angular';
 import { DbserviceService } from '../services/dbservice.service';
 
@@ -53,7 +53,10 @@ export class Tab4Page implements OnInit {
   id: any = '';
   rol: any = '';
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private activeRouter: ActivatedRoute, private db: DbserviceService) {
+  constructor(private router: Router,
+    private formBuilder: FormBuilder,
+    private activeRouter: ActivatedRoute,
+    private db: DbserviceService) {
     this.activeRouter.queryParams.subscribe(param => {
       if (this.router.getCurrentNavigation()?.extras.state) {
         this.userID = this.router.getCurrentNavigation()?.extras?.state?.['id'];
@@ -63,11 +66,14 @@ export class Tab4Page implements OnInit {
     });
   }
 
+  
   ngOnInit() {
+    console.log("oninit");
     this.init1();
   }
 
   ionViewWillEnter() {
+    console.log("willEnter");
     let usID = localStorage.getItem('usuario')
     this.userID = usID;
     let userRol = localStorage.getItem('rol')
@@ -79,7 +85,12 @@ export class Tab4Page implements OnInit {
 
   }
 
+  ionViewDidEnter() {
+    console.log("didEnter");
+  }
+
   async init1() {
+    console.log("init1");
     let usID = localStorage.getItem('usuario')
     this.userID = usID;
     let userRol = localStorage.getItem('rol')
@@ -93,11 +104,16 @@ export class Tab4Page implements OnInit {
         })
       }
     });
+
+
   }
 
   async init (id:any){
-    let usu = await this.db.encontrarUsuarioID(id);
-    this.usuario = usu;
+    console.log("init");
+    const usuario = await this.db.encontrarUsuarioID(id);
+    this.usuario = usuario;
+    console.log("foto: "+this.usuario.foto);
+    console.log("foto original: "+usuario?.foto);
   }
 
   setOpen(isOpen: boolean) {

@@ -33,8 +33,6 @@ export class DbserviceService {
   tablaPregunta: string = "CREATE TABLE IF NOT EXISTS Pregunta (id INTEGER PRIMARY KEY AUTOINCREMENT, pregunta VARCHAR(120) NOT NULL);";
   tablaUsuario: string = "CREATE TABLE IF NOT EXISTS Usuario (id INTEGER PRIMARY KEY AUTOINCREMENT, rut VARCHAR(9), dvrut VARCHAR(1), nombre VARCHAR(60), apellido  VARCHAR(60), telefono VARCHAR(9), correo VARCHAR(40) NOT NULL, clave VARCHAR(30) NOT NULL, respuesta VARCHAR(30) NOT NULL, rol INTEGER, pregunta INTEGER, foto text, FOREIGN KEY (rol) REFERENCES Rol(id), FOREIGN KEY (pregunta) REFERENCES Pregunta(id));";
 
-  tablaRegion: string = "CREATE TABLE IF NOT EXISTS Region (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL);";
-  tablaComuna: string = "CREATE TABLE IF NOT EXISTS Comuna (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL, cost_envio INTEGER NOT NULL, region INTEGER, FOREIGN KEY (region) REFERENCES Region(id));";
   tablaDireccion: string = "CREATE TABLE IF NOT EXISTS Direccion (id INTEGER PRIMARY KEY AUTOINCREMENT, calle VARCHAR(40), numero INTEGER, cod_postal INTEGER, region VARCHAR(25), comuna VARCHAR(35), usuario INTEGER, FOREIGN KEY (usuario) REFERENCES Usuario(id));";
 
   tablaCategoria: string = "CREATE TABLE IF NOT EXISTS Categoria (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(60) NOT NULL);";
@@ -182,6 +180,8 @@ export class DbserviceService {
 
   //variables para guardar los observables
   actualizarDB = new BehaviorSubject([]);
+  actualizarDBProductos = new BehaviorSubject([]);
+  actualizarDBUsuario = new BehaviorSubject([]);
 
   //observable para manipular el estado de la DB
   private isdDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -310,7 +310,7 @@ export class DbserviceService {
         }
       }
       //Actualizamos el observable
-      this.actualizarDB.next(items as any);
+      this.actualizarDBUsuario.next(items as any);
     }).catch(e => {
       this.presentAlert("Error", "Error en la base de datos", "Error de buscar en Base de datos (Tabla Usuario): " + e.message);
     })
@@ -412,65 +412,6 @@ export class DbserviceService {
     }).catch(e => {
       this.presentAlert("Error", "Error en la base de datos", "Error al borrar : " + e.message);
     })
-  }
-
-  //--------------------------------------------//
-  /* FUNCIONES PARA TRBAJAR CON LA TABLA REGION */
-  //--------------------------------------------//
-
-  buscarRegion() {
-    return this.database.executeSql('SELECT * FROM Region', []).then(res => {
-      //variable para almacenar los registros
-      let items: Region[] = [];
-
-      //validamos la cantidad de registros
-      if (res.rows.length > 0) {
-        //recorrer el arreglo items
-        for (var i = 0; i < res.rows.length; i++) {
-          //Guardar dentro de la variable
-          items.push({
-            id: res.rows.item(i).id,
-            nombre: res.rows.item(i).nombre
-          })
-        }
-      }
-      //Actualizamos el observable
-      this.actualizarDB.next(items as any);
-    }).catch(e => {
-      this.presentAlert("Error", "Error en la base de datos", "Error de buscar en Base de datos (Tabla Region): " + e.message);
-    })
-  }
-
-  //--------------------------------------------//
-  /* FUNCIONES PARA TRBAJAR CON LA TABLA COMUNA */
-  //--------------------------------------------//
-
-  buscarComuna() {
-    return this.database.executeSql('SELECT * FROM Comuna', []).then(res => {
-      //variable para almacenar los registros
-      let items: Comuna[] = [];
-
-      //validamos la cantidad de registros
-      if (res.rows.length > 0) {
-        //recorrer el arreglo items
-        for (var i = 0; i < res.rows.length; i++) {
-          //Guardar dentro de la variable
-          items.push({
-            id: res.rows.item(i).id,
-            nombre: res.rows.item(i).nombre,
-            cost_envio: res.rows.item(i).cost_envio,
-
-            //Foranea
-            region: res.rows.item(i).region
-          })
-        }
-      }
-      //Actualizamos el observable
-      this.actualizarDB.next(items as any);
-    }).catch(e => {
-      this.presentAlert("Error", "Error en la base de datos", "Error de buscar en Base de datos (Tabla Comuna): " + e.message);
-    })
-    /* “Porque ninguna cosa es imposible para Dios.” (Lucas 1:37) */
   }
 
   //-----------------------------------------------//
@@ -637,7 +578,7 @@ export class DbserviceService {
       }
 
       //Actualizamos el observable
-      this.actualizarDB.next(items as any);
+      this.actualizarDBProductos.next(items as any);
     }).catch(e => {
       this.presentAlert("Error", "Error en la base de datos", "Error de buscar en Base de datos (Tabla Producto): " + e.message);
     })
@@ -1050,18 +991,10 @@ export class DbserviceService {
   }
 
   fetchUsuario(): Observable<Usuario[]> {
-    return this.actualizarDB.asObservable();
+    return this.actualizarDBUsuario.asObservable();
   }
 
   // DIRECTION
-  fetchRegion(): Observable<Region[]> {
-    return this.actualizarDB.asObservable();
-  }
-
-  fetchComuna(): Observable<Comuna[]> {
-    return this.actualizarDB.asObservable();
-  }
-
   fetchDireccion(): Observable<Direccion[]> {
     return this.actualizarDB.asObservable();
   }
@@ -1072,7 +1005,7 @@ export class DbserviceService {
   }
 
   fetchProducto(): Observable<Producto[]> {
-    return this.actualizarDB.asObservable();
+    return this.actualizarDBProductos.asObservable();
   }
 
   fetchUnion(): Observable<CPUnion[]> {
@@ -1096,12 +1029,12 @@ export class DbserviceService {
       this.sqlite.create({
         name: 'DBApplication.db',
         location: 'default'
-      }).then((db: SQLiteObject) => {
+      }).then(async (db: SQLiteObject) => {
         //guardar conexion a DB
         this.database = db;
         //llamar a la función para que cree las tablas
-        this.crearTablas();
-        this.insertarDatos();
+        await this.crearTablas();
+        await this.insertarDatos();
       }).catch(e => {
         this.presentAlert("Error", "Error en la base de datos", "Error al crear Base de datos: " + e.message);
       })
@@ -1116,12 +1049,12 @@ export class DbserviceService {
       await this.database.executeSql(this.tablaPregunta, []);
       await this.database.executeSql(this.tablaUsuario, []);
 
-      await this.database.executeSql(this.tablaRegion, []);
-      await this.database.executeSql(this.tablaComuna, []);
       await this.database.executeSql(this.tablaDireccion, []);
 
       await this.database.executeSql(this.tablaCategoria, []);
+      console.log("tablaProducto1");
       await this.database.executeSql(this.tablaProducto, []);
+      console.log("tablaProducto2");
       await this.database.executeSql(this.tablaCPunion, []);
 
       await this.database.executeSql(this.tablaCompra, []);
@@ -1163,6 +1096,7 @@ export class DbserviceService {
       await this.database.executeSql(this.insertDir1, []);
       await this.database.executeSql(this.insertDir2, []);
 
+      console.log("producto1");
       await this.database.executeSql(this.insertProd1, []);
       await this.database.executeSql(this.insertProd2, []);
       await this.database.executeSql(this.insertProd3, []);
@@ -1177,6 +1111,7 @@ export class DbserviceService {
       await this.database.executeSql(this.insertProd12, []);
       await this.database.executeSql(this.insertProd13, []);
       await this.database.executeSql(this.insertProd14, []);
+      console.log("producto2");
 
       await this.database.executeSql(this.insertUnion1_1, []);
       await this.database.executeSql(this.insertUnion1_2, []);

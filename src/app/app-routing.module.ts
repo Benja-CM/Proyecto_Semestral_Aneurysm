@@ -11,10 +11,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule)
   },
   {
-    path: 'user',
-    loadChildren: () => import('./conf/user/user.module').then(m => m.UserPageModule)
-  },
-  {
     path: 'record',
     loadChildren: () => import('./conf/record/record.module').then(m => m.RecordPageModule)
   },

@@ -42,9 +42,10 @@ export class Tab1Page implements OnInit {
     private router: Router,
     private http: HttpClient,
     private bd: DbserviceService,
-    ) { }
+    ) {console.log("constructor")}
 
   ngOnInit() {
+    console.log("onInit");
     this.bd.dbState().subscribe(data => {
       if (data) {
         this.bd.fetchProducto().subscribe(item => {
