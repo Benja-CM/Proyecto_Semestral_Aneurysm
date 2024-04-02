@@ -7,11 +7,7 @@ const routes: Routes = [
   {
     path: '',
     component: Tab4Page
-  },  {
-    path: 'user',
-    loadChildren: () => import('./user/user.module').then( m => m.UserPageModule)
   },
-
 ];
 
 @NgModule({

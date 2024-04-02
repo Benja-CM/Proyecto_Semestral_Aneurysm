@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DbserviceService } from 'src/app/services/dbservice.service';
 import { Camera, CameraResultType } from '@capacitor/camera';
 
@@ -207,11 +207,6 @@ export class UserPage implements OnInit {
     this.router.navigate(['/user/direccion'])
   }
 
-  onTab4Init() {
-    console.log("onTab4Init");
-    this.init();
- }
-
   async onSubmit() {
     this.isSubmitted = true;
     console.log(this.userForm.value)
@@ -253,8 +248,7 @@ export class UserPage implements OnInit {
     this.db.actualizarDireccion(calle, numero, cod_postal, region, comuna, userID);
     console.log("valid");
     this.db.presentAlert("Guardado exitoso", "", "Se ha guardado exitosamente la información personal");
-
-    this.router.navigate(['/tabs/tab4']);
+    this.router.navigate(['/tabs/tab4'])
   }
 
   /* Validar Nombre*/

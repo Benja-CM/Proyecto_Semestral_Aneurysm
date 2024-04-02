@@ -170,7 +170,7 @@ export class GooglemapsComponent implements OnInit {
                   }
             }
 
-            this.router.navigate(['/tabs/tab4/user'], navigationExtras)
+            this.router.navigate(['/user'], navigationExtras)
       }
 
 }
